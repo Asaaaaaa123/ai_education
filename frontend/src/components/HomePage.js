@@ -125,20 +125,12 @@ const HomePage = () => {
             </p>
             <div className="hero-stats">
               <div className="stat-item">
-                <span className="stat-number">500+</span>
-                <span className="stat-label">{t('familiesSupported')}</span>
-              </div>
-              <div className="stat-item">
                 <span className="stat-number">50+</span>
                 <span className="stat-label">{t('learningGuides')}</span>
               </div>
               <div className="stat-item">
                 <span className="stat-number">7-Day</span>
                 <span className="stat-label">{t('improvementSnapshots')}</span>
-              </div>
-              <div className="stat-item">
-                <span className="stat-number">98%</span>
-                <span className="stat-label">{t('positiveFeedback')}</span>
               </div>
             </div>
             <div className="hero-buttons">
@@ -454,21 +446,14 @@ const HomePage = () => {
                 <i className="fas fa-phone"></i>
                 <div>
                   <strong>{t('supportLine')}</strong>
-                  <span>+86 400-8899-520</span>
+                  <span>+13142976225</span>
                 </div>
               </div>
               <div className="contact-item">
                 <i className="fas fa-envelope"></i>
                 <div>
                   <strong>{t('emailSupport')}</strong>
-                  <span>hello@yunmeibaby.com</span>
-                </div>
-              </div>
-              <div className="contact-item">
-                <i className="fas fa-map-marker-alt"></i>
-                <div>
-                  <strong>{t('visitUs')}</strong>
-                  <span>{t('visitAddress')}</span>
+                  <span>yunmei52222@gmail.com</span>
                 </div>
               </div>
             </div>
