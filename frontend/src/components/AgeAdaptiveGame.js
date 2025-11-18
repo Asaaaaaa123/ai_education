@@ -133,6 +133,21 @@ const AgeAdaptiveGame = ({ childAge, onComplete, defaultGame = null }) => {
     };
     const colorOptions = ['red', 'blue', 'green', 'yellow', 'purple', 'orange'];
 
+    const handleTimeUp = useCallback(() => {
+      if (!gameCompleted) {
+        setGameCompleted(true);
+        setIsActive(false);
+        const accuracy = score > 0 ? Math.min(100, (score / 10) * 100) : 0;
+        onGameComplete({ 
+          score, 
+          totalTime: 60,
+          accuracy: accuracy,
+          gameType: 'color_match',
+          roundsCompleted: score
+        });
+      }
+    }, [gameCompleted, score, onGameComplete]);
+
     useEffect(() => {
       generateNewRound();
       setIsActive(true);
@@ -153,23 +168,7 @@ const AgeAdaptiveGame = ({ childAge, onComplete, defaultGame = null }) => {
         }, 1000);
       }
       return () => clearInterval(interval);
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isActive, timeLeft, gameCompleted, handleTimeUp]);
-
-    const handleTimeUp = useCallback(() => {
-      if (!gameCompleted) {
-        setGameCompleted(true);
-        setIsActive(false);
-        const accuracy = score > 0 ? Math.min(100, (score / 10) * 100) : 0;
-        onGameComplete({ 
-          score, 
-          totalTime: 60,
-          accuracy: accuracy,
-          gameType: 'color_match',
-          roundsCompleted: score
-        });
-      }
-    }, [gameCompleted, score, startTime, onGameComplete]);
 
     const generateNewRound = () => {
       // 正确打乱颜色数组：先复制，再打乱，然后取前4个
@@ -539,7 +538,6 @@ const AgeAdaptiveGame = ({ childAge, onComplete, defaultGame = null }) => {
     const [isActive, setIsActive] = useState(false);
     const [gameCompleted, setGameCompleted] = useState(false);
     const [startTime] = useState(Date.now());
-    const [audio, setAudio] = useState(null);
     
     // Sound and picture mapping
     const soundOptions = [
@@ -555,10 +553,6 @@ const AgeAdaptiveGame = ({ childAge, onComplete, defaultGame = null }) => {
       generateNewRound();
       setIsActive(true);
       return () => {
-        if (audio) {
-          audio.pause();
-          audio.currentTime = 0;
-        }
         // 停止语音合成
         if ('speechSynthesis' in window) {
           speechSynthesis.cancel();
@@ -566,6 +560,21 @@ const AgeAdaptiveGame = ({ childAge, onComplete, defaultGame = null }) => {
       };
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    const handleTimeUp = useCallback(() => {
+      if (!gameCompleted) {
+        setGameCompleted(true);
+        setIsActive(false);
+        const accuracy = score > 0 ? Math.min(100, (score / 8) * 100) : 0;
+        onGameComplete({ 
+          score, 
+          totalTime: 45,
+          accuracy: accuracy,
+          gameType: 'sound_play',
+          roundsCompleted: score
+        });
+      }
+    }, [gameCompleted, score, onGameComplete]);
 
     useEffect(() => {
       let interval = null;
@@ -581,7 +590,6 @@ const AgeAdaptiveGame = ({ childAge, onComplete, defaultGame = null }) => {
         }, 1000);
       }
       return () => clearInterval(interval);
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isActive, timeLeft, gameCompleted, handleTimeUp]);
 
     const playSound = (soundType) => {
@@ -668,20 +676,6 @@ const AgeAdaptiveGame = ({ childAge, onComplete, defaultGame = null }) => {
       }
     };
 
-    const handleTimeUp = useCallback(() => {
-      if (!gameCompleted) {
-        setGameCompleted(true);
-        setIsActive(false);
-        const accuracy = score > 0 ? Math.min(100, (score / 8) * 100) : 0;
-        onGameComplete({ 
-          score, 
-          totalTime: 45,
-          accuracy: accuracy,
-          gameType: 'sound_play',
-          roundsCompleted: score
-        });
-      }
-    }, [gameCompleted, score, startTime, onGameComplete]);
 
     const handlePlaySound = () => {
       if (currentSound) {
@@ -742,7 +736,7 @@ const AgeAdaptiveGame = ({ childAge, onComplete, defaultGame = null }) => {
     const [score, setScore] = useState(0);
     const [gameCompleted, setGameCompleted] = useState(false);
     const [startTime] = useState(Date.now());
-    const [draggedPiece, setDraggedPiece] = useState(null);
+    const [, setDraggedPiece] = useState(null);
 
     // 创建花朵拼图片段（简单版本：4片拼图）
     useEffect(() => {

@@ -1,19 +1,15 @@
-# 开发环境Dockerfile
 FROM node:18-alpine
 
 WORKDIR /app
 
-# 复制package文件
+# Copy package files
 COPY package*.json ./
 
-# 安装依赖
+# Install dependencies
 RUN npm install
 
-# 复制源代码
-COPY . .
-
-# 暴露端口
+# Expose port
 EXPOSE 3000
 
-# 启动开发服务器
+# Start development server
 CMD ["npm", "start"]

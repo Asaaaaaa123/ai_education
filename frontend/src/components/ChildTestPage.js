@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useLanguage } from '../utils/i18n';
 import SchulteTest from './SchulteTest';
 import AgeAdaptiveGame from './AgeAdaptiveGame';
 import { api } from '../utils/apiClient';
 import './ChildTestPage.css';
 
 const ChildTestPage = () => {
+  const { t } = useLanguage();
   const navigate = useNavigate();
   const location = useLocation();
   const childId = location.state?.childId || localStorage.getItem('currentChildId');
@@ -13,7 +15,7 @@ const ChildTestPage = () => {
   const age = parseInt(location.state?.age || localStorage.getItem('childAge') || 6);
   
   const [testResults, setTestResults] = useState([]);
-  const [currentTest, setCurrentTest] = useState(testType);
+  const [currentTest] = useState(testType);
   const [testCompleted, setTestCompleted] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -55,7 +57,7 @@ const ChildTestPage = () => {
       setTestCompleted(true);
     } catch (error) {
       console.error('提交测试结果失败:', error);
-      alert('提交测试结果失败，请重试');
+      alert(t('submitTestFailed'));
     } finally {
       setLoading(false);
     }
@@ -75,7 +77,6 @@ const ChildTestPage = () => {
     const score = result.score || 0;
     const accuracy = result.accuracy || 0;
     const totalTime = result.totalTime || 60;
-    const roundsCompleted = result.roundsCompleted || 0;
     
     // 基础分数：得分 * 10
     let baseScore = Math.min(100, score * 10);
@@ -131,7 +132,7 @@ const ChildTestPage = () => {
       }
     } catch (error) {
       console.error('生成计划失败:', error);
-      alert('生成计划失败，请重试');
+      alert(t('generatePlanFailed'));
     } finally {
       setLoading(false);
     }
@@ -144,9 +145,9 @@ const ChildTestPage = () => {
   return (
     <div className="child-test-page">
       <div className="test-container">
-        <h1>孩子能力测试</h1>
+        <h1>{t('childAbilityTest')}</h1>
         <p className="test-description">
-          请让孩子完成以下测试，我们将根据测试结果生成个性化的训练计划
+          {t('testDescription')}
         </p>
 
         {!testCompleted ? (
@@ -154,15 +155,15 @@ const ChildTestPage = () => {
             <div className="test-header">
               {currentTest === 'schulte' ? (
                 <>
-                  <h2>舒尔特方格测试</h2>
-                  <p>这是一个注意力测试游戏，请让孩子按照1-25的顺序点击数字</p>
-                  <p className="test-note">适合6岁以上儿童</p>
+                  <h2>{t('schulteTest')}</h2>
+                  <p>{t('schulteDescription')}</p>
+                  <p className="test-note">{t('testNote')}</p>
                 </>
               ) : (
                 <>
-                  <h2>适合低龄儿童的认知测试</h2>
-                  <p>我们将通过适合您孩子年龄的游戏来评估认知能力</p>
-                  <p className="test-note">适合6岁以下儿童</p>
+                  <h2>{t('ageAppropriateTest')}</h2>
+                  <p>{t('ageAppropriateDescription')}</p>
+                  <p className="test-note">{t('ageAppropriateNote')}</p>
                 </>
               )}
             </div>
@@ -175,44 +176,44 @@ const ChildTestPage = () => {
         ) : (
           <div className="test-completed">
             <div className="success-icon">✓</div>
-            <h2>测试完成！</h2>
+            <h2>{t('testCompletedTitle')}</h2>
             <div className="test-summary">
               {testResults.length > 0 && (
                 <>
                   {currentTest === 'schulte' ? (
                     <div className="result-item">
-                      <span>平均用时：</span>
-                      <strong>{testResults[testResults.length - 1].averageTime?.toFixed(2) || '0.00'}秒</strong>
+                      <span>{t('averageTime')}：</span>
+                      <strong>{testResults[testResults.length - 1].averageTime?.toFixed(2) || '0.00'}{t('seconds')}</strong>
                     </div>
                   ) : (
                     <>
                       <div className="result-item">
-                        <span>得分：</span>
+                        <span>{t('score')}：</span>
                         <strong>{testResults[testResults.length - 1].score || 0}</strong>
                       </div>
                       {testResults[testResults.length - 1].accuracy && (
                         <div className="result-item">
-                          <span>准确率：</span>
+                          <span>{t('accuracy')}：</span>
                           <strong>{testResults[testResults.length - 1].accuracy.toFixed(1)}%</strong>
                         </div>
                       )}
                       <div className="result-item">
-                        <span>完成时间：</span>
-                        <strong>{testResults[testResults.length - 1].totalTime?.toFixed(2) || '0.00'}秒</strong>
+                        <span>{t('completionTime')}：</span>
+                        <strong>{testResults[testResults.length - 1].totalTime?.toFixed(2) || '0.00'}{t('seconds')}</strong>
                       </div>
                     </>
                   )}
                   <div className="result-item">
-                    <span>综合得分：</span>
+                    <span>{t('totalScore')}：</span>
                     <strong>{testResults[testResults.length - 1].score || 0}/100</strong>
                   </div>
                   <div className="result-item">
-                    <span>表现水平：</span>
+                    <span>{t('performanceLevel')}：</span>
                     <strong className={`level-${testResults[testResults.length - 1]?.performance || 'average'}`}>
-                      {testResults[testResults.length - 1]?.performance === 'excellent' && '优秀'}
-                      {testResults[testResults.length - 1]?.performance === 'good' && '良好'}
-                      {testResults[testResults.length - 1]?.performance === 'average' && '一般'}
-                      {testResults[testResults.length - 1]?.performance === 'needs_improvement' && '需要改进'}
+                      {testResults[testResults.length - 1]?.performance === 'excellent' && t('excellent')}
+                      {testResults[testResults.length - 1]?.performance === 'good' && t('good')}
+                      {testResults[testResults.length - 1]?.performance === 'average' && t('average')}
+                      {testResults[testResults.length - 1]?.performance === 'needs_improvement' && t('needsImprovement')}
                     </strong>
                   </div>
                 </>
@@ -223,7 +224,7 @@ const ChildTestPage = () => {
               className="generate-plan-btn"
               disabled={loading}
             >
-              {loading ? '正在生成计划...' : '生成训练计划'}
+              {loading ? t('generatingPlan') : t('generatePlan')}
             </button>
           </div>
         )}

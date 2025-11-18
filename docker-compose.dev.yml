@@ -1,55 +1,60 @@
 version: '3.8'
 
 services:
-  # Frontend Development Service
-  frontend-dev:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile.dev
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
-    environment:
-      - REACT_APP_API_URL=http://localhost:8001
-      - CHOKIDAR_USEPOLLING=true
-    networks:
-      - specialcare-network
-    command: npm start
-
   # Backend Development Service
-  backend-dev:
+  backend:
     build:
       context: ./backend
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
+    container_name: specialcare-backend-dev
     ports:
       - "8001:8001"
     volumes:
+      # Mount code for hot reload
       - ./backend:/app
+      - /app/__pycache__
+      # Persistent volume for data files
+      - backend_data:/app/data
     environment:
+      - PYTHONUNBUFFERED=1
       - DEBUG=True
-      - RELOAD=True
-    networks:
-      - specialcare-network
     command: python start.py
-
-  # Database Service (Optional for development)
-  db-dev:
-    image: postgres:15-alpine
-    environment:
-      - POSTGRES_DB=specialcare_dev
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=password
-    volumes:
-      - postgres_dev_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
     networks:
       - specialcare-network
+    restart: unless-stopped
+
+  # Frontend Development Service
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    container_name: specialcare-frontend-dev
+    ports:
+      - "3000:3000"
+    volumes:
+      # Mount code for hot reload
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      # For development, use localhost since browser makes requests
+      - REACT_APP_API_URL=http://localhost:8001
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+    depends_on:
+      - backend
+    networks:
+      - specialcare-network
+    command: npm start
+    restart: unless-stopped
 
 volumes:
-  postgres_dev_data:
+  # Persistent volume for backend data files
+  backend_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${PWD}/backend/data
 
 networks:
   specialcare-network:

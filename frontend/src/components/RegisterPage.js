@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import apiClient from '../utils/apiClient';
+import { useLanguage } from '../utils/i18n';
 import './LoginPage.css';
 
 const RegisterPage = () => {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -26,23 +28,23 @@ const RegisterPage = () => {
 
   const validateForm = () => {
     if (!formData.name.trim()) {
-      setError('Name is required');
+      setError(t('nameRequired'));
       return false;
     }
     if (!formData.email.trim()) {
-      setError('Email is required');
+      setError(t('emailRequired'));
       return false;
     }
     if (!formData.password) {
-      setError('Password is required');
+      setError(t('passwordRequired'));
       return false;
     }
     if (formData.password.length < 6) {
-      setError('Password must be at least 6 characters');
+      setError(t('passwordTooShort'));
       return false;
     }
     if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match');
+      setError(t('passwordsDontMatch'));
       return false;
     }
     return true;
@@ -81,10 +83,10 @@ const RegisterPage = () => {
         // Navigate to home
         navigate('/', { replace: true });
       } else {
-        setError('Registration failed. Please try again.');
+        setError(t('registrationFailed'));
       }
     } catch (err) {
-      const errorMessage = err.response?.data?.detail || 'Registration failed. Please try again.';
+      const errorMessage = err.response?.data?.detail || t('registrationFailed');
       setError(errorMessage);
       console.error('Registration error:', err);
     } finally {
@@ -101,8 +103,8 @@ const RegisterPage = () => {
               <i className="fas fa-heart"></i>
               <span>MayCare</span>
             </div>
-            <h1>Create Account · 注册成为学习伙伴</h1>
-            <p>Receive cheerful, bilingual support for every learning goal · 用中英双语记录孩子的每一次小进步</p>
+            <h1>{t('createAccount')}</h1>
+            <p>{t('registerDescription')}</p>
           </div>
 
           <form className="login-form" onSubmit={handleSubmit}>
@@ -114,35 +116,35 @@ const RegisterPage = () => {
             )}
 
             <div className="form-group">
-              <label className="form-label">Full Name · 姓名</label>
+              <label className="form-label">{t('fullName')}</label>
               <div className="input-wrapper">
                 <input
                   type="text"
                   className="form-input"
                   value={formData.name}
                   onChange={(e) => handleInputChange('name', e.target.value)}
-                  placeholder="Enter your full name"
+                  placeholder={t('enterFullName')}
                   required
                 />
               </div>
             </div>
 
             <div className="form-group">
-              <label className="form-label">Email Address · 邮箱</label>
+              <label className="form-label">{t('emailAddress')}</label>
               <div className="input-wrapper">
                 <input
                   type="email"
                   className="form-input"
                   value={formData.email}
                   onChange={(e) => handleInputChange('email', e.target.value)}
-                  placeholder="Enter your email"
+                  placeholder={t('enterEmail')}
                   required
                 />
               </div>
             </div>
 
               <div className="form-group">
-              <label className="form-label">Password · 密码</label>
+              <label className="form-label">{t('password')}</label>
               <div className="input-wrapper">
                 <input
                   type={showPassword ? 'text' : 'password'}
@@ -150,7 +152,7 @@ const RegisterPage = () => {
                   className="form-input"
                   value={formData.password}
                   onChange={(e) => handleInputChange('password', e.target.value)}
-                  placeholder="Enter your password (min 6 characters)"
+                  placeholder={t('passwordMinLength')}
                   required
                 />
                 <button
@@ -164,7 +166,7 @@ const RegisterPage = () => {
             </div>
 
             <div className="form-group">
-              <label className="form-label">Confirm Password · 再次输入密码</label>
+              <label className="form-label">{t('confirmPassword')}</label>
               <div className="input-wrapper">
                 <input
                   type={showConfirmPassword ? 'text' : 'password'}
@@ -172,7 +174,7 @@ const RegisterPage = () => {
                   className="form-input"
                   value={formData.confirmPassword}
                   onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
-                  placeholder="Confirm your password"
+                  placeholder={t('enterPasswordAgain')}
                   required
                 />
                 <button
@@ -193,12 +195,12 @@ const RegisterPage = () => {
               {isLoading ? (
                 <>
                   <i className="fas fa-spinner fa-spin"></i>
-                  Creating Account...
+                  {t('creatingAccount')}
                 </>
               ) : (
                 <>
                   <i className="fas fa-user-plus"></i>
-                  Sign Up · 正式加入
+                  {t('signUpButton')}
                 </>
               )}
             </button>
@@ -207,9 +209,9 @@ const RegisterPage = () => {
 
           <div className="login-footer">
             <p className="footer-spaced">
-              Already have an account? 已经有账号吗？
+              {t('alreadyHaveAccount')}
               <a href="#login" onClick={(e) => { e.preventDefault(); navigate('/login'); }}>
-                Sign In · 立即登录
+                {t('signIn')}
               </a>
             </p>
             <button
@@ -217,7 +219,7 @@ const RegisterPage = () => {
               onClick={() => navigate('/')}
             >
               <i className="fas fa-arrow-left"></i>
-              Back to Home · 返回首页
+              {t('backToHome')}
             </button>
           </div>
         </div>
@@ -227,20 +229,20 @@ const RegisterPage = () => {
             <div className="visual-icon">
               <i className="fas fa-users"></i>
             </div>
-            <h2>Welcome 欢迎加入</h2>
-            <p>Thousands of families celebrate progress here · 每天收到 AI 的正向反馈</p>
+            <h2>{t('welcomeJoin')}</h2>
+            <p>{t('welcomeDescription')}</p>
             <div className="security-features">
               <div className="security-feature">
                 <i className="fas fa-check-circle"></i>
-                <span>Personalized assessments · 个性化评估</span>
+                <span>{t('personalizedAssessments')}</span>
               </div>
               <div className="security-feature">
                 <i className="fas fa-check-circle"></i>
-                <span>Professional support · 专业引导</span>
+                <span>{t('professionalSupport')}</span>
               </div>
               <div className="security-feature">
                 <i className="fas fa-check-circle"></i>
-                <span>Track progress · 进步随时看</span>
+                <span>{t('trackProgress')}</span>
               </div>
             </div>
           </div>

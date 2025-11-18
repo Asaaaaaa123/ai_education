@@ -1,12 +1,15 @@
 import React from 'react';
+import { useLanguage } from '../utils/i18n';
 import './LoadingSpinner.css';
 
 const LoadingSpinner = ({ 
   size = 'medium', 
   color = 'primary', 
-  text = 'Loading...',
+  text = null,
   fullScreen = false 
 }) => {
+  const { t } = useLanguage();
+  const displayText = text !== null ? text : t('loading');
   const sizeClasses = {
     small: 'spinner-small',
     medium: 'spinner-medium',
@@ -30,7 +33,7 @@ const LoadingSpinner = ({
         <div className="spinner-ring"></div>
         <div className="spinner-ring"></div>
       </div>
-      {text && <p className="loading-text">{text}</p>}
+      {displayText && <p className="loading-text">{displayText}</p>}
     </div>
   );
 };

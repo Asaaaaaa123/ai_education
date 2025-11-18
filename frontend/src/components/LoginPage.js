@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import apiClient from '../utils/apiClient';
+import { useLanguage } from '../utils/i18n';
 import './LoginPage.css';
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -65,10 +67,10 @@ const LoginPage = () => {
         const destination = from === '/' ? '/progress' : from;
         navigate(destination, { replace: true });
       } else {
-        setError('Login failed. Please try again.');
+        setError(t('loginFailed'));
       }
     } catch (err) {
-      const errorMessage = err.response?.data?.detail || 'Login failed. Please try again.';
+      const errorMessage = err.response?.data?.detail || t('loginFailed');
       setError(errorMessage);
       console.error('Login error:', err);
     } finally {
@@ -86,8 +88,8 @@ const LoginPage = () => {
               <i className="fas fa-heart"></i>
               <span>MayCare</span>
             </div>
-            <h1>Welcome Back</h1>
-            <p>Sign in to access your personalized support dashboard</p>
+            <h1>{t('welcomeBack')}</h1>
+            <p>{t('signInDescription')}</p>
           </div>
 
           <form className="login-form" onSubmit={handleSubmit}>
@@ -99,21 +101,21 @@ const LoginPage = () => {
             )}
 
             <div className="form-group">
-              <label className="form-label">Email Address</label>
+              <label className="form-label">{t('emailAddress')}</label>
               <div className="input-wrapper">
                 <input
                   type="email"
                   className="form-input"
                   value={formData.email}
                   onChange={(e) => handleInputChange('email', e.target.value)}
-                  placeholder="Enter your email"
+                  placeholder={t('enterEmail')}
                   required
                 />
               </div>
             </div>
 
             <div className="form-group">
-              <label className="form-label">Password</label>
+              <label className="form-label">{t('password')}</label>
               <div className="input-wrapper">
                 <input
                   type={showPassword ? 'text' : 'password'}
@@ -121,7 +123,7 @@ const LoginPage = () => {
                   className="form-input"
                   value={formData.password}
                   onChange={(e) => handleInputChange('password', e.target.value)}
-                  placeholder="Enter your password"
+                  placeholder={t('enterPassword')}
                   required
                 />
                 <button
@@ -143,12 +145,12 @@ const LoginPage = () => {
               {isLoading ? (
                 <>
                   <i className="fas fa-spinner fa-spin"></i>
-                  Signing In...
+                  {t('signingIn')}
                 </>
               ) : (
                 <>
                   <i className="fas fa-sign-in-alt"></i>
-                  Sign In
+                  {t('signIn')}
                 </>
               )}
             </button>
@@ -156,9 +158,9 @@ const LoginPage = () => {
           </form>
 
           <div className="login-footer">
-            <p>Don't have an account? 
+            <p>{t('dontHaveAccount')} 
               <a href="#register" onClick={(e) => { e.preventDefault(); navigate('/register'); }}>
-                Sign Up
+                {t('signUp')}
               </a>
             </p>
             <button
@@ -166,7 +168,7 @@ const LoginPage = () => {
               onClick={() => navigate('/')}
             >
               <i className="fas fa-arrow-left"></i>
-              Back to Home
+              {t('backToHome')}
             </button>
           </div>
         </div>
@@ -176,20 +178,20 @@ const LoginPage = () => {
             <div className="visual-icon">
               <i className="fas fa-shield-alt"></i>
             </div>
-            <h2>Secure & Private</h2>
-            <p>Your child's information is protected with industry-standard security measures</p>
+            <h2>{t('securePrivate')}</h2>
+            <p>{t('secureDescription')}</p>
             <div className="security-features">
               <div className="security-feature">
                 <i className="fas fa-lock"></i>
-                <span>End-to-end encryption</span>
+                <span>{t('endToEndEncryption')}</span>
               </div>
               <div className="security-feature">
                 <i className="fas fa-user-shield"></i>
-                <span>HIPAA compliant</span>
+                <span>{t('hipaaCompliant')}</span>
               </div>
               <div className="security-feature">
                 <i className="fas fa-database"></i>
-                <span>Secure data storage</span>
+                <span>{t('secureStorage')}</span>
               </div>
             </div>
           </div>

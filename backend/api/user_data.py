@@ -3,7 +3,7 @@ User Data Management API Endpoints
 """
 import logging
 from typing import List, Optional, Dict
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, HTTPException, Depends, Request
 from fastapi.security import HTTPAuthorizationCredentials
 from pydantic import BaseModel
 
@@ -22,6 +22,7 @@ from user_data import (
     create_training_plan, get_training_plans, get_training_plan,
     update_daily_task, get_current_task
 )
+from utils.i18n import t
 
 logger = logging.getLogger(__name__)
 
@@ -60,6 +61,7 @@ class TaskUpdateRequest(BaseModel):
 @router.post("/children", response_model=Dict)
 async def create_child(
     request: ChildCreateRequest,
+    http_request: Request,
     user: UserResponse = Depends(get_current_user)
 ):
     """Add a child to user's profile"""
@@ -84,15 +86,19 @@ async def create_child(
                     "gender": request.gender
                 }
             },
-            "message": "Child added successfully"
+            "message": t("success.child_added", request=http_request)
         }
     except Exception as e:
         logger.error(f"创建孩子信息失败: {e}", exc_info=True)
-        raise HTTPException(status_code=500, detail=f"Failed to create child: {str(e)}")
+        error_msg = t("error.create_child_failed", request=http_request)
+        raise HTTPException(status_code=500, detail=f"{error_msg}: {str(e)}")
 
 
 @router.get("/children", response_model=Dict)
-async def list_children(user: UserResponse = Depends(get_current_user)):
+async def list_children(
+    http_request: Request,
+    user: UserResponse = Depends(get_current_user)
+):
     """Get all children for current user"""
     try:
         children = get_children(user.id)
@@ -105,12 +111,14 @@ async def list_children(user: UserResponse = Depends(get_current_user)):
         }
     except Exception as e:
         logger.error(f"获取孩子列表失败: {e}")
-        raise HTTPException(status_code=500, detail=f"Failed to get children: {str(e)}")
+        error_msg = t("error.get_children_failed", request=http_request)
+        raise HTTPException(status_code=500, detail=f"{error_msg}: {str(e)}")
 
 
 @router.get("/children/{child_id}", response_model=Dict)
 async def get_child_info(
     child_id: str,
+    http_request: Request,
     user: UserResponse = Depends(get_current_user)
 ):
     """Get specific child information"""
@@ -118,7 +126,8 @@ async def get_child_info(
         child = get_child(user.id, child_id)
         
         if not child:
-            raise HTTPException(status_code=404, detail="Child not found")
+            error_msg = t("error.child_not_found", request=http_request)
+            raise HTTPException(status_code=404, detail=error_msg)
         
         return {
             "success": True,
@@ -130,7 +139,8 @@ async def get_child_info(
         raise
     except Exception as e:
         logger.error(f"获取孩子信息失败: {e}")
-        raise HTTPException(status_code=500, detail=f"Failed to get child: {str(e)}")
+        error_msg = t("error.get_child_failed", request=http_request)
+        raise HTTPException(status_code=500, detail=f"{error_msg}: {str(e)}")
 
 
 # ==================== Test Result Endpoints ====================
@@ -138,6 +148,7 @@ async def get_child_info(
 @router.post("/test-results", response_model=Dict)
 async def create_test_result(
     request: TestResultRequest,
+    http_request: Request,
     user: UserResponse = Depends(get_current_user)
 ):
     """Add a test result"""
@@ -157,16 +168,18 @@ async def create_test_result(
                 "test_id": test_id,
                 "test_type": request.test_type
             },
-            "message": "Test result added successfully"
+            "message": t("success.test_result_added", request=http_request)
         }
     except Exception as e:
         logger.error(f"创建测试结果失败: {e}", exc_info=True)
-        raise HTTPException(status_code=500, detail=f"Failed to create test result: {str(e)}")
+        error_msg = t("error.create_test_result_failed", request=http_request)
+        raise HTTPException(status_code=500, detail=f"{error_msg}: {str(e)}")
 
 
 @router.get("/test-results", response_model=Dict)
 async def list_test_results(
     child_id: Optional[str] = None,
+    http_request: Request = None,
     user: UserResponse = Depends(get_current_user)
 ):
     """Get test results for user or specific child"""
@@ -181,7 +194,8 @@ async def list_test_results(
         }
     except Exception as e:
         logger.error(f"获取测试结果失败: {e}")
-        raise HTTPException(status_code=500, detail=f"Failed to get test results: {str(e)}")
+        error_msg = t("error.get_test_results_failed", request=http_request)
+        raise HTTPException(status_code=500, detail=f"{error_msg}: {str(e)}")
 
 
 # ==================== Training Plan Endpoints ====================
@@ -189,6 +203,7 @@ async def list_test_results(
 @router.post("/plans", response_model=Dict)
 async def create_plan(
     request: PlanCreateRequest,
+    http_request: Request,
     user: UserResponse = Depends(get_current_user)
 ):
     """Create a training plan"""
@@ -209,16 +224,18 @@ async def create_plan(
             "data": {
                 "plan_id": plan_id
             },
-            "message": "Training plan created successfully"
+            "message": t("success.plan_created", request=http_request)
         }
     except Exception as e:
         logger.error(f"创建训练计划失败: {e}", exc_info=True)
-        raise HTTPException(status_code=500, detail=f"Failed to create plan: {str(e)}")
+        error_msg = t("error.create_plan_failed", request=http_request)
+        raise HTTPException(status_code=500, detail=f"{error_msg}: {str(e)}")
 
 
 @router.get("/plans", response_model=Dict)
 async def list_plans(
     child_id: Optional[str] = None,
+    http_request: Request = None,
     user: UserResponse = Depends(get_current_user)
 ):
     """Get training plans for user or specific child"""
@@ -233,12 +250,14 @@ async def list_plans(
         }
     except Exception as e:
         logger.error(f"获取训练计划失败: {e}")
-        raise HTTPException(status_code=500, detail=f"Failed to get plans: {str(e)}")
+        error_msg = t("error.get_plans_failed", request=http_request)
+        raise HTTPException(status_code=500, detail=f"{error_msg}: {str(e)}")
 
 
 @router.get("/plans/{plan_id}", response_model=Dict)
 async def get_plan_info(
     plan_id: str,
+    http_request: Request,
     user: UserResponse = Depends(get_current_user)
 ):
     """Get specific training plan"""
@@ -246,7 +265,8 @@ async def get_plan_info(
         plan = get_training_plan(user.id, plan_id)
         
         if not plan:
-            raise HTTPException(status_code=404, detail="Plan not found")
+            error_msg = t("error.plan_not_found", request=http_request)
+            raise HTTPException(status_code=404, detail=error_msg)
         
         return {
             "success": True,
@@ -258,7 +278,8 @@ async def get_plan_info(
         raise
     except Exception as e:
         logger.error(f"获取训练计划失败: {e}")
-        raise HTTPException(status_code=500, detail=f"Failed to get plan: {str(e)}")
+        error_msg = t("error.get_plan_failed", request=http_request)
+        raise HTTPException(status_code=500, detail=f"{error_msg}: {str(e)}")
 
 
 @router.put("/plans/{plan_id}/tasks/{day}", response_model=Dict)
@@ -266,6 +287,7 @@ async def update_task(
     plan_id: str,
     day: int,
     request: TaskUpdateRequest,
+    http_request: Request,
     user: UserResponse = Depends(get_current_user)
 ):
     """Update a daily task"""
@@ -276,16 +298,18 @@ async def update_task(
         
         return {
             "success": True,
-            "message": "Task updated successfully"
+            "message": t("success.task_updated", request=http_request)
         }
     except Exception as e:
         logger.error(f"更新任务失败: {e}", exc_info=True)
-        raise HTTPException(status_code=500, detail=f"Failed to update task: {str(e)}")
+        error_msg = t("error.update_task_failed", request=http_request)
+        raise HTTPException(status_code=500, detail=f"{error_msg}: {str(e)}")
 
 
 @router.get("/current-task", response_model=Dict)
 async def get_current_day_task(
     child_id: str,
+    http_request: Request,
     user: UserResponse = Depends(get_current_user)
 ):
     """Get current day's task for a child"""
@@ -296,7 +320,7 @@ async def get_current_day_task(
             return {
                 "success": True,
                 "data": None,
-                "message": "No active plan or no task for today"
+                "message": t("error.no_active_plan", request=http_request)
             }
         
         return {
@@ -305,7 +329,9 @@ async def get_current_day_task(
         }
     except Exception as e:
         logger.error(f"获取当前任务失败: {e}")
-        raise HTTPException(status_code=500, detail=f"Failed to get current task: {str(e)}")
+        error_msg = t("error.get_current_task_failed", request=http_request)
+        raise HTTPException(status_code=500, detail=f"{error_msg}: {str(e)}")
+
 
 
 

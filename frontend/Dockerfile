@@ -7,12 +7,15 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm ci --only=production
+RUN npm ci
 
 # Copy source code
 COPY . .
 
 # Build the app
+# Use empty API URL for production (nginx will proxy /api/ to backend)
+ARG REACT_APP_API_URL=
+ENV REACT_APP_API_URL=$REACT_APP_API_URL
 RUN npm run build
 
 # Production stage

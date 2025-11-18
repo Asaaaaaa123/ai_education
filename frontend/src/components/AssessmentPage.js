@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { api } from '../utils/apiClient';
 import './AssessmentPage.css';
 import SchulteTest from './SchulteTest';
 import AgeAdaptiveGame from './AgeAdaptiveGame';
@@ -55,7 +56,6 @@ const AssessmentPage = () => {
   const [testResults, setTestResults] = useState(null);
   const [selectedGame, setSelectedGame] = useState(null);
   const [showAgeAdaptiveGame, setShowAgeAdaptiveGame] = useState(false);
-  const [ageAdaptiveResults, setAgeAdaptiveResults] = useState(null);
 
   // 年龄组定义
   const getAgeGroup = (age) => {
@@ -271,7 +271,6 @@ const AssessmentPage = () => {
       if (!assessmentMode) {
         const age = calculateAge();
         setChildAge(age);
-        const ageGroup = getAgeGroup(age);
         
         if (age <= 3) {
           setAssessmentMode('parent-only');
@@ -323,7 +322,6 @@ const AssessmentPage = () => {
   };
 
   const handleAgeAdaptiveGameComplete = (results) => {
-    setAgeAdaptiveResults(results);
     setShowAgeAdaptiveGame(false);
     setFormData(prev => ({
       ...prev,
@@ -383,15 +381,11 @@ const AssessmentPage = () => {
 
       sessionStorage.setItem('assessmentData', JSON.stringify(submissionData));
       
-      const response = await fetch('http://localhost:8001/analyze', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(submissionData)
-      });
+      // Use apiClient instead of direct fetch to include language headers
+      const response = await api.analyzeAssessment(submissionData);
       
-      if (response.ok) {
-        const result = await response.json();
-        sessionStorage.setItem('assessmentResult', JSON.stringify(result));
+      if (response.data) {
+        sessionStorage.setItem('assessmentResult', JSON.stringify(response.data));
         navigate('/result');
       } else {
         console.error('API request failed:', response.status);

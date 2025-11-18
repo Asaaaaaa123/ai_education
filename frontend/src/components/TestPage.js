@@ -120,12 +120,6 @@ const TestPage = () => {
     }
   };
 
-  const handleAgeGroupSelect = (ageGroup) => {
-    setSelectedAgeGroup(ageGroup);
-    setSelectedGame(null);
-    setShowGame(false);
-  };
-
   const handleAgeGroupCardClick = (ageGroup) => {
     setSelectedAgeGroup(ageGroup);
   };
@@ -144,7 +138,7 @@ const TestPage = () => {
 
   // Find the same game component
   const MatchingGame = () => {
-    const [currentLevel, setCurrentLevel] = useState(1);
+    const [currentLevel] = useState(1);
     const [score, setScore] = useState(0);
     const [gameTime, setGameTime] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
@@ -287,7 +281,6 @@ const TestPage = () => {
 
   // Spot the difference game component
   const SpotDifferenceGame = () => {
-    const [currentLevel, setCurrentLevel] = useState(1);
     const [score, setScore] = useState(0);
     const [gameTime, setGameTime] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
@@ -306,34 +299,6 @@ const TestPage = () => {
       setFoundDifferences([]);
     };
 
-    const handleImageClick = (e) => {
-      if (!isPlaying) return;
-      
-      const rect = e.currentTarget.getBoundingClientRect();
-      const x = ((e.clientX - rect.left) / rect.width) * 100;
-      const y = ((e.clientY - rect.top) / rect.height) * 100;
-      
-      // Check if clicked on difference point
-      differences.forEach(diff => {
-        const distance = Math.sqrt((x - diff.x) ** 2 + (y - diff.y) ** 2);
-        if (distance < diff.radius && !foundDifferences.includes(diff.id)) {
-          setFoundDifferences([...foundDifferences, diff.id]);
-          setScore(score + 10);
-          
-          if (foundDifferences.length + 1 === differences.length) {
-            // Game completed
-            setIsPlaying(false);
-            handleGameComplete({
-              gameType: 'spot_difference',
-              ageGroup: selectedAgeGroup,
-              score: score + 10,
-              time: gameTime,
-              accuracy: 1.0
-            });
-          }
-        }
-      });
-    };
 
     React.useEffect(() => {
       let timer;
@@ -402,7 +367,7 @@ const TestPage = () => {
 
   // Color recognition game component
   const ColorRecognitionGame = () => {
-    const [currentLevel, setCurrentLevel] = useState(1);
+    const [currentLevel] = useState(1);
     const [score, setScore] = useState(0);
     const [gameTime, setGameTime] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);

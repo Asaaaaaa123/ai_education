@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './AgeAppropriateTest.css';
 
 /**
@@ -7,8 +7,6 @@ import './AgeAppropriateTest.css';
  */
 const AgeAppropriateTest = ({ childAge, onComplete }) => {
   const [testType, setTestType] = useState(null);
-  const [gameCompleted, setGameCompleted] = useState(false);
-  const [results, setResults] = useState(null);
 
   useEffect(() => {
     // 根据年龄选择测试类型
@@ -25,8 +23,6 @@ const AgeAppropriateTest = ({ childAge, onComplete }) => {
   }, [childAge]);
 
   const handleTestComplete = (testResults) => {
-    setResults(testResults);
-    setGameCompleted(true);
     onComplete(testResults);
   };
 
@@ -64,11 +60,7 @@ const ObservationTest = ({ onComplete }) => {
   // 图片选项（使用emoji代替）
   const items = ['🐱', '🐶', '🐼', '🐰', '🐻', '🦁', '🐯', '🐨'];
 
-  useEffect(() => {
-    generateRound();
-  }, []);
-
-  const generateRound = () => {
+  const generateRound = useCallback(() => {
     // 随机选择4个不同的物品
     const shuffled = [...items].sort(() => Math.random() - 0.5).slice(0, 4);
     // 目标物品是从这4个中随机选一个
@@ -78,7 +70,11 @@ const ObservationTest = ({ onComplete }) => {
     // 重置反馈状态
     setShowFeedback(false);
     setClickedItem(null);
-  };
+  }, []);
+
+  useEffect(() => {
+    generateRound();
+  }, [generateRound]);
 
   const handleItemClick = (item) => {
     if (gameCompleted || showFeedback) return;
@@ -224,11 +220,7 @@ const ColorShapeTest = ({ onComplete }) => {
   // 颜色列表
   const colors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange'];
 
-  useEffect(() => {
-    generateRound();
-  }, []);
-
-  const generateRound = () => {
+  const generateRound = useCallback(() => {
     // 随机选择是颜色还是形状
     const isColor = Math.random() > 0.5;
     
@@ -248,7 +240,11 @@ const ColorShapeTest = ({ onComplete }) => {
     // 重置反馈状态
     setShowFeedback(false);
     setClickedOption(null);
-  };
+  }, []);
+
+  useEffect(() => {
+    generateRound();
+  }, [generateRound]);
 
   const handleOptionClick = (option) => {
     if (gameCompleted || showFeedback) return;
@@ -410,11 +406,7 @@ const SimplePatternTest = ({ onComplete }) => {
 
   const items = ['🔴', '🟢', '🔵', '🟡', '🟣', '🟠'];
 
-  useEffect(() => {
-    generateRound();
-  }, []);
-
-  const generateRound = () => {
+  const generateRound = useCallback(() => {
     // 生成一个3个物品的模式，最后一个需要选择
     const patternLength = 2;
     const newPattern = [];
@@ -433,7 +425,11 @@ const SimplePatternTest = ({ onComplete }) => {
     // 重置反馈状态
     setShowFeedback(false);
     setClickedOption(null);
-  };
+  }, []);
+
+  useEffect(() => {
+    generateRound();
+  }, [generateRound]);
 
   const handleOptionClick = (option) => {
     if (gameCompleted || showFeedback) return;

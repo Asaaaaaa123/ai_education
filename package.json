@@ -1,0 +1,28 @@
+{
+  "name": "ai-education",
+  "version": "1.0.0",
+  "description": "AI Education System - Frontend and Backend",
+  "private": true,
+  "scripts": {
+    "prepare": "lefthook install",
+    "pre-commit": "lefthook run pre-commit",
+    "build:frontend": "cd frontend && npm install && npm run build",
+    "build:backend": "cd backend && python -c \"import fastapi, uvicorn, pydantic\" || echo 'Backend dependencies check'",
+    "build:docker:frontend": "docker build -t frontend-precommit:test -f frontend/Dockerfile frontend/ && docker rmi frontend-precommit:test",
+    "build:docker:backend": "docker build -t backend-precommit:test -f backend/Dockerfile backend/ && docker rmi backend-precommit:test",
+    "install:backend": "cd backend && pip install -r requirements.txt",
+    "start:backend": "cd backend && python start.py",
+    "start:backend:direct": "cd backend && python -m uvicorn app:app --host 0.0.0.0 --port 8001 --reload",
+    "build:docker:backend:image": "docker build -t ai-education-backend -f backend/Dockerfile backend/",
+    "start:backend:docker": "docker run -p 8001:8000 --name ai-education-backend ai-education-backend",
+    "start:backend:docker:detached": "docker run -d -p 8001:8000 --name ai-education-backend ai-education-backend"
+  },
+  "devDependencies": {
+    "lefthook": "^1.7.0"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  }
+}
+

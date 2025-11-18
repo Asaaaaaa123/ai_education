@@ -29,7 +29,7 @@ const HomePage = () => {
   };
 
   const handleLogout = () => {
-    if (window.confirm('Are you sure you want to logout? Your session will be cleared.')) {
+    if (window.confirm(t('logoutConfirm'))) {
       // Clear all authentication and user data
       localStorage.removeItem('isLoggedIn');
       localStorage.removeItem('authToken');
@@ -72,13 +72,12 @@ const HomePage = () => {
             <li><a href="#team" onClick={() => scrollToSection('team')}>{t('team')}</a></li>
             <li><a href="#resources" onClick={() => scrollToSection('resources')}>{t('resources')}</a></li>
             <li><a href="#support" onClick={() => scrollToSection('support')}>{t('support')}</a></li>
-            <li><a href="#contact" onClick={() => scrollToSection('contact')}>{t('contact')}</a></li>
           </ul>
           <div className="nav-actions">
             <button 
               className="btn btn-outline language-switch" 
               onClick={toggleLanguage}
-              title={language === 'en' ? 'Switch to Chinese' : 'Switch to English'}
+              title={language === 'en' ? t('switchToChineseTitle') : t('switchToEnglishTitle')}
             >
               <i className="fas fa-language"></i>
               {language === 'en' ? t('switchToChinese') : t('switchToEnglish')}
@@ -186,42 +185,42 @@ const HomePage = () => {
         <div className="container">
           <div className="insight-grid">
             <div className="insight-card">
-              <h3>Progress Focus 进步亮点</h3>
+              <h3>{t('progressFocus')}</h3>
               <div className="mini-chart chart-attention">
-                <span className="chart-label">Attention 注意力</span>
+                <span className="chart-label">{t('attentionLabel')}</span>
                 <span className="chart-value">+18%</span>
               </div>
               <div className="mini-chart chart-cognition">
-                <span className="chart-label">Cognition 认知力</span>
+                <span className="chart-label">{t('cognitionLabel')}</span>
                 <span className="chart-value">+22%</span>
               </div>
-              <p>系统每七天自动生成改善图表，让家长一眼看见成长轨迹。</p>
+              <p>{t('progressFocusDescription')}</p>
             </div>
             <div className="insight-card">
-              <h3>Daily Cheer 每日鼓励</h3>
+              <h3>{t('dailyCheer')}</h3>
               <p className="insight-quote">
-                “今天的坚持真棒！我们已经一起完成了新的挑战，继续保持笑容。”
+                "{t('dailyCheerQuote')}"
               </p>
               <div className="insight-badges">
-                <span>AI Positive Feedback</span>
-                <span>每日正向评语</span>
+                <span>{t('aiPositiveFeedback')}</span>
+                <span>{t('dailyPositiveComment')}</span>
               </div>
             </div>
             <div className="insight-card">
-              <h3>Goal Tracker 训练目标看得见</h3>
+              <h3>{t('goalTracker')}</h3>
               <ul>
-                <li>今日训练部位：注意力 · 视觉追踪</li>
-                <li>训练预期：集中 5 分钟完成拼图</li>
-                <li>家长期盼：两周内提升课堂专注力</li>
+                <li>{t('todayTrainingArea')}</li>
+                <li>{t('trainingExpectationExample')}</li>
+                <li>{t('parentWishExample')}</li>
               </ul>
-              <p>颜色标记一目了然，帮助家长一起制定可执行的下一步。</p>
+              <p>{t('goalTrackerDescription')}</p>
             </div>
             <div className="insight-card">
-              <h3>Family Rhythm 家庭节奏</h3>
-              <p>记录每日陪伴时长，系统自动调整任务难度，让家庭节奏更轻松，所有训练游戏都能在网站直接开启，无需下载。</p>
+              <h3>{t('familyRhythm')}</h3>
+              <p>{t('familyRhythmDescription')}</p>
               <div className="time-tracker">
-                <span>今日陪伴 45 分钟</span>
-                <span>独立练习 20 分钟</span>
+                <span>{t('todayCompanionship')}</span>
+                <span>{t('independentPractice')}</span>
               </div>
             </div>
           </div>
@@ -232,82 +231,82 @@ const HomePage = () => {
       <section id="ai-trust" className="ai-trust-section">
         <div className="container">
           <div className="section-header">
-            <h2>Why You Can Trust Our AI</h2>
-            <p>Our AI system is designed with transparency, accuracy, and your child's best interests in mind</p>
+            <h2>{t('whyTrustAI')}</h2>
+            <p>{t('whyTrustAIDescription')}</p>
           </div>
           <div className="ai-trust-grid">
             <div className="trust-card">
               <div className="trust-icon">
                 <i className="fas fa-shield-alt"></i>
               </div>
-              <h3>Data Privacy & Security</h3>
-              <p>Your child's information is protected with enterprise-grade encryption. We never share personal data with third parties and comply with all privacy regulations.</p>
+              <h3>{t('dataPrivacy')}</h3>
+              <p>{t('dataPrivacyDescription')}</p>
               <ul className="trust-features">
-                <li>End-to-end encryption</li>
-                <li>GDPR & COPPA compliant</li>
-                <li>No data sharing with third parties</li>
-                <li>Secure cloud infrastructure</li>
+                <li>{t('endToEndEncryption')}</li>
+                <li>{t('gdprCompliant')}</li>
+                <li>{t('noDataSharing')}</li>
+                <li>{t('secureCloud')}</li>
               </ul>
             </div>
             <div className="trust-card">
               <div className="trust-icon">
                 <i className="fas fa-brain"></i>
               </div>
-              <h3>Advanced AI Technology</h3>
-              <p>Our AI is trained on extensive educational research and behavioral science data, ensuring accurate and evidence-based recommendations.</p>
+              <h3>{t('advancedAI')}</h3>
+              <p>{t('advancedAIDescription')}</p>
               <ul className="trust-features">
-                <li>Evidence-based algorithms</li>
-                <li>Continuous learning & updates</li>
-                <li>Multi-disciplinary approach</li>
-                <li>Regular accuracy validation</li>
+                <li>{t('evidenceBased')}</li>
+                <li>{t('continuousLearning')}</li>
+                <li>{t('multiDisciplinary')}</li>
+                <li>{t('regularValidation')}</li>
               </ul>
             </div>
             <div className="trust-card">
               <div className="trust-icon">
                 <i className="fas fa-users"></i>
               </div>
-              <h3>Human Oversight · 人工监督</h3>
-              <p>While AI provides analysis, our team of developers and learning guides continuously monitor and validate all recommendations. · AI提供分析，开发团队和学习引导师持续监督并验证所有建议。</p>
+              <h3>{t('humanOversight')}</h3>
+              <p>{t('humanOversightDescription')}</p>
               <ul className="trust-features">
-                <li>Learner review process · 学习者审核流程</li>
-                <li>Quality assurance checks · 质量保证检查</li>
-                <li>Regular system audits · 定期系统审核</li>
-                <li>User feedback integration · 用户反馈整合</li>
+                <li>{t('learnerReview')}</li>
+                <li>{t('qualityAssurance')}</li>
+                <li>{t('regularAudits')}</li>
+                <li>{t('userFeedback')}</li>
               </ul>
             </div>
             <div className="trust-card">
               <div className="trust-icon">
                 <i className="fas fa-chart-line"></i>
               </div>
-              <h3>Proven Results</h3>
-              <p>Our AI system has helped thousands of families with personalized recommendations that show measurable improvements in learning outcomes.</p>
+              <h3>{t('provenResults')}</h3>
+              <p>{t('provenResultsDescription')}</p>
               <ul className="trust-features">
-                <li>95% accuracy rate</li>
-                <li>Positive user feedback</li>
-                <li>Measurable improvements</li>
-                <li>Ongoing optimization</li>
+                <li>{t('accuracyRate')}</li>
+                <li>{t('positiveFeedback')}</li>
+                <li>{t('measurableImprovements')}</li>
+                <li>{t('ongoingOptimization')}</li>
               </ul>
             </div>
           </div>
           <div className="ai-transparency">
-            <h3>Transparency Commitment</h3>
-            <p>We believe in complete transparency about how our AI works. You can always understand why specific recommendations are made and have full control over your data.</p>
+            <h3>{t('transparencyCommitment')}</h3>
+            <p>{t('transparencyDescription')}</p>
             <div className="transparency-features">
               <div className="transparency-feature">
                 <i className="fas fa-eye"></i>
-                <span>Clear explanations for all recommendations</span>
+                <span>{t('clearExplanations')}</span>
               </div>
               <div className="transparency-feature">
                 <i className="fas fa-download"></i>
-                <span>Download your data anytime</span>
+                <span>{t('downloadData')}</span>
               </div>
               <div className="transparency-feature">
                 <i className="fas fa-edit"></i>
-                <span>Modify or delete your information</span>
+                <span>{t('modifyInfo')}</span>
               </div>
               <div className="transparency-feature">
                 <i className="fas fa-question-circle"></i>
-                <span>Ask questions about our AI process</span>
+                <span>{t('askQuestions')}</span>
               </div>
             </div>
           </div>
@@ -318,115 +317,87 @@ const HomePage = () => {
       <section id="services" className="services-section">
         <div className="container">
           <div className="section-header">
-            <h2>Comprehensive Support Services</h2>
-            <p>We provide a complete network of care professionals to support your child's unique needs and development</p>
+            <h2>{t('comprehensiveSupport')}</h2>
+            <p>{t('comprehensiveSupportDescription')}</p>
           </div>
           <div className="services-grid">
             <div className="service-card">
               <div className="service-icon">
                 <i className="fas fa-chalkboard-teacher"></i>
               </div>
-              <h3>Special Education Teachers</h3>
-              <p>Certified special education professionals who create personalized learning plans and provide one-on-one instruction tailored to your child's learning style and abilities.</p>
+              <h3>{t('specialEducationTeachers')}</h3>
+              <p>{t('specialEducationDescription')}</p>
               <ul className="service-features">
-                <li>Individualized Education Plans (IEPs)</li>
-                <li>Multi-sensory learning approaches</li>
-                <li>Progress monitoring and assessment</li>
-                <li>Parent-teacher collaboration</li>
+                <li>{t('individualizedPlans')}</li>
+                <li>{t('multiSensory')}</li>
+                <li>{t('progressMonitoring')}</li>
+                <li>{t('parentTeacherCollab')}</li>
               </ul>
             </div>
             <div className="service-card">
               <div className="service-icon">
                 <i className="fas fa-brain"></i>
               </div>
-              <h3>Occupational Therapists</h3>
-              <p>Licensed therapists who help children develop essential life skills, motor coordination, and sensory processing abilities for daily activities and independence.</p>
+              <h3>{t('occupationalTherapists')}</h3>
+              <p>{t('occupationalDescription')}</p>
               <ul className="service-features">
-                <li>Sensory integration therapy</li>
-                <li>Fine and gross motor development</li>
-                <li>Daily living skills training</li>
-                <li>Adaptive equipment recommendations</li>
+                <li>{t('sensoryIntegration')}</li>
+                <li>{t('motorDevelopment')}</li>
+                <li>{t('dailyLivingSkills')}</li>
+                <li>{t('adaptiveEquipment')}</li>
               </ul>
             </div>
             <div className="service-card">
               <div className="service-icon">
                 <i className="fas fa-comments"></i>
               </div>
-              <h3>Speech & Language Therapists</h3>
-              <p>Specialized therapists who support communication development, language skills, and social interaction abilities for children with speech and language challenges.</p>
+              <h3>{t('speechTherapists')}</h3>
+              <p>{t('speechDescription')}</p>
               <ul className="service-features">
-                <li>Communication skill development</li>
-                <li>Social interaction training</li>
-                <li>Alternative communication methods</li>
-                <li>Family communication strategies</li>
+                <li>{t('communicationSkills')}</li>
+                <li>{t('socialInteraction')}</li>
+                <li>{t('alternativeCommunication')}</li>
+                <li>{t('familyCommunication')}</li>
               </ul>
             </div>
             <div className="service-card">
               <div className="service-icon">
                 <i className="fas fa-robot"></i>
               </div>
-              <h3>AI-Powered Analysis</h3>
-              <p>Advanced artificial intelligence that provides personalized educational recommendations and behavioral insights based on comprehensive data analysis.</p>
+              <h3>{t('aiPoweredAnalysis')}</h3>
+              <p>{t('aiAnalysisDescription')}</p>
               <ul className="service-features">
-                <li>Intelligent behavioral assessment</li>
-                <li>Personalized learning recommendations</li>
-                <li>Data-driven insights and analysis</li>
-                <li>Continuous learning and adaptation</li>
+                <li>{t('behavioralAssessment')}</li>
+                <li>{t('personalizedRecommendations')}</li>
+                <li>{t('dataDrivenInsights')}</li>
+                <li>{t('continuousAdaptation')}</li>
               </ul>
             </div>
             <div className="service-card">
               <div className="service-icon">
                 <i className="fas fa-home"></i>
               </div>
-              <h3>Family Support Specialists</h3>
-              <p>Dedicated professionals who provide guidance, resources, and emotional support to families navigating the challenges of raising a special child.</p>
+              <h3>{t('familySupport')}</h3>
+              <p>{t('familySupportDescription')}</p>
               <ul className="service-features">
-                <li>Parent education and training</li>
-                <li>Resource coordination and advocacy</li>
-                <li>Support group facilitation</li>
-                <li>Crisis support and intervention</li>
+                <li>{t('parentEducation')}</li>
+                <li>{t('resourceCoordination')}</li>
+                <li>{t('supportGroups')}</li>
+                <li>{t('crisisSupport')}</li>
               </ul>
             </div>
             <div className="service-card">
               <div className="service-icon">
                 <i className="fas fa-heart"></i>
               </div>
-              <h3>24/7 Care Coordination</h3>
-              <p>Round-the-clock support system that ensures seamless communication between all care providers and immediate response to urgent needs.</p>
+              <h3>{t('careCoordination')}</h3>
+              <p>{t('careCoordinationDescription')}</p>
               <ul className="service-features">
-                <li>24/7 emergency support line</li>
-                <li>Care team coordination</li>
-                <li>Progress tracking and reporting</li>
-                <li>Family communication platform</li>
+                <li>{t('emergencySupport')}</li>
+                <li>{t('careTeamCoordination')}</li>
+                <li>{t('progressTracking')}</li>
+                <li>{t('familyPlatform')}</li>
               </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Learner Stories Section */}
-      <section id="resources" className="learner-stories">
-        <div className="container">
-          <div className="section-header">
-            <h2>孩子故事 Learner Journeys</h2>
-            <p>我们同样关注普通孩子，只是想把成绩再提升一点点</p>
-          </div>
-          <div className="stories-grid">
-            <div className="story-card">
-              <h3>朵朵 · 2 岁</h3>
-              <p>还看不懂数字与文字，我们把“花朵拼图”拆成大色块，搭配语音提示，让她像拼拼图一样轻松完成训练。</p>
-            </div>
-            <div className="story-card">
-              <h3>明明 · 8 岁</h3>
-              <p>普通孩子，数学成绩需要加油。我们结合课堂同步题与趣味小游戏，帮助他在 7 天内提高理解速度。· Normal child, math scores need improvement. We combine classroom sync exercises with fun games to help improve comprehension in 7 days.</p>
-            </div>
-            <div className="story-card">
-              <h3>星星 · 6 岁</h3>
-              <p>家长工作繁忙，每日陪伴 30 分钟。系统把亲子合作与独立完成部分清晰拆分，孩子自信心不断增强。</p>
-            </div>
-            <div className="story-card">
-              <h3>新技能以后</h3>
-              <p>无论成果如何，AI 每天送上鼓励话语，帮助孩子建立“我可以做到”的正向信念。</p>
             </div>
           </div>
         </div>
@@ -436,47 +407,17 @@ const HomePage = () => {
       <section id="team" className="team-section">
         <div className="container">
             <div className="section-header">
-            <h2>Meet Our Learning Guides 学习伙伴</h2>
-            <p>四位引导师，以学习者的角度陪伴孩子成长 · Four guides supporting every child's learning journey</p>
+            <h2>{t('meetOurTeam')}</h2>
+            <p>{language === 'zh' ? '以学习者的角度陪伴孩子成长' : 'Supporting every child\'s learning journey'}</p>
           </div>
-          <div className="team-grid team-grid-aligned">
-            {[
-              {
-                name: '云美老师',
-                role: 'Learning Coach 学习教练',
-                description: '擅长把复杂技能拆成小游戏，引导孩子在快乐中掌握核心能力。· Expert at breaking complex skills into fun games.',
-                image: 'https://via.placeholder.com/200x200'
-              },
-              {
-                name: 'Duan Mentor',
-                role: 'Progress Designer 进步设计师',
-                description: '7 天生成改善图，每一步都给出积极反馈与下一步建议。· Creates improvement charts every 7 days with positive feedback.',
-                image: 'https://via.placeholder.com/200x200'
-              },
-              {
-                name: 'Family Ally',
-                role: 'Parent Ally 家庭伙伴',
-                description: '帮助家长排布时间，记录陪伴时长，设置家长期盼与时间节点。· Helps parents organize time and set expectations.',
-                image: 'https://via.placeholder.com/200x200'
-              },
-              {
-                name: 'Playful Learner',
-                role: 'Joy Explorer 玩乐学习者',
-                description: '与孩子一起体验拼拼图、颜色游戏，让两岁宝宝也能听懂提示。· Plays puzzle and color games with toddlers.',
-                image: 'https://via.placeholder.com/200x200'
-              }
-            ].map((member, index) => (
-              <div className="team-member" key={index}>
-                <div className="member-photo">
-                  <img src={member.image} alt={member.name} />
-                </div>
-                <div className="member-info">
-                  <h3>{member.name}</h3>
-                  <span className="member-role">{member.role}</span>
-                  <p>{member.description}</p>
-                </div>
+          <div className="team-grid team-grid-single">
+            <div className="team-member">
+              <div className="member-info">
+                <h3>{language === 'zh' ? '云美老师' : 'May'}</h3>
+                <span className="member-role">{language === 'zh' ? '学习教练' : 'Learning Coach'}</span>
+                <p>{language === 'zh' ? '擅长把复杂技能拆成小游戏，引导孩子在快乐中掌握核心能力。' : 'Expert at breaking complex skills into fun games, guiding children to master core abilities through joy.'}</p>
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </section>
@@ -486,48 +427,48 @@ const HomePage = () => {
         <div className="container">
           <div className="support-content">
             <div className="support-info">
-              <h2>Ready to Get Started?</h2>
-              <p>Take the first step toward comprehensive support for your child and family. Our team is here to help you navigate this journey with care, expertise, and compassion.</p>
+              <h2>{t('readyToStart')}</h2>
+              <p>{t('readyToStartDescription')}</p>
               <div className="support-features">
                 <div className="support-feature">
                   <i className="fas fa-clock"></i>
-                  <span>24/7 Support Available</span>
+                  <span>{t('supportAvailable')}</span>
                 </div>
                 <div className="support-feature">
                   <i className="fas fa-shield-alt"></i>
-                  <span>Confidential & Secure</span>
+                  <span>{t('confidentialSecure')}</span>
                 </div>
                 <div className="support-feature">
                   <i className="fas fa-heart"></i>
-                  <span>Compassionate Care</span>
+                  <span>{t('compassionateCare')}</span>
                 </div>
               </div>
               <button className="btn btn-primary btn-large" onClick={handleContinueTraining}>
                 <i className="fas fa-hands-helping"></i>
-                Begin Your Journey
+                {t('beginJourney')}
               </button>
             </div>
             <div className="contact-info">
-              <h3>Contact Us · 联系我们</h3>
+              <h3>{t('contactUs')}</h3>
               <div className="contact-item">
                 <i className="fas fa-phone"></i>
                 <div>
-                  <strong>24/7 Support Line · 24小时支持热线</strong>
+                  <strong>{t('supportLine')}</strong>
                   <span>+86 400-8899-520</span>
                 </div>
               </div>
               <div className="contact-item">
                 <i className="fas fa-envelope"></i>
                 <div>
-                  <strong>Email Support 邮件支持</strong>
+                  <strong>{t('emailSupport')}</strong>
                   <span>hello@yunmeibaby.com</span>
                 </div>
               </div>
               <div className="contact-item">
                 <i className="fas fa-map-marker-alt"></i>
                 <div>
-                  <strong>{t('visitUs') || 'Visit Us'}</strong>
-                  <span>{t('visitAddress') || 'Yunmei Baby Hub, Shenzhen'}</span>
+                  <strong>{t('visitUs')}</strong>
+                  <span>{t('visitAddress')}</span>
                 </div>
               </div>
             </div>
@@ -539,9 +480,9 @@ const HomePage = () => {
       <section className="references-section">
         <div className="container">
           <div className="references-content">
-            <h2>Professional Standards & References</h2>
+            <h2>{t('professionalStandards')}</h2>
             <p className="references-intro">
-              Our assessment questionnaires are developed based on internationally recognized professional standards and validated developmental screening tools to ensure accuracy and reliability.
+              {t('standardsIntro')}
             </p>
             
             <div className="references-grid">
@@ -583,7 +524,7 @@ const HomePage = () => {
                   </p>
                   <a href="https://www.who.int/childgrowth/standards/" target="_blank" rel="noopener noreferrer" className="reference-link">
                     <i className="fas fa-external-link-alt"></i>
-                    View Standards
+                    {t('viewStandards')}
                   </a>
                 </div>
               </div>
@@ -600,7 +541,7 @@ const HomePage = () => {
                   </p>
                   <a href="https://www.cdc.gov/ncbddd/childdevelopment/positiveparenting/" target="_blank" rel="noopener noreferrer" className="reference-link">
                     <i className="fas fa-external-link-alt"></i>
-                    View Milestones
+                    {t('viewMilestones')}
                   </a>
                 </div>
               </div>
@@ -609,7 +550,7 @@ const HomePage = () => {
             <div className="references-note">
               <i className="fas fa-info-circle"></i>
               <p>
-                Our assessment tools incorporate elements from these validated instruments while being adapted for digital administration and enhanced with AI-powered analysis capabilities.
+                {t('assessmentNote')}
               </p>
             </div>
           </div>
@@ -634,46 +575,46 @@ const HomePage = () => {
               </div>
             </div>
             <div className="footer-section">
-              <h4>Services</h4>
+              <h4>{t('services')}</h4>
               <ul>
-                <li><a href="#services">Special Education</a></li>
-                <li><a href="#services">Occupational Therapy</a></li>
-                <li><a href="#services">Speech Therapy</a></li>
-                <li><a href="#services">AI-Powered Analysis</a></li>
+                <li><a href="#services">{t('specialEducation')}</a></li>
+                <li><a href="#services">{t('occupationalTherapy')}</a></li>
+                <li><a href="#services">{t('speechTherapy')}</a></li>
+                <li><a href="#services">{t('aiAnalysis')}</a></li>
               </ul>
             </div>
             <div className="footer-section">
-              <h4>Resources</h4>
+              <h4>{t('resources')}</h4>
               <ul>
-                <li><a href="#resources">Educational Materials</a></li>
-                <li><a href="#resources">Support Groups</a></li>
-                <li><a href="#resources">Workshops</a></li>
-                <li><a href="#resources">Family Resources</a></li>
+                <li><a href="#resources">{t('educationalMaterials')}</a></li>
+                <li><a href="#resources">{t('supportGroupsTitle')}</a></li>
+                <li><a href="#resources">{t('workshops')}</a></li>
+                <li><a href="#resources">{t('familyResources')}</a></li>
               </ul>
             </div>
             <div className="footer-section">
-              <h4>Support</h4>
+              <h4>{t('supportTitle')}</h4>
               <ul>
-                <li><a href="#support">24/7 Helpline</a></li>
-                <li><a href="#support">Emergency Support</a></li>
-                <li><a href="#support">Crisis Intervention</a></li>
-                <li><a href="#support">Family Guidance</a></li>
+                <li><a href="#support">{t('helpline')}</a></li>
+                <li><a href="#support">{t('emergencySupportTitle')}</a></li>
+                <li><a href="#support">{t('crisisIntervention')}</a></li>
+                <li><a href="#support">{t('familyGuidance')}</a></li>
               </ul>
             </div>
             <div className="footer-section">
-              <h4>Contact 联系方式</h4>
+              <h4>{t('contactInfo')}</h4>
               <p><i className="fas fa-envelope"></i> hello@yunmeibaby.com</p>
               <p><i className="fas fa-phone"></i> +86 400-8899-520</p>
-              <p><i className="fas fa-map-marker-alt"></i> {t('visitAddress') || 'Yunmei Baby Hub, Shenzhen'}</p>
-              <p><i className="fas fa-baby"></i> MayCare Learning Station</p>
+              <p><i className="fas fa-map-marker-alt"></i> {t('visitAddress')}</p>
+              <p><i className="fas fa-baby"></i> {t('maycareLearning')}</p>
             </div>
           </div>
           <div className="footer-bottom">
-            <p>&copy; 2024 MayCare. All rights reserved.</p>
+            <p>&copy; 2024 MayCare. {t('allRightsReserved')}</p>
             <div className="footer-links">
-              <a href="#privacy">Privacy Policy</a>
-              <a href="#terms">Terms of Service</a>
-              <a href="#accessibility">Accessibility</a>
+              <a href="#privacy">{t('privacyPolicy')}</a>
+              <a href="#terms">{t('termsOfService')}</a>
+              <a href="#accessibility">{t('accessibility')}</a>
             </div>
           </div>
         </div>

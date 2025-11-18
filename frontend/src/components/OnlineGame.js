@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import SchulteTest from './SchulteTest';
 import AgeAdaptiveGame from './AgeAdaptiveGame';
@@ -113,8 +113,9 @@ const OnlineGame = () => {
   );
 };
 
-// 简单注意力游戏组件
-const SimpleAttentionGame = ({ onComplete, gameId }) => {
+// 简单注意力游戏组件 (unused but kept for potential future use)
+// eslint-disable-next-line no-unused-vars
+const SimpleAttentionGame = ({ onComplete, gameId = 'simple_attention' }) => {
   const [score, setScore] = useState(0);
   const [currentRound, setCurrentRound] = useState(1);
   const [target, setTarget] = useState(null);
@@ -134,11 +135,7 @@ const SimpleAttentionGame = ({ onComplete, gameId }) => {
   const colors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange'];
   const shapes = ['circle', 'square', 'triangle', 'star'];
 
-  React.useEffect(() => {
-    generateRound();
-  }, []);
-
-  const generateRound = () => {
+  const generateRound = useCallback(() => {
     const isColor = Math.random() > 0.5;
     if (isColor) {
       const shuffled = colors.sort(() => Math.random() - 0.5).slice(0, 4);
@@ -151,7 +148,11 @@ const SimpleAttentionGame = ({ onComplete, gameId }) => {
       setTarget({ type: 'shape', value: targetShape });
       setOptions(shuffled);
     }
-  };
+  }, []);
+
+  React.useEffect(() => {
+    generateRound();
+  }, [generateRound]);
 
   const handleOptionClick = (option) => {
     if (gameCompleted) return;
@@ -222,7 +223,8 @@ const SimpleAttentionGame = ({ onComplete, gameId }) => {
   );
 };
 
-// 注意力追踪游戏
+// 注意力追踪游戏 (unused but kept for potential future use)
+// eslint-disable-next-line no-unused-vars
 const AttentionTrackingGame = ({ onComplete }) => {
   const [sequence, setSequence] = useState([]);
   const [currentStep, setCurrentStep] = useState(0);
@@ -240,11 +242,7 @@ const AttentionTrackingGame = ({ onComplete }) => {
   };
   const colors = ['red', 'blue', 'green', 'yellow'];
 
-  React.useEffect(() => {
-    generateSequence();
-  }, []);
-
-  const generateSequence = () => {
+  const generateSequence = useCallback(() => {
     const newSequence = [];
     for (let i = 0; i < 4; i++) {
       newSequence.push(colors[Math.floor(Math.random() * colors.length)]);
@@ -252,14 +250,17 @@ const AttentionTrackingGame = ({ onComplete }) => {
     setSequence(newSequence);
     setCurrentStep(0);
     setUserInput([]);
-  };
+  }, []);
+
+  React.useEffect(() => {
+    generateSequence();
+  }, [generateSequence]);
 
   const showSequence = () => {
     let step = 0;
     const interval = setInterval(() => {
       if (step < sequence.length) {
         // 高亮显示当前颜色
-        const color = sequence[step];
         setCurrentStep(step + 1);
         step++;
       } else {
@@ -450,18 +451,18 @@ const MemoryCardsGame = ({ onComplete }) => {
 
   const symbols = ['🌟', '🎈', '🎁', '🎂', '🎉', '🎊'];
 
-  React.useEffect(() => {
-    initializeCards();
-  }, []);
-
-  const initializeCards = () => {
+  const initializeCards = useCallback(() => {
     const cardPairs = [];
     symbols.forEach((symbol, index) => {
       cardPairs.push({ id: index * 2, symbol, pairId: index });
       cardPairs.push({ id: index * 2 + 1, symbol, pairId: index });
     });
     setCards(cardPairs.sort(() => Math.random() - 0.5));
-  };
+  }, []);
+
+  React.useEffect(() => {
+    initializeCards();
+  }, [initializeCards]);
 
   const handleCardClick = (card) => {
     if (gameCompleted || flippedCards.length >= 2 || matchedPairs.includes(card.pairId)) return;

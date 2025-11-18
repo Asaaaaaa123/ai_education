@@ -9,11 +9,12 @@ import './DailyTaskPage.css';
 const DailyTaskPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const { planId, day, task: initialTask } = location.state || {};
   
   const [task, setTask] = useState(initialTask);
   const [loading, setLoading] = useState(false);
+  const [, setError] = useState('');
   const [testStarted, setTestStarted] = useState(false);
   const [testCompleted, setTestCompleted] = useState(false);
   const [childAge, setChildAge] = useState(6); // Default 6 years old
@@ -70,7 +71,7 @@ const DailyTaskPage = () => {
         }
       }
     } catch (err) {
-      setError(err.response?.data?.detail || '加载任务失败');
+      setError(err.response?.data?.detail || t('loadTaskFailed'));
     } finally {
       setLoading(false);
     }
@@ -129,10 +130,10 @@ const DailyTaskPage = () => {
         task_id: task.task_id,
         completed: true 
       });
-      alert('任务标记为已完成！');
+      alert(t('taskMarkedComplete'));
       navigate('/training-plan', { state: { planId } });
     } catch (err) {
-      alert('更新任务失败，请重试');
+      alert(t('updateTaskFailed'));
     } finally {
       setLoading(false);
     }
@@ -159,9 +160,9 @@ const DailyTaskPage = () => {
       });
       
       setTestCompleted(true);
-      alert('测试完成！结果已记录');
+      alert(t('testCompletedRecorded'));
     } catch (err) {
-      alert('提交测试结果失败，请重试');
+      alert(t('submitTestFailed'));
     } finally {
       setLoading(false);
     }
@@ -178,7 +179,7 @@ const DailyTaskPage = () => {
   if (loading && !task) {
     return (
       <div className="daily-task-page">
-        <div className="loading">加载中...</div>
+        <div className="loading">{t('loading')}</div>
       </div>
     );
   }
@@ -186,32 +187,307 @@ const DailyTaskPage = () => {
   if (!task) {
     return (
       <div className="daily-task-page">
-        <div className="error">任务不存在</div>
+        <div className="error">{t('taskNotFound')}</div>
       </div>
     );
   }
 
   const allActivitiesCompleted = task.activities.every(a => a.completed);
   const canMarkComplete = allActivitiesCompleted && (!task.test_required || testCompleted || task.test_completed);
+  // 处理双语内容，根据当前语言提取对应文本
+  const extractTextByLanguage = (text) => {
+    if (!text) return '';
+    const textStr = String(text).trim();
+    if (!textStr) return '';
+    
+    // 检查是否包含中英文分隔符 ·
+    if (textStr.includes('·')) {
+      const parts = textStr.split('·').map(p => p.trim()).filter(p => p);
+      if (parts.length === 0) return textStr;
+      
+      if (language === 'zh') {
+        const chinesePart = parts.find(p => /[\u4e00-\u9fff]/.test(p));
+        return chinesePart || parts[0];
+      } else {
+        const englishPart = parts.find(p => !/[\u4e00-\u9fff]/.test(p) && /[a-zA-Z]/.test(p));
+        return englishPart || parts[parts.length - 1];
+      }
+    }
+    
+    const hasChinese = /[\u4e00-\u9fff]/.test(textStr);
+    const hasEnglish = /[a-zA-Z]/.test(textStr);
+    
+    if (language === 'zh') {
+      // 中文模式：优先显示中文，如果没有中文则显示英文
+      return hasChinese ? textStr : (hasEnglish ? textStr : textStr);
+    } else {
+      // 英文模式：优先显示英文，如果有中文则必须翻译
+      if (hasEnglish && !hasChinese) return textStr;
+      if (hasChinese) {
+        // 如果有中文（无论是否混合），必须翻译
+        return translateToEnglish(textStr);
+      }
+      return textStr;
+    }
+  };
+
+  // 中文到英文翻译映射
+  const translateToEnglish = (chineseText) => {
+    if (!chineseText) return '';
+    
+    const translations = {
+      // 标题和常见短语
+      '第': 'Day ',
+      '天训练指导：': ' Training Guidance:',
+      '天训练指导': ' Training Guidance',
+      '注意力训练重点：': 'Attention Training Focus:',
+      '今日活动：': 'Today\'s Activities:',
+      '说明：': 'Description: ',
+      '详细步骤：': 'Detailed Steps:',
+      '注意事项：': 'Important Notes:',
+      '操作步骤：': 'Steps:',
+      'Steps:': 'Steps:',
+      
+      // 常见指导内容
+      '确保环境安静，减少干扰': 'Ensure a quiet environment and minimize distractions',
+      '鼓励孩子完成每个活动': 'Encourage your child to complete each activity',
+      '给予积极反馈和鼓励': 'Provide positive feedback and encouragement',
+      '可在网站上直接进行此游戏': 'Can play directly on the website',
+      '根据孩子实际情况调整活动时间': 'Adjust activity duration based on your child\'s actual situation',
+      '如孩子感到疲劳，可适当休息': 'If your child feels tired, allow appropriate rest',
+      '记录孩子的表现，便于后续分析': 'Record your child\'s performance for later analysis',
+      '对于可在网站进行的游戏，点击活动卡片上的\'开始游戏\'按钮': 'For games that can be played on the website, click the \'Start Game\' button on the activity card',
+      '分钟': 'minutes',
+      '准备活动材料，确保环境安静舒适': 'Prepare activity materials and ensure a quiet, comfortable environment',
+      '向孩子介绍今天的活动，保持积极正面的语气': 'Introduce today\'s activities to your child with a positive tone',
+      '陪伴孩子完成每个活动，给予鼓励和支持': 'Accompany your child through each activity, providing encouragement and support',
+      '观察孩子的表现，记录完成情况': 'Observe your child\'s performance and record completion status',
+      '活动结束后，给予孩子积极的反馈和表扬': 'After activities, provide positive feedback and praise to your child',
+      
+      // 游戏相关翻译
+      '选择适合的拼图难度（建议从9片开始）': 'Choose an appropriate puzzle difficulty (recommended starting with 9 pieces)',
+      '观察完整图片': 'Observe the complete picture',
+      '拖动拼图片到正确位置': 'Drag puzzle pieces to the correct position',
+      '完成后可以挑战更高难度': 'After completion, you can challenge higher difficulty levels',
+      '记录完成时间': 'Record completion time',
+      '拼图游戏': 'Puzzle Game',
+      '记忆游戏': 'Memory Game',
+      '注意力训练': 'Attention Training',
+      '认知训练': 'Cognitive Training',
+      '视觉训练': 'Visual Training',
+      '手眼协调': 'Hand-Eye Coordination',
+      '专注力训练': 'Focus Training',
+      '观察力训练': 'Observation Training',
+    };
+    
+    let translated = chineseText;
+    
+    // 先处理完整匹配
+    for (const [key, value] of Object.entries(translations)) {
+      if (translated === key) {
+        return value;
+      }
+    }
+    
+    // 处理包含关系（按长度从长到短排序，优先匹配长短语）
+    const sortedKeys = Object.keys(translations).sort((a, b) => b.length - a.length);
+    for (const key of sortedKeys) {
+      if (translated.includes(key)) {
+        translated = translated.replace(new RegExp(key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), translations[key]);
+      }
+    }
+    
+    // 处理数字+天的格式
+    translated = translated.replace(/(\d+)天/g, 'Day $1');
+    
+    // 处理活动列表格式 "1. 活动名称（10分钟）"
+    translated = translated.replace(/(\d+)\.\s*([^（(]+)（(\d+)分钟）/g, '$1. $2 ($3 minutes)');
+    translated = translated.replace(/(\d+)\.\s*([^(]+)\((\d+)分钟\)/g, '$1. $2 ($3 minutes)');
+    
+    // 处理步骤格式 "1. 中文内容" -> "1. English content"
+    // 如果还有中文，尝试逐句翻译
+    if (/[\u4e00-\u9fff]/.test(translated)) {
+      // 先处理完整的步骤句子（保留数字和标点）
+      const stepTranslations = {
+        '选择适合的拼图难度（建议从9片开始）': 'Choose an appropriate puzzle difficulty (recommended starting with 9 pieces)',
+        '观察完整图片': 'Observe the complete picture',
+        '拖动拼图片到正确位置': 'Drag puzzle pieces to the correct position',
+        '完成后可以挑战更高难度': 'After completion, you can challenge higher difficulty levels',
+        '记录完成时间': 'Record completion time',
+        '选择适合的难度': 'Choose an appropriate difficulty',
+        '从9片开始': 'Start with 9 pieces',
+        '建议从9片开始': 'Recommended starting with 9 pieces',
+        '挑战更高难度': 'Challenge higher difficulty levels',
+        '可以挑战更高难度': 'You can challenge higher difficulty levels',
+      };
+      
+      // 尝试完整匹配
+      for (const [key, value] of Object.entries(stepTranslations)) {
+        if (translated.includes(key)) {
+          translated = translated.replace(new RegExp(key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), value);
+        }
+      }
+      
+      // 如果还有中文，尝试翻译常见的步骤模式
+      if (/[\u4e00-\u9fff]/.test(translated)) {
+        const stepPatterns = [
+          { pattern: /选择(.+)/g, replacement: 'Choose $1' },
+          { pattern: /观察(.+)/g, replacement: 'Observe $1' },
+          { pattern: /拖动(.+)/g, replacement: 'Drag $1' },
+          { pattern: /完成(.+)/g, replacement: 'Complete $1' },
+          { pattern: /记录(.+)/g, replacement: 'Record $1' },
+          { pattern: /点击(.+)/g, replacement: 'Click $1' },
+          { pattern: /开始(.+)/g, replacement: 'Start $1' },
+          { pattern: /挑战(.+)/g, replacement: 'Challenge $1' },
+          { pattern: /建议(.+)/g, replacement: 'Recommended: $1' },
+          { pattern: /从(.+)开始/g, replacement: 'Start with $1' },
+          { pattern: /到(.+)位置/g, replacement: 'to $1 position' },
+          { pattern: /正确位置/g, replacement: 'the correct position' },
+          { pattern: /拼图片/g, replacement: 'puzzle pieces' },
+          { pattern: /拼图难度/g, replacement: 'puzzle difficulty' },
+          { pattern: /完整图片/g, replacement: 'the complete picture' },
+          { pattern: /更高难度/g, replacement: 'higher difficulty levels' },
+          { pattern: /完成时间/g, replacement: 'completion time' },
+        ];
+        
+        for (const { pattern, replacement } of stepPatterns) {
+          translated = translated.replace(pattern, replacement);
+        }
+      }
+      
+      // 如果还有中文，返回原文本（至少用户能看到内容）
+      if (/[\u4e00-\u9fff]/.test(translated)) {
+        console.warn('Unable to fully translate:', chineseText);
+        return translated;
+      }
+    }
+    
+    return translated;
+  };
+
+  // 解析parent_guidance并生成步骤化的教程
+  const parseParentGuidance = (guidanceText) => {
+    if (!guidanceText) return generateDefaultGuidance();
+    
+    const lines = guidanceText.split('\n').map(line => line.trim()).filter(line => line);
+    if (lines.length === 0) return generateDefaultGuidance();
+    
+    const steps = [];
+    let currentSection = null;
+    let currentSteps = [];
+    let hasContent = false;
+    
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+      let extractedLine = extractTextByLanguage(line);
+      
+      // 如果提取后为空，尝试翻译原文本
+      if (!extractedLine || extractedLine.trim() === '') {
+        if (language === 'en' && /[\u4e00-\u9fff]/.test(line)) {
+          extractedLine = translateToEnglish(line);
+        } else {
+          continue;
+        }
+      }
+      
+      if (!extractedLine || extractedLine.trim() === '') continue;
+      
+      hasContent = true;
+      
+      // 检查是否是标题（以：或:结尾）
+      if (extractedLine.endsWith('：') || extractedLine.endsWith(':')) {
+        // 如果之前有步骤，先保存
+        if (currentSteps.length > 0 && currentSection) {
+          steps.push({ type: 'section', title: currentSection, items: currentSteps });
+          currentSteps = [];
+        }
+        currentSection = extractedLine.replace(/[：:]$/, '').trim();
+        // 如果标题后面没有内容，跳过这个标题
+        if (i === lines.length - 1 || (i < lines.length - 1 && lines[i + 1].trim() === '')) {
+          currentSection = null;
+        }
+      } 
+      // 检查是否是列表项（以-、•、数字开头，或缩进文本）
+      else if (/^[-•\d]/.test(extractedLine) || extractedLine.startsWith('   ') || extractedLine.startsWith('    ')) {
+        const cleanLine = extractedLine.replace(/^[-•\d.\s]+/, '').trim();
+        if (cleanLine) {
+          currentSteps.push(cleanLine);
+        }
+      }
+      // 普通文本，作为步骤
+      else {
+        currentSteps.push(extractedLine);
+      }
+    }
+    
+    // 保存最后的步骤
+    if (currentSteps.length > 0) {
+      if (currentSection) {
+        steps.push({ type: 'section', title: currentSection, items: currentSteps });
+      } else {
+        // 如果没有标题，直接作为步骤
+        currentSteps.forEach(step => {
+          steps.push({ type: 'step', content: step });
+        });
+      }
+    }
+    
+    // 如果只有标题没有内容，或者完全没有解析出内容，生成默认指导
+    if (!hasContent || steps.length === 0 || (steps.length === 1 && steps[0].type === 'section' && steps[0].items.length === 0)) {
+      return generateDefaultGuidance();
+    }
+    
+    return steps;
+  };
+
+  // 生成默认的步骤化指导
+  const generateDefaultGuidance = () => {
+    if (language === 'zh') {
+      return [
+        { type: 'step', content: '准备活动材料，确保环境安静舒适' },
+        { type: 'step', content: '向孩子介绍今天的活动，保持积极正面的语气' },
+        { type: 'step', content: '陪伴孩子完成每个活动，给予鼓励和支持' },
+        { type: 'step', content: '观察孩子的表现，记录完成情况' },
+        { type: 'step', content: '活动结束后，给予孩子积极的反馈和表扬' }
+      ];
+    } else {
+      return [
+        { type: 'step', content: 'Prepare activity materials and ensure a quiet, comfortable environment' },
+        { type: 'step', content: 'Introduce today\'s activities to your child with a positive tone' },
+        { type: 'step', content: 'Accompany your child through each activity, providing encouragement and support' },
+        { type: 'step', content: 'Observe your child\'s performance and record completion status' },
+        { type: 'step', content: 'After activities, provide positive feedback and praise to your child' }
+      ];
+    }
+  };
+
   const parentGuidanceItems = task.parent_guidance
-    ? task.parent_guidance.split('\n').map(line => line.trim()).filter(line => line)
-    : [];
-  const trainingGoal = task.training_goal || task.goal || '保持专注完成今日的趣味任务 · Stay focused and enjoy today\'s fun tasks';
-  const trainingExpectation = task.training_expectation || '预计今日完成 3 个小游戏，保持微笑与专注 · Expected to complete 3 mini games with smiles and focus';
-  const parentWish = task.parent_expectation || '希望孩子在两周内提升课堂专注力，每天保持好心情 · Hope the child improves classroom focus within 2 weeks, staying happy daily';
-  const parentWishDeadline = task.parent_expectation_deadline || '两周内达成小目标 · Achieve small goals within 2 weeks';
-  const focusArea = task.focus_area || task.skill_focus || (task.activities[0]?.focus || '注意力');
+    ? parseParentGuidance(task.parent_guidance)
+    : generateDefaultGuidance();
+  
+  // 处理其他可能包含双语内容的字段
+  const trainingGoal = extractTextByLanguage(task.training_goal || task.goal || (language === 'zh' ? '保持专注完成今日的趣味任务' : 'Stay focused and enjoy today\'s fun tasks'));
+  const trainingExpectation = extractTextByLanguage(task.training_expectation || (language === 'zh' ? '预计今日完成 3 个小游戏，保持微笑与专注' : 'Expected to complete 3 mini games with smiles and focus'));
+  const parentWish = extractTextByLanguage(task.parent_expectation || (language === 'zh' ? '希望孩子在两周内提升课堂专注力，每天保持好心情' : 'Hope the child improves classroom focus within 2 weeks, staying happy daily'));
+  const parentWishDeadline = extractTextByLanguage(task.parent_expectation_deadline || (language === 'zh' ? '两周内达成小目标' : 'Achieve small goals within 2 weeks'));
+  const focusArea = extractTextByLanguage(task.focus_area || task.skill_focus || (task.activities[0]?.focus || (language === 'zh' ? '注意力' : 'Attention')));
   
   // 生成正面的AI评语
   const getPositiveAIPraise = () => {
-    if (task.ai_praise) return task.ai_praise;
+    if (task.ai_praise) return extractTextByLanguage(task.ai_praise);
     
-    const positiveMessages = [
-      '今天的坚持让你更棒，继续加油！· Today\'s persistence makes you amazing, keep it up! 🌟',
-      '你做得很好，每一次尝试都是进步！· You\'re doing great, every attempt is progress! 💪',
-      '太棒了！继续保持这样的努力！· Amazing! Keep up this effort! 👍',
-      '你的努力让我们很骄傲，继续加油！· Your effort makes us proud, keep going! 🎉',
-      '今天表现很棒，明天会更好！· Great performance today, tomorrow will be even better! ⭐'
+    const positiveMessages = language === 'zh' ? [
+      '今天的坚持让你更棒，继续加油！🌟',
+      '你做得很好，每一次尝试都是进步！💪',
+      '太棒了！继续保持这样的努力！👍',
+      '你的努力让我们很骄傲，继续加油！🎉',
+      '今天表现很棒，明天会更好！⭐'
+    ] : [
+      'Today\'s persistence makes you amazing, keep it up! 🌟',
+      'You\'re doing great, every attempt is progress! 💪',
+      'Amazing! Keep up this effort! 👍',
+      'Your effort makes us proud, keep going! 🎉',
+      'Great performance today, tomorrow will be even better! ⭐'
     ];
     return positiveMessages[Math.floor(Math.random() * positiveMessages.length)];
   };
@@ -332,12 +608,51 @@ const DailyTaskPage = () => {
             <h2>{t('parentGuidance')}</h2>
             <p className="guidance-intro">{t('parentGuidanceIntro')}</p>
             <div className="guidance-grid">
-              {parentGuidanceItems.map((item, index) => (
-                <div key={index} className="guidance-card">
-                  <span className="guidance-index">{index + 1}</span>
-                  <p>{item}</p>
-                </div>
-              ))}
+              {parentGuidanceItems.map((item, index) => {
+                if (item.type === 'section') {
+                  // 确保标题在英文模式下被翻译
+                  const sectionTitle = language === 'en' && /[\u4e00-\u9fff]/.test(item.title) 
+                    ? translateToEnglish(item.title) 
+                    : item.title;
+                  
+                  return (
+                    <div key={`section-${index}`} className="guidance-section">
+                      <h3 className="guidance-section-title">{sectionTitle}</h3>
+                      <div className="guidance-section-items">
+                        {item.items.map((step, stepIndex) => {
+                          // 确保步骤内容在英文模式下被翻译
+                          const stepContent = language === 'en' && /[\u4e00-\u9fff]/.test(step)
+                            ? translateToEnglish(step)
+                            : step;
+                          
+                          return (
+                            <div key={stepIndex} className="guidance-card">
+                              <div className="guidance-card-header">
+                                <span className="guidance-index">{stepIndex + 1}</span>
+                              </div>
+                              <p>{stepContent}</p>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  );
+                } else {
+                  // 确保步骤内容在英文模式下被翻译
+                  const stepContent = language === 'en' && /[\u4e00-\u9fff]/.test(item.content)
+                    ? translateToEnglish(item.content)
+                    : item.content;
+                  
+                  return (
+                    <div key={`step-${index}`} className="guidance-card">
+                      <div className="guidance-card-header">
+                        <span className="guidance-index">{index + 1}</span>
+                      </div>
+                      <p>{stepContent}</p>
+                    </div>
+                  );
+                }
+              })}
             </div>
           </div>
         )}
@@ -353,7 +668,14 @@ const DailyTaskPage = () => {
                 <div className="activity-header">
                   <div className="activity-info">
                     <h3>
-                      {activity.name}
+                      {(() => {
+                        let name = extractTextByLanguage(activity.name);
+                        // 确保在英文模式下翻译所有中文内容
+                        if (language === 'en' && /[\u4e00-\u9fff]/.test(name)) {
+                          name = translateToEnglish(name);
+                        }
+                        return name;
+                      })()}
                       {activity.can_play_online && (
                         <span className="online-badge">📱 {t('onlineGame')}</span>
                       )}
@@ -368,25 +690,37 @@ const DailyTaskPage = () => {
                     {activity.completed ? `✓ ${t('completed')}` : t('markComplete')}
                   </button>
                 </div>
-                <p className="activity-description">{activity.description}</p>
+                <p className="activity-description">{(() => {
+                  let desc = extractTextByLanguage(activity.description);
+                  // 确保在英文模式下翻译所有中文内容
+                  if (language === 'en' && /[\u4e00-\u9fff]/.test(desc)) {
+                    desc = translateToEnglish(desc);
+                  }
+                  return desc;
+                })()}</p>
                 
                 {activity.detailed_instructions && (
                   <div className="detailed-instructions">
                     <h4>{t('detailedInstructions')}</h4>
                     <div className="instructions-content">
-                      {activity.detailed_instructions.split('\n').map((step, stepIndex) => (
-                        <p key={stepIndex} className="instruction-step">
-                          {step.trim() && (
-                            <>
-                              {step.trim().startsWith('操作步骤：') || step.trim().startsWith('Steps:') ? (
-                                <strong>{step.trim()}</strong>
-                              ) : (
-                                step.trim()
-                              )}
-                            </>
-                          )}
-                        </p>
-                      ))}
+                      {activity.detailed_instructions.split('\n')
+                        .map(line => {
+                          const trimmed = line.trim();
+                          if (!trimmed) return null;
+                          // 确保在英文模式下翻译所有中文内容
+                          let extracted = extractTextByLanguage(trimmed);
+                          // 如果提取后还有中文，再次翻译
+                          if (language === 'en' && /[\u4e00-\u9fff]/.test(extracted)) {
+                            extracted = translateToEnglish(extracted);
+                          }
+                          return extracted;
+                        })
+                        .filter(line => line)
+                        .map((step, stepIndex) => (
+                          <p key={stepIndex} className="instruction-step">
+                            {step}
+                          </p>
+                        ))}
                     </div>
                   </div>
                 )}

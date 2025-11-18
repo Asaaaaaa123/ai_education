@@ -1,7 +1,11 @@
 import axios from 'axios';
 
 // API base configuration
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8001';
+// If REACT_APP_API_URL is set (including empty string), use it
+// Otherwise default to localhost:8001 for development
+const API_BASE_URL = process.env.REACT_APP_API_URL !== undefined 
+  ? process.env.REACT_APP_API_URL 
+  : 'http://localhost:8001';
 
 // Create axios instance
 const apiClient = axios.create({
@@ -24,7 +28,20 @@ apiClient.interceptors.request.use(
       config.headers.Authorization = `Bearer ${token}`;
     }
     
+    // Add language preference header for i18n support
+    const language = localStorage.getItem('language') || 'en';
+    config.headers['X-Language'] = language;
+    // Also set Accept-Language header (standard HTTP header)
+    config.headers['Accept-Language'] = language === 'zh' ? 'zh-CN,zh;q=0.9' : 'en-US,en;q=0.9';
+    
+    // Debug logging
     console.log(`API Request: ${config.method?.toUpperCase()} ${config.url}`);
+    console.log('Language headers:', {
+      'X-Language': config.headers['X-Language'],
+      'Accept-Language': config.headers['Accept-Language'],
+      'All headers': config.headers
+    });
+    
     return config;
   },
   (error) => {
@@ -114,6 +131,7 @@ export const api = {
   // ==================== 新的计划管理API ====================
   // 孩子信息管理
   createChild: (data) => apiClient.post('/api/plans/children', data),
+  getChildren: () => apiClient.get('/api/plans/children'),
   getChild: (childId) => apiClient.get(`/api/plans/children/${childId}`),
   
   // 测试结果

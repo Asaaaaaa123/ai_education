@@ -14,6 +14,7 @@ const TrainingPlanPage = () => {
   const [progress, setProgress] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [, setCurrentDay] = useState(null);
 
   const handleLogout = () => {
     if (window.confirm('Are you sure you want to logout? Your session will be cleared.')) {

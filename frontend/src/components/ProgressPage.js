@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../utils/i18n';
-import apiClient from '../utils/apiClient';
+import { api } from '../utils/apiClient';
 import './ProgressPage.css';
 
 const ProgressPage = () => {
@@ -62,7 +62,7 @@ const ProgressPage = () => {
       }
       
       // 然后从API加载最新数据
-      const response = await apiClient.get('/api/plans/children');
+      const response = await api.getChildren();
       if (response.data.success) {
         const childrenList = response.data.data.children || [];
         setChildren(childrenList);
@@ -109,8 +109,8 @@ const ProgressPage = () => {
       
       // 然后从API加载最新数据
       const childId = selectedChild.child_id || selectedChild.id;
-      const plansResponse = await apiClient.get(`/api/plans/children/${childId}/plans`);
-      const testResultsResponse = await apiClient.get(`/api/plans/children/${childId}/test-results`);
+      const plansResponse = await api.getChildPlans(childId);
+      const testResultsResponse = await api.getTestResults(childId);
       
       if (plansResponse.data.success && testResultsResponse.data.success) {
         const childPlans = plansResponse.data.data.plans || [];
@@ -482,7 +482,7 @@ const ProgressPage = () => {
                         <span className="bar-value">{point.score}</span>
                       </div>
                       <div className="bar-label">
-                        {new Date(point.date).toLocaleDateString('zh-CN', { month: 'short', day: 'numeric' })}
+                        {new Date(point.date).toLocaleDateString(language === 'zh' ? 'zh-CN' : 'en-US', { month: 'short', day: 'numeric' })}
                       </div>
                     </div>
                   </div>

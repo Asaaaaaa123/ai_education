@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useLanguage } from '../utils/i18n';
 import AgeAdaptiveGame from './AgeAdaptiveGame';
 import './TestAgeAdaptive.css';
 
 const TestAgeAdaptive = () => {
+  const { t } = useLanguage();
   const [selectedAge, setSelectedAge] = useState(5);
   const [showGame, setShowGame] = useState(false);
   const [gameResults, setGameResults] = useState(null);
@@ -29,10 +31,10 @@ const TestAgeAdaptive = () => {
         <div className="test-header">
           <button className="btn btn-outline" onClick={handleBackToSelection}>
             <i className="fas fa-arrow-left"></i>
-            Back to Age Selection
+            {t('backToAgeSelection')}
           </button>
-          <h2>Age-Adaptive Game Test</h2>
-          <span className="age-display">Current Age: {selectedAge} years old</span>
+          <h2>{t('ageAdaptiveGameTest')}</h2>
+          <span className="age-display">{t('currentAge')}: {selectedAge} {t('yearsOld')}</span>
         </div>
         
         <AgeAdaptiveGame 
@@ -46,12 +48,12 @@ const TestAgeAdaptive = () => {
   return (
     <div className="test-age-adaptive">
       <div className="test-header">
-        <h1>Age-Adaptive Game Test</h1>
-        <p>Select different ages to test game adaptation effects</p>
+        <h1>{t('ageAdaptiveGameTest')}</h1>
+        <p>{t('selectDifferentAges')}</p>
       </div>
 
       <div className="age-selection">
-        <h3>Select Test Age</h3>
+        <h3>{t('selectTestAge')}</h3>
         <div className="age-options">
           {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(age => (
             <button
@@ -59,41 +61,41 @@ const TestAgeAdaptive = () => {
               className={`age-option ${selectedAge === age ? 'selected' : ''}`}
               onClick={() => setSelectedAge(age)}
             >
-              {age} years old
+              {age} {t('yearsOld')}
             </button>
           ))}
         </div>
 
         <div className="age-info">
-          <h4>Age Group Information</h4>
+          <h4>{t('ageGroupInformation')}</h4>
           <div className="age-group-info">
             <div className="age-group">
-              <span className="age-range">0-3 years</span>
-              <span className="group-name">Toddler Group</span>
-              <span className="game-types">Color matching, sound games</span>
+              <span className="age-range">0-3 {t('yearsOld')}</span>
+              <span className="group-name">{t('toddlerGroup')}</span>
+              <span className="game-types">{t('colorMatchingSoundGames')}</span>
             </div>
             <div className="age-group">
-              <span className="age-range">4-6 years</span>
-              <span className="group-name">Kindergarten Group</span>
-              <span className="game-types">Shape classification, number games, memory matching</span>
+              <span className="age-range">4-6 {t('yearsOld')}</span>
+              <span className="group-name">{t('kindergartenGroup')}</span>
+              <span className="game-types">{t('shapeClassificationNumberGames')}</span>
             </div>
             <div className="age-group">
-              <span className="age-range">7+ years</span>
-              <span className="group-name">Elementary Group</span>
-              <span className="game-types">Pattern completion, word building, logical reasoning</span>
+              <span className="age-range">7+ {t('yearsOld')}</span>
+              <span className="group-name">{t('elementaryGroup')}</span>
+              <span className="game-types">{t('patternCompletionWordBuilding')}</span>
             </div>
           </div>
         </div>
 
         <button className="btn btn-primary btn-large" onClick={handleStartGame}>
           <i className="fas fa-play"></i>
-          Start Game Test
+          {t('startGameTest')}
         </button>
       </div>
 
       {gameResults && (
         <div className="results-display">
-          <h3>Test Results</h3>
+          <h3>{t('testResults')}</h3>
           <div className="results-content">
             <pre>{JSON.stringify(gameResults, null, 2)}</pre>
           </div>
