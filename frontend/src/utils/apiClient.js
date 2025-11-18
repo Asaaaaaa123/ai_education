@@ -9,6 +9,11 @@ const API_BASE_URL = process.env.REACT_APP_API_URL ||
     ? `http://${window.location.hostname}:8001`
     : 'http://localhost:8001');
 
+// Debug logging
+console.log('API Base URL:', API_BASE_URL);
+console.log('REACT_APP_API_URL:', process.env.REACT_APP_API_URL);
+console.log('Window hostname:', typeof window !== 'undefined' ? window.location.hostname : 'N/A');
+
 // Create axios instance
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
