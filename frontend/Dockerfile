@@ -7,7 +7,9 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm ci
+# Using npm install instead of npm ci to handle lock file sync issues
+# This will automatically resolve version conflicts and update the lock file
+RUN npm install --legacy-peer-deps
 
 # Copy source code
 COPY . .

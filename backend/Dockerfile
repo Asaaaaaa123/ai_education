@@ -2,11 +2,17 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
+# Set non-interactive frontend for debconf to suppress warnings
+ENV DEBIAN_FRONTEND=noninteractive
+
 # Install system dependencies
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc \
     curl \
     && rm -rf /var/lib/apt/lists/*
+
+# Reset DEBIAN_FRONTEND to default for runtime
+ENV DEBIAN_FRONTEND=dialog
 
 # Copy requirements first for better caching
 COPY requirements.txt .
