@@ -1,10 +1,13 @@
 import axios from 'axios';
 
 // API base configuration
-// In Docker: use backend service name (http://backend:8001)
+// In Docker: use the current hostname with backend port
 // In local dev: use localhost:8001
 // If REACT_APP_API_URL is explicitly set, use it
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8001';
+const API_BASE_URL = process.env.REACT_APP_API_URL ||
+  (typeof window !== 'undefined' && window.location.hostname !== 'localhost'
+    ? `http://${window.location.hostname}:8001`
+    : 'http://localhost:8001');
 
 // Create axios instance
 const apiClient = axios.create({
