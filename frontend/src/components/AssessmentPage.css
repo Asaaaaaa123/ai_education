@@ -1,0 +1,1202 @@
+/* Assessment Page Styles */
+.assessment-page {
+  min-height: 100vh;
+  background: var(--gray-50);
+}
+
+.assessment-nav {
+  background: var(--white);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+  padding: 1rem 0;
+}
+
+.progress-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.progress-bar {
+  width: 200px;
+  height: 8px;
+  background: var(--gray-200);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(135deg, var(--primary-pink), var(--primary-pink-dark));
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  font-size: 0.9rem;
+  color: var(--text-medium);
+  font-weight: 500;
+}
+
+.assessment-main {
+  padding: 2rem 0;
+}
+
+.assessment-card {
+  background: var(--white);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.step-content {
+  margin-bottom: 2rem;
+}
+
+.step-content h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 1rem;
+}
+
+.step-content p {
+  font-size: 1.1rem;
+  color: var(--text-medium);
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+/* Age Options */
+.age-options {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.3rem;
+  justify-content: center;
+  margin-bottom: 1rem;
+  overflow-x: auto;
+  padding: 0.5rem 0;
+}
+
+.age-option {
+  border: 2px solid var(--gray-200);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--white);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: bold;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.age-option:hover {
+  border-color: var(--primary-pink);
+  transform: scale(1.1);
+}
+
+.age-option.selected {
+  border-color: var(--primary-pink);
+  background: var(--primary-pink-light);
+  box-shadow: 0 5px 15px rgba(229, 62, 62, 0.2);
+  transform: scale(1.1);
+}
+
+/* 为不同年龄设置不同的粉色深浅 */
+.age-option[data-age="0"] {
+  background: #fdf2f8;
+  border-color: #fdf2f8;
+  color: #831843;
+}
+
+.age-option[data-age="1"] {
+  background: #fce7f3;
+  border-color: #fce7f3;
+  color: #831843;
+}
+
+.age-option[data-age="2"] {
+  background: #fbcfe8;
+  border-color: #fbcfe8;
+  color: #831843;
+}
+
+.age-option[data-age="3"] {
+  background: #f9a8d4;
+  border-color: #f9a8d4;
+  color: #831843;
+}
+
+.age-option[data-age="4"] {
+  background: #f472b6;
+  border-color: #f472b6;
+  color: white;
+}
+
+.age-option[data-age="5"] {
+  background: #ec4899;
+  border-color: #ec4899;
+  color: white;
+}
+
+.age-option[data-age="6"] {
+  background: #db2777;
+  border-color: #db2777;
+  color: white;
+}
+
+.age-option[data-age="7"] {
+  background: #be185d;
+  border-color: #be185d;
+  color: white;
+}
+
+.age-option[data-age="8"] {
+  background: #9d174d;
+  border-color: #9d174d;
+  color: white;
+}
+
+.age-option[data-age="9"] {
+  background: #831843;
+  border-color: #831843;
+  color: white;
+}
+
+.age-option[data-age="10"] {
+  background: #701a75;
+  border-color: #701a75;
+  color: white;
+}
+
+.age-option[data-age="11"] {
+  background: #581c87;
+  border-color: #581c87;
+  color: white;
+}
+
+.age-option[data-age="12"] {
+  background: #500724;
+  border-color: #500724;
+  color: white;
+}
+
+
+
+/* Subjects Section */
+.subjects-section {
+  margin-bottom: 2rem;
+}
+
+.subjects-section h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 1.5rem;
+}
+
+.subjects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.subject-item {
+  padding: 1.5rem;
+  background: var(--gray-50);
+  border-radius: 12px;
+  border: 2px solid var(--gray-200);
+}
+
+.subject-item label {
+  display: block;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 1rem;
+}
+
+/* Star Rating */
+.star-rating {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.star {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: var(--gray-300);
+  cursor: pointer;
+  transition: color 0.3s ease;
+  padding: 0;
+  line-height: 1;
+}
+
+.star:hover,
+.star.filled {
+  color: var(--primary-pink);
+}
+
+.star.filled {
+  animation: starPop 0.3s ease;
+}
+
+@keyframes starPop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+/* Checkbox Groups */
+.checkbox-group {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+.checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--gray-50);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.checkbox-item:hover {
+  background: var(--primary-pink-light);
+  border-color: var(--primary-pink);
+}
+
+.checkbox-item input[type="checkbox"] {
+  display: none;
+}
+
+.checkmark {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--gray-300);
+  border-radius: 4px;
+  position: relative;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.checkbox-item input[type="checkbox"]:checked + .checkmark {
+  background: var(--primary-pink);
+  border-color: var(--primary-pink);
+}
+
+.checkbox-item input[type="checkbox"]:checked + .checkmark::after {
+  content: "✓";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--white);
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.checkbox-item input[type="checkbox"]:checked ~ span {
+  color: var(--text-dark);
+  font-weight: 500;
+}
+
+/* Form Hints */
+.form-hint {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  margin-bottom: 1rem;
+  font-style: italic;
+}
+
+/* Step Navigation */
+.step-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--gray-200);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .assessment-card {
+    margin: 0 1rem;
+    padding: 1.5rem;
+  }
+  
+  .step-content h2 {
+    font-size: 1.8rem;
+  }
+  
+  .age-options {
+    gap: 0.2rem;
+  }
+  
+  .age-option {
+    width: 35px;
+    height: 35px;
+    font-size: 0.9rem;
+  }
+  
+  .subjects-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .checkbox-group {
+    grid-template-columns: 1fr;
+  }
+  
+  .step-navigation {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .step-navigation .btn {
+    width: 100%;
+    font-size: 0.9rem;
+    padding: 0.8rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .assessment-card {
+    padding: 1rem;
+  }
+  
+  .step-content h2 {
+    font-size: 1.6rem;
+  }
+  
+  .star {
+    font-size: 1.5rem;
+  }
+  
+  .age-option {
+    padding: 1rem;
+  }
+  
+  .subject-item {
+    padding: 1rem;
+  }
+}
+
+/* Loading States */
+.loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+/* Form Validation */
+.form-input.error {
+  border-color: #e53e3e;
+  box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.1);
+}
+
+.error-message {
+  color: #e53e3e;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+/* Success States */
+.success-message {
+  color: #38a169;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+/* 发育里程碑评估样式 */
+.gender-options {
+  display: flex;
+  gap: 2rem;
+  margin-top: 0.5rem;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.radio-option:hover {
+  background-color: var(--gray-100);
+}
+
+.radio-option input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--primary-pink);
+}
+
+.date-inputs {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.date-input {
+  flex: 1;
+  text-align: center;
+}
+
+.milestone-section {
+  margin-bottom: 2rem;
+}
+
+.milestone-section h3 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--primary-pink);
+}
+
+.milestone-item {
+  background: var(--gray-50);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--gray-200);
+  transition: all 0.3s ease;
+}
+
+.milestone-item:hover {
+  border-color: var(--primary-pink);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.milestone-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.age-group {
+  background: var(--primary-pink);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.standard {
+  color: var(--text-medium);
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+.milestone-text {
+  font-size: 1rem;
+  color: var(--text-dark);
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.milestone-options {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.milestone-options .radio-option {
+  background: white;
+  border: 1px solid var(--gray-300);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  min-width: 120px;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.milestone-options .radio-option:hover {
+  border-color: var(--primary-pink);
+  background: var(--primary-pink-light);
+}
+
+.milestone-options .radio-option input[type="radio"]:checked + span {
+  color: var(--primary-pink);
+  font-weight: 600;
+}
+
+.concern-options {
+  display: flex;
+  gap: 2rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .date-inputs {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .milestone-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .milestone-options {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .milestone-options .radio-option {
+    min-width: auto;
+    justify-content: flex-start;
+  }
+  
+  .gender-options {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .concern-options {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+/* 年龄组选择样式 */
+.age-group-selection {
+  display: flex;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.age-group-card {
+  flex: 1;
+  background: var(--white);
+  border: 2px solid var(--gray-200);
+  border-radius: 16px;
+  padding: 2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.age-group-card:hover {
+  border-color: var(--primary-pink);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.age-group-icon {
+  font-size: 3rem;
+  color: var(--primary-pink);
+  margin-bottom: 1rem;
+}
+
+.age-group-card h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 0.5rem;
+}
+
+.age-group-card p {
+  color: var(--text-medium);
+  margin-bottom: 1.5rem;
+}
+
+.age-group-card ul {
+  text-align: left;
+  list-style: none;
+  padding: 0;
+}
+
+.age-group-card li {
+  padding: 0.5rem 0;
+  color: var(--text-medium);
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.age-group-card li:before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--primary-pink);
+  font-weight: bold;
+}
+
+/* 5-12岁评估样式 */
+.rating-scale {
+  display: flex;
+  justify-content: space-between;
+  background: var(--gray-50);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.scale-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-width: 80px;
+}
+
+.scale-number {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--primary-pink);
+  margin-bottom: 0.25rem;
+}
+
+.scale-label {
+  font-size: 0.8rem;
+  color: var(--text-medium);
+  line-height: 1.2;
+}
+
+.assessment-section {
+  margin-bottom: 2rem;
+}
+
+.assessment-item {
+  background: var(--gray-50);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--gray-200);
+  transition: all 0.3s ease;
+}
+
+.assessment-item:hover {
+  border-color: var(--primary-pink);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.assessment-header {
+  margin-bottom: 1rem;
+}
+
+.age-ref {
+  background: var(--primary-pink);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.assessment-text {
+  font-size: 1rem;
+  color: var(--text-dark);
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.assessment-options {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.assessment-options .radio-option {
+  background: white;
+  border: 1px solid var(--gray-300);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  min-width: 60px;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.assessment-options .radio-option:hover {
+  border-color: var(--primary-pink);
+  background: var(--primary-pink-light);
+}
+
+.assessment-options .radio-option input[type="radio"]:checked + span {
+  color: var(--primary-pink);
+  font-weight: 600;
+}
+
+.assessor-options {
+  display: flex;
+  gap: 2rem;
+  margin-top: 0.5rem;
+}
+
+.behavior-section {
+  margin-bottom: 2rem;
+}
+
+.behavior-section h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 1.5rem;
+}
+
+.behavior-issues {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.scoring-guide {
+  background: var(--gray-50);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-top: 1rem;
+}
+
+.scoring-guide h4 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 1rem;
+}
+
+.score-levels {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.score-level {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  background: white;
+  border-radius: 8px;
+  border-left: 4px solid var(--primary-pink);
+}
+
+.score-range {
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.score-description {
+  color: var(--text-medium);
+  text-align: right;
+  max-width: 60%;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .age-group-selection {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .rating-scale {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .scale-item {
+    flex-direction: row;
+    justify-content: space-between;
+    min-width: auto;
+  }
+  
+  .assessment-options {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .assessment-options .radio-option {
+    min-width: auto;
+    justify-content: flex-start;
+  }
+  
+  .assessor-options {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .score-level {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .score-description {
+    max-width: 100%;
+    text-align: left;
+  }
+} 
+
+/* Assessment Modes */
+.assessment-modes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.mode-card {
+  background: var(--white);
+  border: 2px solid var(--gray-200);
+  border-radius: 16px;
+  padding: 2rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.mode-card:hover {
+  border-color: var(--primary-pink);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.mode-card.selected {
+  border-color: var(--primary-pink);
+  background: var(--primary-pink-lighter);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.mode-icon {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, var(--primary-pink) 0%, var(--primary-pink-dark) 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+}
+
+.mode-icon i {
+  font-size: 2rem;
+  color: var(--white);
+}
+
+.mode-card h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 1rem;
+}
+
+.mode-card p {
+  color: var(--text-medium);
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.mode-card ul {
+  text-align: left;
+  list-style: none;
+  padding: 0;
+}
+
+.mode-card li {
+  padding: 0.5rem 0;
+  color: var(--text-medium);
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.mode-card li:before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--primary-pink);
+  font-weight: bold;
+}
+
+/* Interactive Games */
+.interactive-games {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.game-card {
+  background: var(--white);
+  border: 2px solid var(--gray-200);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.game-card:hover {
+  border-color: var(--primary-pink);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.game-icon {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, var(--primary-pink) 0%, var(--primary-pink-dark) 100%);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+}
+
+.game-icon i {
+  font-size: 1.5rem;
+  color: var(--white);
+}
+
+.game-card h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 0.5rem;
+}
+
+.game-card p {
+  color: var(--text-medium);
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.game-note {
+  background: var(--primary-pink-lighter);
+  border: 1px solid var(--primary-pink-light);
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.game-note i {
+  color: var(--primary-pink);
+  font-size: 1.2rem;
+  margin-top: 0.2rem;
+  flex-shrink: 0;
+}
+
+.game-note p {
+  color: var(--text-medium);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Form Textarea */
+.form-textarea {
+  width: 100%;
+  padding: 1rem;
+  border: 2px solid var(--gray-200);
+  border-radius: 12px;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: all 0.3s ease;
+  background: var(--white);
+  resize: vertical;
+  min-height: 100px;
+}
+
+.form-textarea:focus {
+  outline: none;
+  border-color: var(--primary-pink);
+  box-shadow: 0 0 0 3px var(--primary-pink-light);
+}
+
+.form-textarea::placeholder {
+  color: var(--text-light);
+}
+
+/* Responsive Design for Assessment Modes */
+@media (max-width: 768px) {
+  .assessment-modes {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .mode-card {
+    padding: 1.5rem;
+  }
+  
+  .interactive-games {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .game-card {
+    padding: 1rem;
+  }
+  
+  .game-note {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
+  }
+} 
+
+/* Game Container and Placeholder */
+.game-container {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.game-container h2 {
+  color: var(--text-dark);
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.game-container p {
+  color: var(--text-medium);
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+.game-placeholder {
+  background: var(--gray-50);
+  border: 2px dashed var(--gray-300);
+  border-radius: 12px;
+  padding: 3rem 2rem;
+  margin: 2rem 0;
+}
+
+.game-placeholder i {
+  font-size: 4rem;
+  color: var(--primary-pink);
+  margin-bottom: 1rem;
+}
+
+.game-placeholder p {
+  color: var(--text-medium);
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.game-placeholder .btn {
+  font-size: 1.1rem;
+  padding: 0.75rem 2rem;
+} 
+
+/* Game Frame Container */
+.game-frame-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.game-iframe {
+  width: 100%;
+  height: 500px;
+  border: 2px solid var(--gray-200);
+  border-radius: 12px;
+  background: var(--white);
+}
+
+.game-controls {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* External Game Info */
+.external-game-info {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: var(--gray-50);
+  border: 2px dashed var(--gray-300);
+  border-radius: 12px;
+  margin: 2rem 0;
+}
+
+.external-game-icon {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, var(--primary-pink) 0%, var(--primary-pink-dark) 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+}
+
+.external-game-icon i {
+  font-size: 2rem;
+  color: var(--white);
+}
+
+.external-game-info h3 {
+  color: var(--text-dark);
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.external-game-info p {
+  color: var(--text-medium);
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+.external-game-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Responsive Design for Game Components */
+@media (max-width: 768px) {
+  .game-iframe {
+    height: 400px;
+  }
+  
+  .game-controls,
+  .external-game-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .game-controls .btn,
+  .external-game-actions .btn {
+    width: 100%;
+    max-width: 200px;
+  }
+  
+  .external-game-info {
+    padding: 2rem 1rem;
+  }
+} 

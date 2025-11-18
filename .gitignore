@@ -1,0 +1,104 @@
+# ==================== Node.js / Frontend ====================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+lerna-debug.log*
+
+# Frontend build output
+frontend/build/
+frontend/dist/
+frontend/.cache/
+frontend/.eslintcache
+frontend/.npm/
+
+# ==================== Python / Backend ====================
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual Environment
+backend/venv/
+venv/
+ENV/
+env/
+.venv/
+
+# Python cache
+.pytest_cache/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Python models and data files
+backend/models/*.pth
+backend/models/*.pt
+backend/models/*.ckpt
+backend/data/
+*.pkl
+*.pickle
+
+# ==================== Environment Variables ====================
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.development
+.env.test
+.env.production
+
+# ==================== IDE / Editor ====================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.cursor/
+.cursorrules
+.cursorignore
+.cursorignorerules*
+*.code-workspace
+
+# ==================== OS Files ====================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# ==================== Logs ====================
+*.log
+logs/
+*.log.*
+
+# ==================== Temporary Files ====================
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*~
+
+# ==================== Coverage / Testing ====================
+coverage/
+.nyc_output/
+*.coverage
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# ==================== Package Files ====================
+# Uncomment if you don't want to commit lock files
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+venv

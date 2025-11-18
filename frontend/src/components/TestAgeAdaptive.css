@@ -1,0 +1,251 @@
+/* 年龄适应性游戏测试页面样式 */
+.test-age-adaptive {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.test-age-adaptive::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, #ff6b9d, #c44569, #f8b500, #4ecdc4, #45b7d1);
+  border-radius: 20px 20px 0 0;
+}
+
+.test-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  position: relative;
+}
+
+.test-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #ff6b9d, #c44569);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.test-header h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #2d3748;
+}
+
+.test-header p {
+  font-size: 1.2rem;
+  color: #4a5568;
+  margin-bottom: 1rem;
+}
+
+.age-display {
+  background: linear-gradient(135deg, #4ecdc4, #45b7d1);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.age-selection {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.age-selection h3 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: #2d3748;
+}
+
+.age-options {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+
+.age-option {
+  background: white;
+  border: 3px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 1rem 1.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2d3748;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.age-option:hover {
+  transform: translateY(-3px);
+  border-color: #4ecdc4;
+  box-shadow: 0 8px 25px rgba(78, 205, 196, 0.3);
+}
+
+.age-option.selected {
+  background: linear-gradient(135deg, #4ecdc4, #45b7d1);
+  color: white;
+  border-color: #4ecdc4;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(78, 205, 196, 0.3);
+}
+
+.age-info {
+  background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+  border-radius: 20px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  border: 3px solid #e2e8f0;
+}
+
+.age-info h4 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #2d3748;
+  text-align: center;
+}
+
+.age-group-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.age-group {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border: 2px solid #e2e8f0;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.age-group:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.age-range {
+  display: block;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #4ecdc4;
+  margin-bottom: 0.5rem;
+}
+
+.group-name {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 1rem;
+}
+
+.game-types {
+  display: block;
+  font-size: 0.9rem;
+  color: #4a5568;
+  line-height: 1.5;
+}
+
+.btn-large {
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.results-display {
+  background: linear-gradient(135deg, #fff5f7, #fed7e2);
+  border-radius: 16px;
+  padding: 2rem;
+  border: 2px solid #ff6b9d;
+  margin-top: 2rem;
+}
+
+.results-display h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #2d3748;
+  text-align: center;
+}
+
+.results-content {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  overflow-x: auto;
+}
+
+.results-content pre {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #2d3748;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .test-age-adaptive {
+    padding: 1rem;
+    margin: 1rem;
+  }
+
+  .test-header h1 {
+    font-size: 2rem;
+  }
+
+  .test-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .age-options {
+    gap: 0.5rem;
+  }
+
+  .age-option {
+    padding: 0.8rem 1rem;
+    font-size: 1rem;
+  }
+
+  .age-group-info {
+    grid-template-columns: 1fr;
+  }
+
+  .age-group {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .test-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .age-options {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .age-option {
+    width: 200px;
+  }
+} 

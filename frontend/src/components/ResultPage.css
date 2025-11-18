@@ -1,0 +1,435 @@
+/* Result Page Styles */
+.result-page {
+  min-height: 100vh;
+  background: var(--gray-50);
+}
+
+.result-nav {
+  background: var(--white);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+  padding: 1rem 0;
+}
+
+.result-main {
+  padding: 2rem 0;
+}
+
+.result-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background: var(--white);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.result-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 1rem;
+}
+
+.result-header p {
+  font-size: 1.1rem;
+  color: var(--text-medium);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.result-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.result-section {
+  background: var(--white);
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.result-section h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 1.5rem;
+  border-bottom: 3px solid var(--primary-pink);
+  padding-bottom: 0.5rem;
+}
+
+/* Child Information */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.info-item {
+  padding: 1rem;
+  background: var(--gray-50);
+  border-radius: 8px;
+  border-left: 4px solid var(--primary-pink);
+}
+
+.info-item strong {
+  color: var(--primary-pink);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+/* Academic Performance */
+.subjects-analysis {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.subject-score {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.subject-score label {
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.score-bar {
+  width: 100%;
+  height: 30px;
+  background: var(--gray-200);
+  border-radius: 15px;
+  overflow: hidden;
+  position: relative;
+}
+
+.score-fill {
+  height: 100%;
+  background: linear-gradient(135deg, var(--primary-pink), var(--primary-pink-dark));
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: width 1s ease;
+}
+
+/* Challenges */
+.challenges-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.challenge-category {
+  padding: 1.5rem;
+  background: var(--gray-50);
+  border-radius: 12px;
+  border-left: 4px solid var(--primary-pink);
+}
+
+.challenge-category h3 {
+  color: var(--primary-pink);
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+.challenge-category ul {
+  list-style: none;
+  padding: 0;
+}
+
+.challenge-category li {
+  padding: 0.5rem 0;
+  color: var(--text-medium);
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.challenge-category li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--primary-pink);
+  font-weight: bold;
+}
+
+/* Recommendations */
+.recommendations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.recommendation-card {
+  padding: 2rem;
+  background: var(--gray-50);
+  border-radius: 16px;
+  border: 2px solid var(--primary-pink-light);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.recommendation-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(229, 62, 62, 0.2);
+}
+
+.recommendation-icon {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, var(--primary-pink), var(--primary-pink-dark));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.recommendation-icon i {
+  font-size: 1.5rem;
+  color: var(--white);
+}
+
+.recommendation-card h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 1rem;
+}
+
+.recommendation-card ul {
+  list-style: none;
+  padding: 0;
+}
+
+.recommendation-card li {
+  padding: 0.5rem 0;
+  color: var(--text-medium);
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.recommendation-card li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--primary-pink);
+  font-weight: bold;
+}
+
+/* Next Steps */
+.next-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.step-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background: var(--gray-50);
+  border-radius: 12px;
+  border-left: 4px solid var(--primary-pink);
+}
+
+.step-number {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, var(--primary-pink), var(--primary-pink-dark));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  font-weight: 700;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.step-content h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 0.5rem;
+}
+
+.step-content p {
+  color: var(--text-medium);
+  line-height: 1.6;
+}
+
+/* Result Actions */
+.result-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 3rem;
+  flex-wrap: wrap;
+}
+
+/* Loading and Error States */
+.loading-container,
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  text-align: center;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid var(--gray-200);
+  border-top: 4px solid var(--primary-pink);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.error-container h2 {
+  color: var(--text-dark);
+  margin-bottom: 1rem;
+}
+
+.error-container p {
+  color: var(--text-medium);
+  margin-bottom: 2rem;
+}
+
+/* Interactive Game Results */
+.interactive-game-results {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.game-summary h3 {
+  color: var(--text-dark);
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.game-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.game-stats .stat-item {
+  background: var(--gray-50);
+  padding: 1rem;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.game-stats .stat-label {
+  color: var(--text-medium);
+  font-weight: 500;
+}
+
+.game-stats .stat-value {
+  color: var(--text-dark);
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.game-analysis {
+  border-top: 2px solid var(--gray-200);
+  padding-top: 2rem;
+}
+
+.game-analysis h3 {
+  color: var(--text-dark);
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.analysis-content p {
+  color: var(--text-medium);
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .result-header h1 {
+    font-size: 2rem;
+  }
+  
+  .result-section {
+    padding: 1.5rem;
+  }
+  
+  .recommendations-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .challenges-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .result-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .step-item {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .result-header h1 {
+    font-size: 1.8rem;
+  }
+  
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .score-bar {
+    height: 25px;
+  }
+  
+  .score-fill {
+    font-size: 0.8rem;
+  }
+} 
+
+/* Responsive Design for Game Results */
+@media (max-width: 768px) {
+  .game-stats {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  
+  .game-stats .stat-item {
+    padding: 0.75rem;
+  }
+  
+  .interactive-game-results {
+    padding: 1.5rem;
+  }
+} 

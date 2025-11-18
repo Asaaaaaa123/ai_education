@@ -1,0 +1,516 @@
+/* 全局样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+}
+
+/* 导航栏 */
+.navbar {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 1rem 0;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-logo a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #6366f1;
+}
+
+.nav-logo i {
+    margin-right: 0.5rem;
+    font-size: 1.8rem;
+}
+
+/* 进度指示器 */
+.progress-indicator {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.progress-text {
+    font-weight: 600;
+    color: #6366f1;
+    white-space: nowrap;
+}
+
+.progress-bar {
+    width: 200px;
+    height: 8px;
+    background: #e2e8f0;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(45deg, #6366f1, #8b5cf6);
+    border-radius: 4px;
+    transition: width 0.3s ease;
+    width: 33.33%;
+}
+
+/* 主容器 */
+.assessment-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 20px;
+}
+
+.assessment-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    animation: slideUp 0.6s ease;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card-header {
+    background: linear-gradient(45deg, #6366f1, #8b5cf6);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+.card-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.card-header p {
+    opacity: 0.9;
+    font-size: 1.1rem;
+}
+
+/* 表单样式 */
+.assessment-form {
+    padding: 2rem;
+}
+
+.form-step {
+    display: none;
+    animation: fadeIn 0.5s ease;
+}
+
+.form-step.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.form-step h2 {
+    color: #1e293b;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.form-step h2 i {
+    color: #6366f1;
+}
+
+.form-group {
+    margin-bottom: 2rem;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+.form-group input[type="text"],
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    font-family: inherit;
+}
+
+.form-group input[type="text"]:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* 年龄选择 */
+.age-options {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0.3rem;
+    justify-content: center;
+    overflow-x: auto;
+    padding: 0.5rem 0;
+}
+
+.age-option {
+    border: 2px solid #e5e7eb;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: white;
+    font-weight: bold;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.age-option:hover {
+    border-color: #ec4899;
+    transform: scale(1.1);
+    box-shadow: 0 5px 15px rgba(236, 72, 153, 0.2);
+}
+
+.age-option.selected {
+    border-color: #ec4899;
+    background: linear-gradient(45deg, #ec4899, #be185d);
+    color: white;
+    transform: scale(1.1);
+    box-shadow: 0 8px 25px rgba(236, 72, 153, 0.3);
+}
+
+/* 为不同年龄设置不同的粉色深浅 */
+.age-option[data-age="0"] {
+    background: #fdf2f8;
+    border-color: #fdf2f8;
+    color: #831843;
+}
+
+.age-option[data-age="1"] {
+    background: #fce7f3;
+    border-color: #fce7f3;
+    color: #831843;
+}
+
+.age-option[data-age="2"] {
+    background: #fbcfe8;
+    border-color: #fbcfe8;
+    color: #831843;
+}
+
+.age-option[data-age="3"] {
+    background: #f9a8d4;
+    border-color: #f9a8d4;
+    color: #831843;
+}
+
+.age-option[data-age="4"] {
+    background: #f472b6;
+    border-color: #f472b6;
+    color: white;
+}
+
+.age-option[data-age="5"] {
+    background: #ec4899;
+    border-color: #ec4899;
+    color: white;
+}
+
+.age-option[data-age="6"] {
+    background: #db2777;
+    border-color: #db2777;
+    color: white;
+}
+
+.age-option[data-age="7"] {
+    background: #be185d;
+    border-color: #be185d;
+    color: white;
+}
+
+.age-option[data-age="8"] {
+    background: #9d174d;
+    border-color: #9d174d;
+    color: white;
+}
+
+.age-option[data-age="9"] {
+    background: #831843;
+    border-color: #831843;
+    color: white;
+}
+
+.age-option[data-age="10"] {
+    background: #701a75;
+    border-color: #701a75;
+    color: white;
+}
+
+.age-option[data-age="11"] {
+    background: #581c87;
+    border-color: #581c87;
+    color: white;
+}
+
+.age-option[data-age="12"] {
+    background: #500724;
+    border-color: #500724;
+    color: white;
+}
+
+
+
+.age-option span {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+/* 科目评分 */
+.subject-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.subject-item {
+    text-align: center;
+}
+
+.subject-item label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #374151;
+}
+
+.rating-stars {
+    display: flex;
+    justify-content: center;
+    gap: 0.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.rating-stars i {
+    font-size: 1.5rem;
+    color: #d1d5db;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.rating-stars i:hover,
+.rating-stars i.active {
+    color: #fbbf24;
+}
+
+/* 复选框样式 */
+.habit-checklist,
+.behavior-checklist {
+    display: grid;
+    gap: 1rem;
+}
+
+.habit-item,
+.behavior-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.habit-item:hover,
+.behavior-item:hover {
+    border-color: #6366f1;
+    background: #f8fafc;
+}
+
+.habit-item input[type="checkbox"],
+.behavior-item input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: #6366f1;
+    cursor: pointer;
+}
+
+.habit-item label,
+.behavior-item label {
+    flex: 1;
+    cursor: pointer;
+    font-weight: 500;
+    color: #374151;
+    margin: 0;
+}
+
+/* 按钮样式 */
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #e5e7eb;
+}
+
+.btn {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    text-decoration: none;
+    min-width: 120px;
+    justify-content: center;
+    white-space: nowrap;
+}
+
+.btn-primary {
+    background: linear-gradient(45deg, #6366f1, #8b5cf6);
+    color: white;
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+}
+
+.btn-secondary {
+    background: #f3f4f6;
+    color: #374151;
+    border: 2px solid #e5e7eb;
+}
+
+.btn-secondary:hover {
+    background: #e5e7eb;
+    transform: translateY(-2px);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .assessment-container {
+        margin: 1rem auto;
+        padding: 0 10px;
+    }
+    
+    .assessment-card {
+        border-radius: 15px;
+    }
+    
+    .card-header {
+        padding: 1.5rem;
+    }
+    
+    .card-header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .assessment-form {
+        padding: 1.5rem;
+    }
+    
+    .age-options {
+        gap: 0.2rem;
+    }
+    
+    .age-option {
+        width: 35px;
+        height: 35px;
+        font-size: 0.9rem;
+    }
+    
+    .subject-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+    }
+    
+    .btn {
+        width: 100%;
+    }
+    
+    .nav-container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .progress-indicator {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .age-options {
+        grid-template-columns: 1fr;
+    }
+    
+    .card-header h1 {
+        font-size: 1.3rem;
+    }
+    
+    .form-step h2 {
+        font-size: 1.3rem;
+    }
+} 

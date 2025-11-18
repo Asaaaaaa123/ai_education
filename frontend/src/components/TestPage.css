@@ -1,0 +1,654 @@
+.test-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--primary-pink-lighter) 0%, var(--white) 100%);
+  padding: 2rem 0;
+}
+
+.test-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding: 0 2rem;
+}
+
+.test-header h1 {
+  color: var(--text-dark);
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.test-header p {
+  color: var(--text-medium);
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.test-main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* 年龄段网格布局 */
+.age-groups-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.age-group-card {
+  background: var(--white);
+  border: 2px solid var(--gray-200);
+  border-radius: 20px;
+  padding: 2rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.age-group-card.clickable {
+  cursor: pointer;
+}
+
+.age-group-card.clickable:hover {
+  border-color: var(--primary-pink);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.age-group-card.clickable:hover .age-group-action {
+  color: var(--primary-pink);
+  transform: translateX(5px);
+}
+
+.age-group-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-pink) 0%, var(--primary-pink-dark) 100%);
+}
+
+
+
+.age-group-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.age-group-header h2 {
+  color: var(--primary-pink-dark);
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.age-group-icon {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, var(--primary-pink) 0%, var(--primary-pink-dark) 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.age-group-icon i {
+  font-size: 1.5rem;
+  color: var(--white);
+}
+
+.age-group-card h3 {
+  color: var(--text-dark);
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.age-group-card p {
+  color: var(--text-medium);
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.age-group-stats {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.game-count,
+.focus-area {
+  background: var(--gray-100);
+  color: var(--text-medium);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.focus-area {
+  background: var(--primary-pink-lighter);
+  color: var(--primary-pink-dark);
+}
+
+.age-group-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  color: var(--text-medium);
+  font-weight: 500;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+}
+
+.click-hint {
+  font-size: 0.9rem;
+}
+
+.age-group-action i {
+  font-size: 1rem;
+  transition: transform 0.3s ease;
+}
+
+/* 游戏网格布局 */
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.game-card {
+  background: var(--white);
+  border: 2px solid var(--gray-200);
+  border-radius: 16px;
+  padding: 2rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.game-card:hover {
+  border-color: var(--primary-pink);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.game-icon {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, var(--primary-pink) 0%, var(--primary-pink-dark) 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+}
+
+.game-icon i {
+  font-size: 2rem;
+  color: var(--white);
+}
+
+.game-card h3 {
+  color: var(--text-dark);
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.game-card p {
+  color: var(--text-medium);
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.game-meta {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.game-type,
+.game-source {
+  background: var(--gray-100);
+  color: var(--text-medium);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.game-type {
+  background: var(--primary-pink-lighter);
+  color: var(--primary-pink-dark);
+}
+
+/* 游戏组件样式 */
+.game-component {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.game-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--gray-100);
+}
+
+.game-header h2 {
+  color: var(--text-dark);
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.game-stats {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.game-stats span {
+  background: var(--primary-pink-lighter);
+  color: var(--primary-pink-dark);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+.game-start {
+  text-align: center;
+  padding: 3rem 2rem;
+}
+
+.game-start h3 {
+  color: var(--text-dark);
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.game-start p {
+  color: var(--text-medium);
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.game-board {
+  margin-bottom: 2rem;
+}
+
+/* 找相同游戏样式 */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.matching-game-card {
+  aspect-ratio: 1;
+  perspective: 1000px;
+  cursor: pointer;
+}
+
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+.matching-game-card.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  border-radius: 12px;
+  border: 2px solid var(--gray-200);
+  background: var(--white);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-back {
+  transform: rotateY(180deg);
+  background: var(--primary-pink-lighter);
+  border-color: var(--primary-pink);
+}
+
+.matching-game-card.matched .card-inner {
+  transform: rotateY(180deg);
+}
+
+.matching-game-card.matched .card-back {
+  background: var(--primary-pink);
+  color: var(--white);
+  border-color: var(--primary-pink-dark);
+}
+
+/* 找不同游戏样式 */
+.spot-difference-container {
+  text-align: center;
+}
+
+.image-container {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.image-placeholder {
+  width: 200px;
+  height: 150px;
+  border: 3px solid var(--gray-200);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--gray-50);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.image-placeholder:hover {
+  border-color: var(--primary-pink);
+  transform: scale(1.02);
+}
+
+.placeholder-text {
+  font-weight: 600;
+  color: var(--text-medium);
+  margin-bottom: 0.5rem;
+}
+
+.placeholder-content {
+  font-size: 3rem;
+}
+
+.difference-hints {
+  background: var(--primary-pink-lighter);
+  padding: 1rem;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+}
+
+.difference-hints p {
+  margin: 0.5rem 0;
+  color: var(--primary-pink-dark);
+  font-weight: 500;
+}
+
+/* 颜色识别游戏样式 */
+.color-game-container {
+  text-align: center;
+}
+
+.target-color {
+  margin-bottom: 2rem;
+}
+
+.target-color h3 {
+  color: var(--text-dark);
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.color-display {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  margin: 0 auto;
+  border: 4px solid var(--gray-200);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.color-options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.color-option {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 3px solid var(--gray-200);
+  font-size: 2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+}
+
+.color-option:hover {
+  transform: scale(1.1);
+  border-color: var(--primary-pink);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* 游戏占位符样式 */
+.game-placeholder {
+  text-align: center;
+  padding: 3rem 2rem;
+}
+
+.placeholder-icon {
+  width: 100px;
+  height: 100px;
+  background: linear-gradient(135deg, var(--primary-pink) 0%, var(--primary-pink-dark) 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 2rem;
+}
+
+.placeholder-icon i {
+  font-size: 3rem;
+  color: var(--white);
+}
+
+.game-placeholder h3 {
+  color: var(--text-dark);
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.game-placeholder p {
+  color: var(--text-medium);
+  margin-bottom: 2rem;
+}
+
+.game-controls {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.test-info {
+  background: var(--white);
+  border: 2px solid var(--gray-200);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.test-info h3 {
+  color: var(--text-dark);
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.test-info ul {
+  list-style: none;
+  padding: 0;
+}
+
+.test-info li {
+  color: var(--text-medium);
+  padding: 0.5rem 0;
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.test-info li:before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--primary-pink);
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+/* 按钮样式 */
+.btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary-pink) 0%, var(--primary-pink-dark) 100%);
+  color: var(--white);
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--primary-pink-dark);
+  border: 2px solid var(--primary-pink);
+}
+
+.btn-outline:hover {
+  background: var(--primary-pink);
+  color: var(--white);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .test-header h1 {
+    font-size: 2rem;
+  }
+  
+  .age-groups-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .games-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .age-group-card,
+  .game-card {
+    padding: 1.5rem;
+  }
+  
+  .age-group-stats,
+  .game-meta {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .test-main {
+    padding: 0 1rem;
+  }
+  
+  .cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+  
+  .image-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .image-placeholder {
+    width: 150px;
+    height: 120px;
+  }
+  
+  .color-options {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+  
+  .color-option {
+    width: 60px;
+    height: 60px;
+    font-size: 1.5rem;
+  }
+  
+  .game-stats {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .game-controls {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .btn {
+    width: 100%;
+    max-width: 200px;
+  }
+} 

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能评估 - AI EduGuide</title>
+    <link rel="stylesheet" href="assessment-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">
+                    <i class="fas fa-brain"></i>
+                    <span>AI EduGuide</span>
+                </a>
+            </div>
+            <div class="progress-indicator">
+                <span class="progress-text">步骤 1 / 3</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="assessment-container">
+        <div class="assessment-card">
+            <div class="card-header">
+                <h1>智能教育评估</h1>
+                <p>请填写您孩子的基本信息，我们将为您提供个性化的教育建议</p>
+            </div>
+
+            <form id="assessmentForm" class="assessment-form">
+                <!-- 步骤1：基本信息 -->
+                <div class="form-step active" id="step1">
+                    <h2><i class="fas fa-user"></i> 孩子基本信息</h2>
+                    
+                    <div class="form-group">
+                        <label for="childName">孩子姓名</label>
+                        <input type="text" id="childName" name="childName" required placeholder="请输入孩子的姓名">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="childAge">年龄</label>
+                        <div class="age-options">
+                            <div class="age-option" data-age="0">
+                                <span>0</span>
+                            </div>
+                            <div class="age-option" data-age="1">
+                                <span>1</span>
+                            </div>
+                            <div class="age-option" data-age="2">
+                                <span>2</span>
+                            </div>
+                            <div class="age-option" data-age="3">
+                                <span>3</span>
+                            </div>
+                            <div class="age-option" data-age="4">
+                                <span>4</span>
+                            </div>
+                            <div class="age-option" data-age="5">
+                                <span>5</span>
+                            </div>
+                            <div class="age-option" data-age="6">
+                                <span>6</span>
+                            </div>
+                            <div class="age-option" data-age="7">
+                                <span>7</span>
+                            </div>
+                            <div class="age-option" data-age="8">
+                                <span>8</span>
+                            </div>
+                            <div class="age-option" data-age="9">
+                                <span>9</span>
+                            </div>
+                            <div class="age-option" data-age="10">
+                                <span>10</span>
+                            </div>
+                            <div class="age-option" data-age="11">
+                                <span>11</span>
+                            </div>
+                            <div class="age-option" data-age="12">
+                                <span>12</span>
+                            </div>
+                        </div>
+                        <input type="hidden" id="selectedAge" name="selectedAge" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="schoolType">学校类型</label>
+                        <select id="schoolType" name="schoolType" required>
+                            <option value="">请选择学校类型</option>
+                            <option value="public">公立学校</option>
+                            <option value="private">私立学校</option>
+                            <option value="international">国际学校</option>
+                            <option value="homeschool">在家教育</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="schoolName">学校名称</label>
+                        <input type="text" id="schoolName" name="schoolName" placeholder="请输入学校名称（可选）">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="grade">年级</label>
+                        <select id="grade" name="grade" required>
+                            <option value="">请选择年级</option>
+                            <!-- 年级选项将通过JavaScript动态生成 -->
+                        </select>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="goBack()">
+                            <i class="fas fa-arrow-left"></i>
+                            返回首页
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="nextStep()">
+                            下一步
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 步骤2：学习情况 -->
+                <div class="form-step" id="step2">
+                    <h2><i class="fas fa-book"></i> 学习情况评估</h2>
+                    
+                    <div class="form-group">
+                        <label>主要学习科目表现</label>
+                        <div class="subject-grid">
+                            <div class="subject-item">
+                                <label>语文</label>
+                                <div class="rating-stars">
+                                    <i class="fas fa-star" data-rating="1"></i>
+                                    <i class="fas fa-star" data-rating="2"></i>
+                                    <i class="fas fa-star" data-rating="3"></i>
+                                    <i class="fas fa-star" data-rating="4"></i>
+                                    <i class="fas fa-star" data-rating="5"></i>
+                                </div>
+                                <input type="hidden" name="chineseRating" value="0">
+                            </div>
+                            <div class="subject-item">
+                                <label>数学</label>
+                                <div class="rating-stars">
+                                    <i class="fas fa-star" data-rating="1"></i>
+                                    <i class="fas fa-star" data-rating="2"></i>
+                                    <i class="fas fa-star" data-rating="3"></i>
+                                    <i class="fas fa-star" data-rating="4"></i>
+                                    <i class="fas fa-star" data-rating="5"></i>
+                                </div>
+                                <input type="hidden" name="mathRating" value="0">
+                            </div>
+                            <div class="subject-item">
+                                <label>英语</label>
+                                <div class="rating-stars">
+                                    <i class="fas fa-star" data-rating="1"></i>
+                                    <i class="fas fa-star" data-rating="2"></i>
+                                    <i class="fas fa-star" data-rating="3"></i>
+                                    <i class="fas fa-star" data-rating="4"></i>
+                                    <i class="fas fa-star" data-rating="5"></i>
+                                </div>
+                                <input type="hidden" name="englishRating" value="0">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>学习习惯评估</label>
+                        <div class="habit-checklist">
+                            <div class="habit-item">
+                                <input type="checkbox" id="attention" name="learningHabits" value="attention">
+                                <label for="attention">上课注意力不集中，容易走神</label>
+                            </div>
+                            <div class="habit-item">
+                                <input type="checkbox" id="homework" name="learningHabits" value="homework">
+                                <label for="homework">作业完成困难，拖延严重</label>
+                            </div>
+                            <div class="habit-item">
+                                <input type="checkbox" id="memory" name="learningHabits" value="memory">
+                                <label for="memory">记忆力较差，知识点容易遗忘</label>
+                            </div>
+                            <div class="habit-item">
+                                <input type="checkbox" id="motivation" name="learningHabits" value="motivation">
+                                <label for="motivation">学习动力不足，缺乏兴趣</label>
+                            </div>
+                            <div class="habit-item">
+                                <input type="checkbox" id="confidence" name="learningHabits" value="confidence">
+                                <label for="confidence">自信心不足，害怕犯错</label>
+                            </div>
+                            <div class="habit-item">
+                                <input type="checkbox" id="time" name="learningHabits" value="time">
+                                <label for="time">时间管理能力差</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="learningDescription">详细描述孩子的学习情况</label>
+                        <textarea id="learningDescription" name="learningDescription" rows="4" 
+                                  placeholder="请详细描述孩子在学业方面遇到的具体问题，比如：上课经常走神、数学计算错误率高、英语单词记不住等..."></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="goBack()">
+                            <i class="fas fa-home"></i>
+                            返回首页
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="prevStep()">
+                            <i class="fas fa-arrow-left"></i>
+                            上一步
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="nextStep()">
+                            下一步
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 步骤3：行为表现 -->
+                <div class="form-step" id="step3">
+                    <h2><i class="fas fa-chart-line"></i> 行为表现评估</h2>
+                    
+                    <div class="form-group">
+                        <label>课堂行为表现</label>
+                        <div class="behavior-checklist">
+                            <div class="behavior-item">
+                                <input type="checkbox" id="classroom_attention" name="classroomBehavior" value="attention">
+                                <label for="classroom_attention">上课注意力不集中，经常走神</label>
+                            </div>
+                            <div class="behavior-item">
+                                <input type="checkbox" id="classroom_talking" name="classroomBehavior" value="talking">
+                                <label for="classroom_talking">上课爱说话，影响课堂秩序</label>
+                            </div>
+                            <div class="behavior-item">
+                                <input type="checkbox" id="classroom_movement" name="classroomBehavior" value="movement">
+                                <label for="classroom_movement">坐不住，经常离开座位</label>
+                            </div>
+                            <div class="behavior-item">
+                                <input type="checkbox" id="classroom_participation" name="classroomBehavior" value="participation">
+                                <label for="classroom_participation">不愿意参与课堂互动</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>社交行为表现</label>
+                        <div class="behavior-checklist">
+                            <div class="behavior-item">
+                                <input type="checkbox" id="social_friends" name="socialBehavior" value="friends">
+                                <label for="social_friends">朋友较少，社交能力有待提升</label>
+                            </div>
+                            <div class="behavior-item">
+                                <input type="checkbox" id="social_communication" name="socialBehavior" value="communication">
+                                <label for="social_communication">沟通表达能力不足</label>
+                            </div>
+                            <div class="behavior-item">
+                                <input type="checkbox" id="social_conflict" name="socialBehavior" value="conflict">
+                                <label for="social_conflict">容易与同学发生冲突</label>
+                            </div>
+                            <div class="behavior-item">
+                                <input type="checkbox" id="social_confidence" name="socialBehavior" value="confidence">
+                                <label for="social_confidence">在群体中缺乏自信</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="behaviorDescription">详细描述孩子的行为表现</label>
+                        <textarea id="behaviorDescription" name="behaviorDescription" rows="4" 
+                                  placeholder="请详细描述孩子在行为方面的具体表现，比如：上课经常和同学说话、不愿意举手回答问题、课间活动时比较安静等..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="parentConcerns">家长最关心的问题</label>
+                        <textarea id="parentConcerns" name="parentConcerns" rows="3" 
+                                  placeholder="请描述您最希望改善的问题或最关心的方面..."></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="goBack()">
+                            <i class="fas fa-home"></i>
+                            返回首页
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="prevStep()">
+                            <i class="fas fa-arrow-left"></i>
+                            上一步
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-magic"></i>
+                            生成智能报告
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script src="assessment.js"></script>
+</body>
+</html> 

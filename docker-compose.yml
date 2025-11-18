@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  # Frontend Service
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3030:80"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+    networks:
+      - specialcare-network
+
+  # Backend Service
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./backend:/app
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@db:5432/specialcare
+      - SECRET_KEY=your-secret-key-here
+      - DEBUG=True
+    depends_on:
+      - db
+    networks:
+      - specialcare-network
+
+  # Database Service
+  db:
+    image: postgres:15
+    environment:
+      - POSTGRES_DB=specialcare
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - specialcare-network
+
+  # Redis for caching
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - specialcare-network
+
+volumes:
+  postgres_data:
+
+networks:
+  specialcare-network:
+    driver: bridge 

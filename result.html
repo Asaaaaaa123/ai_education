@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能教育报告 - AI EduGuide</title>
+    <link rel="stylesheet" href="result-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">
+                    <i class="fas fa-brain"></i>
+                    <span>AI EduGuide</span>
+                </a>
+            </div>
+            <div class="nav-actions">
+                <button class="btn btn-secondary" onclick="printReport()">
+                    <i class="fas fa-print"></i>
+                    打印报告
+                </button>
+                <button class="btn btn-primary" onclick="downloadReport()">
+                    <i class="fas fa-download"></i>
+                    下载PDF
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="result-container">
+        <div class="result-header">
+            <div class="header-content">
+                <h1>个性化教育报告</h1>
+                <p>基于AI智能分析，为您的孩子量身定制的教育建议</p>
+                <div class="child-info" id="childInfo">
+                    <!-- 孩子信息将通过JavaScript动态生成 -->
+                </div>
+            </div>
+            <div class="header-illustration">
+                <i class="fas fa-chart-line"></i>
+            </div>
+        </div>
+
+        <div class="report-content">
+            <!-- 总体评估 -->
+            <section class="report-section">
+                <h2><i class="fas fa-clipboard-check"></i> 总体评估</h2>
+                <div class="overall-assessment">
+                    <div class="assessment-card">
+                        <div class="card-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <h3>学习潜力</h3>
+                        <div class="score-bar">
+                            <div class="score-fill" id="potentialScore"></div>
+                        </div>
+                        <p class="score-text">优秀</p>
+                    </div>
+                    <div class="assessment-card">
+                        <div class="card-icon">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <h3>学习习惯</h3>
+                        <div class="score-bar">
+                            <div class="score-fill" id="habitScore"></div>
+                        </div>
+                        <p class="score-text">良好</p>
+                    </div>
+                    <div class="assessment-card">
+                        <div class="card-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>社交能力</h3>
+                        <div class="score-bar">
+                            <div class="score-fill" id="socialScore"></div>
+                        </div>
+                        <p class="score-text">需要提升</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 问题分析 -->
+            <section class="report-section">
+                <h2><i class="fas fa-search"></i> 问题分析</h2>
+                <div class="problem-analysis">
+                    <div class="problem-card">
+                        <div class="problem-header">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <h3>主要问题</h3>
+                        </div>
+                        <ul class="problem-list" id="mainProblems">
+                            <!-- 主要问题将通过JavaScript动态生成 -->
+                        </ul>
+                    </div>
+                    <div class="problem-card">
+                        <div class="problem-header">
+                            <i class="fas fa-info-circle"></i>
+                            <h3>问题成因</h3>
+                        </div>
+                        <div class="cause-analysis" id="causeAnalysis">
+                            <!-- 问题成因将通过JavaScript动态生成 -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 个性化建议 -->
+            <section class="report-section">
+                <h2><i class="fas fa-magic"></i> 个性化建议</h2>
+                <div class="recommendations">
+                    <div class="recommendation-category">
+                        <h3><i class="fas fa-book"></i> 学习方法建议</h3>
+                        <div class="recommendation-list" id="learningRecommendations">
+                            <!-- 学习建议将通过JavaScript动态生成 -->
+                        </div>
+                    </div>
+                    <div class="recommendation-category">
+                        <h3><i class="fas fa-clock"></i> 时间管理建议</h3>
+                        <div class="recommendation-list" id="timeRecommendations">
+                            <!-- 时间管理建议将通过JavaScript动态生成 -->
+                        </div>
+                    </div>
+                    <div class="recommendation-category">
+                        <h3><i class="fas fa-heart"></i> 心理支持建议</h3>
+                        <div class="recommendation-list" id="psychologyRecommendations">
+                            <!-- 心理支持建议将通过JavaScript动态生成 -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 学习计划 -->
+            <section class="report-section">
+                <h2><i class="fas fa-calendar-alt"></i> 学习计划</h2>
+                <div class="learning-plan">
+                    <div class="plan-timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-marker">1</div>
+                            <div class="timeline-content">
+                                <h4>第一阶段（1-2周）</h4>
+                                <p>建立基础学习习惯，培养专注力</p>
+                                <ul>
+                                    <li>制定每日学习时间表</li>
+                                    <li>练习专注力训练游戏</li>
+                                    <li>建立奖励机制</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-marker">2</div>
+                            <div class="timeline-content">
+                                <h4>第二阶段（3-4周）</h4>
+                                <p>提升学习效率，改善学习方法</p>
+                                <ul>
+                                    <li>学习记忆技巧</li>
+                                    <li>练习时间管理</li>
+                                    <li>培养自主学习能力</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-marker">3</div>
+                            <div class="timeline-content">
+                                <h4>第三阶段（5-8周）</h4>
+                                <p>巩固成果，全面发展</p>
+                                <ul>
+                                    <li>提升社交能力</li>
+                                    <li>培养兴趣爱好</li>
+                                    <li>建立自信心</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 家长指导 -->
+            <section class="report-section">
+                <h2><i class="fas fa-hands-helping"></i> 家长指导</h2>
+                <div class="parent-guidance">
+                    <div class="guidance-card">
+                        <h3>沟通技巧</h3>
+                        <ul>
+                            <li>保持耐心，避免过度批评</li>
+                            <li>多给予正面鼓励和肯定</li>
+                            <li>与孩子建立良好的沟通渠道</li>
+                            <li>关注孩子的情绪变化</li>
+                        </ul>
+                    </div>
+                    <div class="guidance-card">
+                        <h3>环境营造</h3>
+                        <ul>
+                            <li>为孩子创造安静的学习环境</li>
+                            <li>减少干扰因素</li>
+                            <li>提供必要的学习工具</li>
+                            <li>建立规律的生活作息</li>
+                        </ul>
+                    </div>
+                    <div class="guidance-card">
+                        <h3>合作配合</h3>
+                        <ul>
+                            <li>与老师保持良好沟通</li>
+                            <li>定期了解孩子在校表现</li>
+                            <li>配合学校的教育措施</li>
+                            <li>参与孩子的学习过程</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 后续跟进 -->
+            <section class="report-section">
+                <h2><i class="fas fa-chart-line"></i> 后续跟进</h2>
+                <div class="follow-up">
+                    <div class="follow-up-content">
+                        <p>为了确保教育建议的有效性，我们建议：</p>
+                        <ul>
+                            <li><strong>定期评估：</strong>每2周进行一次学习效果评估</li>
+                            <li><strong>调整计划：</strong>根据孩子进步情况调整学习计划</li>
+                            <li><strong>持续支持：</strong>我们的AI系统将持续为您提供指导</li>
+                            <li><strong>专业咨询：</strong>如需要，可联系专业教育顾问</li>
+                        </ul>
+                    </div>
+                    <div class="contact-info">
+                        <h3>联系我们</h3>
+                        <p><i class="fas fa-envelope"></i> support@aieduguide.com</p>
+                        <p><i class="fas fa-phone"></i> 400-123-4567</p>
+                        <p><i class="fas fa-clock"></i> 周一至周日 9:00-21:00</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div class="action-buttons">
+            <button class="btn btn-secondary" onclick="startNewAssessment()">
+                <i class="fas fa-redo"></i>
+                重新评估
+            </button>
+            <button class="btn btn-primary" onclick="shareReport()">
+                <i class="fas fa-share"></i>
+                分享报告
+            </button>
+        </div>
+    </main>
+
+    <script src="result.js"></script>
+</body>
+</html> 

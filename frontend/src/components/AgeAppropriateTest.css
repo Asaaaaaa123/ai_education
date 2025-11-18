@@ -1,0 +1,324 @@
+/* 年龄适配测试样式 */
+.age-appropriate-test {
+  padding: 2rem;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.test-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.test-header h3 {
+  color: #333;
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.test-stats {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.test-stats span {
+  background: linear-gradient(135deg, #4ecdc4, #45b7d1);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.test-instructions {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.test-instructions p {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+/* 观察力测试样式 */
+.observation-test {
+  padding: 2rem;
+}
+
+.target-display {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+}
+
+.target-item {
+  text-align: center;
+  padding: 2rem;
+  background: linear-gradient(135deg, #f0fdfa, #ccfbf1);
+  border-radius: 16px;
+  border: 3px solid #4ecdc4;
+  box-shadow: 0 8px 25px rgba(78, 205, 196, 0.3);
+}
+
+.item-display {
+  font-size: 5rem;
+  margin-bottom: 1rem;
+}
+
+.target-label {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+}
+
+.items-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  max-width: 500px;
+  margin: 2rem auto;
+}
+
+.item-option {
+  aspect-ratio: 1;
+  background: white;
+  border: 3px solid #e0e0e0;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.item-option:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  border-color: #4ecdc4;
+}
+
+.item-option.correct {
+  border: 4px solid #4caf50 !important;
+  box-shadow: 0 8px 30px rgba(76, 175, 80, 0.6) !important;
+  transform: scale(1.05);
+  /* 不覆盖背景色，只显示边框提示 */
+}
+
+.item-option.incorrect {
+  border: 4px solid #f56565 !important;
+  box-shadow: 0 8px 30px rgba(245, 101, 101, 0.4) !important;
+  animation: shake 0.6s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+/* 颜色形状测试样式 */
+.color-shape-test {
+  padding: 2rem;
+}
+
+.color-display {
+  width: 120px;
+  height: 120px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  border: 3px solid white;
+  margin-bottom: 1rem;
+}
+
+.shape-display {
+  text-align: center;
+  padding: 1rem;
+}
+
+.shape-emoji {
+  font-size: 4rem;
+  margin-bottom: 0.5rem;
+}
+
+.shape-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.options-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  max-width: 500px;
+  margin: 2rem auto;
+}
+
+.option-item {
+  aspect-ratio: 1;
+  background: white;
+  border: 3px solid #e0e0e0;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+}
+
+.option-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  border-color: #4ecdc4;
+}
+
+.option-item.correct {
+  border: 4px solid #4caf50 !important;
+  box-shadow: 0 8px 30px rgba(76, 175, 80, 0.6) !important;
+  transform: scale(1.05);
+  /* 不覆盖背景色，只显示边框提示 */
+}
+
+.option-item.incorrect {
+  border: 4px solid #f56565 !important;
+  box-shadow: 0 8px 30px rgba(245, 101, 101, 0.4) !important;
+  animation: shake 0.6s ease;
+}
+
+.item-option.correct {
+  border: 4px solid #4caf50 !important;
+  box-shadow: 0 8px 30px rgba(76, 175, 80, 0.6) !important;
+  transform: scale(1.05);
+  /* 不覆盖背景色，只显示边框提示 */
+}
+
+.item-option.incorrect {
+  border: 4px solid #f56565 !important;
+  box-shadow: 0 8px 30px rgba(245, 101, 101, 0.4) !important;
+  animation: shake 0.6s ease;
+}
+
+/* 模式测试样式 */
+.simple-pattern-test {
+  padding: 2rem;
+}
+
+.pattern-display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin: 2rem 0;
+  flex-wrap: wrap;
+}
+
+.pattern-item {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #f0fdfa, #ccfbf1);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  border: 3px solid #4ecdc4;
+  box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+}
+
+.pattern-blank {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ff6f00;
+  border: 3px dashed #ff9800;
+  box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.pattern-option {
+  font-size: 3rem;
+}
+
+/* 测试完成样式 */
+.test-completed {
+  text-align: center;
+  padding: 3rem;
+  background: linear-gradient(135deg, #f0fdfa, #ccfbf1);
+  border-radius: 20px;
+}
+
+.success-icon {
+  font-size: 4rem;
+  color: #4caf50;
+  margin-bottom: 1rem;
+}
+
+.test-completed h3 {
+  color: #333;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.test-completed p {
+  color: #555;
+  font-size: 1.2rem;
+}
+
+.loading {
+  text-align: center;
+  padding: 3rem;
+  color: #666;
+  font-size: 1.2rem;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .items-grid,
+  .options-grid {
+    grid-template-columns: 1fr;
+    max-width: 300px;
+  }
+  
+  .item-display {
+    font-size: 4rem;
+  }
+  
+  .color-display {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+
