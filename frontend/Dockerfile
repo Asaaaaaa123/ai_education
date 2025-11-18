@@ -15,22 +15,24 @@ RUN npm install --legacy-peer-deps
 COPY . .
 
 # Build the app
-# Use empty API URL for production (nginx will proxy /api/ to backend)
-ARG REACT_APP_API_URL=
+# Frontend calls backend via host port forwarding (localhost:8001)
+ARG REACT_APP_API_URL=http://localhost:8001
 ENV REACT_APP_API_URL=$REACT_APP_API_URL
 RUN npm run build
 
-# Production stage
-FROM nginx:alpine
+# Production stage - use serve instead of nginx
+FROM node:18-alpine
 
-# Copy built app to nginx
-COPY --from=build /app/build /usr/share/nginx/html
+WORKDIR /app
 
-# Copy nginx configuration
-COPY nginx.conf /etc/nginx/nginx.conf
+# Install serve globally
+RUN npm install -g serve
 
-# Expose port 80
-EXPOSE 80
+# Copy built app from build stage
+COPY --from=build /app/build ./build
 
-# Start nginx
-CMD ["nginx", "-g", "daemon off;"] 
+# Expose port 3000
+EXPOSE 3000
+
+# Start serve
+CMD ["serve", "-s", "build", "-l", "3000"] 

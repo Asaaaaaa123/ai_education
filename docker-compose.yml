@@ -32,11 +32,12 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        # Use empty string for production - nginx proxies /api/ to backend
-        REACT_APP_API_URL: ""
+        # Frontend calls backend via host port forwarding (localhost:8001)
+        # Browser runs on host, not in Docker network, so use localhost
+        REACT_APP_API_URL: http://localhost:8001
     container_name: specialcare-frontend
     ports:
-      - "3000:80"
+      - "3456:3000"
     depends_on:
       backend:
         condition: service_healthy
