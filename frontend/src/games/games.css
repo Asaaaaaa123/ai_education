@@ -1,0 +1,140 @@
+.game-panel {
+  background: #f7fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-top: 0.75rem;
+}
+
+.game-panel h4 {
+  margin: 0 0 0.5rem;
+  font-size: 0.95rem;
+}
+
+.game-meta {
+  font-size: 0.85rem;
+  color: #718096;
+  margin-bottom: 0.75rem;
+}
+
+.game-grid {
+  display: grid;
+  gap: 6px;
+  margin: 0.75rem 0;
+}
+
+.game-grid.schulte {
+  grid-template-columns: repeat(5, 1fr);
+  max-width: 280px;
+}
+
+.game-cell {
+  aspect-ratio: 1;
+  border: none;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.1s, background 0.15s;
+}
+
+.game-cell:hover:not(:disabled) {
+  transform: scale(1.04);
+  background: #ebf8ff;
+}
+
+.game-cell.done {
+  background: #c6f6d5;
+  color: #22543d;
+}
+
+.game-cell.wrong {
+  background: #fed7d7;
+}
+
+.game-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.game-option-btn {
+  padding: 0.5rem 0.85rem;
+  border-radius: 8px;
+  border: 2px solid #cbd5e0;
+  background: #fff;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.game-option-btn.selected {
+  border-color: #3182ce;
+  background: #ebf8ff;
+}
+
+.game-result {
+  margin-top: 0.75rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: 8px;
+  background: #edf2f7;
+  font-size: 0.9rem;
+}
+
+.game-memory-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  max-width: 320px;
+}
+
+.game-card {
+  aspect-ratio: 1;
+  border-radius: 10px;
+  border: none;
+  background: #4299e1;
+  color: #fff;
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
+.game-card.revealed,
+.game-card.matched {
+  background: #fff;
+  color: #2d3748;
+  border: 2px solid #bee3f8;
+}
+
+.game-trace-canvas {
+  border: 2px dashed #a0aec0;
+  border-radius: 12px;
+  background: #fff;
+  touch-action: none;
+  max-width: 100%;
+}
+
+.game-go-signal {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  margin: 1rem auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.game-go-signal.go {
+  background: #48bb78;
+}
+
+.game-go-signal.nogo {
+  background: #e53e3e;
+}
+
+.game-go-signal.wait {
+  background: #a0aec0;
+}

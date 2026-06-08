@@ -1,0 +1,17 @@
+# Lefthook configuration for AI Education System
+# This ensures frontend and backend are verified before commits
+
+pre-commit:
+  parallel: false
+  runner: bash
+  commands:
+    # Step 1: Build Frontend
+    build-frontend:
+      run: bash scripts/pre-commit-build-frontend.sh
+      stage_fixed: true
+
+    # Step 2: Verify Backend Setup
+    verify-backend:
+      run: bash scripts/pre-commit-verify-backend.sh
+      stage_fixed: true
+

@@ -1,0 +1,155 @@
+.plan-progress-section {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-top: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+.plan-progress-label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #2d3748;
+}
+
+.plan-progress-bar {
+  height: 10px;
+  background: #edf2f7;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.plan-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #e53e3e, #c53030);
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+.plan-progress-text {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: #718096;
+}
+
+.plan-cta {
+  background: linear-gradient(135deg, #fff5f5, #fff);
+  border: 2px solid #fed7d7;
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-top: 1.25rem;
+  text-align: center;
+}
+
+.plan-cta h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.25rem;
+}
+
+.plan-cta p {
+  margin: 0 0 1rem;
+  color: #4a5568;
+}
+
+.plan-cta--done {
+  border-color: #c6f6d5;
+  background: linear-gradient(135deg, #f0fff4, #fff);
+}
+
+.plan-section {
+  margin-top: 1.25rem;
+  background: #fff;
+  padding: 1.25rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+.plan-section h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.1rem;
+}
+
+.plan-section ul {
+  margin: 0;
+  padding-left: 1.25rem;
+  color: #2d3748;
+  line-height: 1.6;
+}
+
+.plan-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.plan-tag {
+  background: #fed7d7;
+  color: #9b2c2c;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.plan-day-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.75rem;
+}
+
+.plan-day-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+  text-align: left;
+  background: #fff;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1rem;
+  cursor: pointer;
+  transition: border-color 0.2s, transform 0.15s;
+}
+
+.plan-day-card:hover:not(.locked) {
+  border-color: #fc8181;
+  transform: translateY(-2px);
+}
+
+.plan-day-card.current {
+  border-color: #c53030;
+  box-shadow: 0 4px 16px rgba(197, 48, 48, 0.15);
+}
+
+.plan-day-card.done {
+  opacity: 0.85;
+  background: #f0fff4;
+  border-color: #9ae6b4;
+}
+
+.plan-day-card.locked {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.plan-day-num {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.plan-day-focus {
+  font-size: 0.8rem;
+  color: #4a5568;
+}
+
+.plan-day-status {
+  font-size: 0.75rem;
+  color: #c53030;
+  font-weight: 600;
+}
+
+.plan-muted {
+  color: #718096;
+  text-align: center;
+  padding: 2rem 0;
+}

@@ -1,0 +1,21 @@
+.edu-disclaimer {
+  background: #fff8f0;
+  border: 1px solid #f6d4a8;
+  border-left: 4px solid #c05621;
+  color: #2d3748;
+  padding: 1rem 1.25rem;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 1.25rem;
+}
+
+.edu-disclaimer strong {
+  color: #9c4221;
+}
+
+.edu-disclaimer--compact {
+  font-size: 0.85rem;
+  padding: 0.65rem 0.85rem;
+  margin-bottom: 1rem;
+}

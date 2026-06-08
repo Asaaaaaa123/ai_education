@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  # Backend Service
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: specialcare-backend-prod
+    ports:
+      - "8080:8080"
+    volumes:
+      # Persistent volume for data files
+      - backend_data:/app/data
+    environment:
+      - PYTHONUNBUFFERED=1
+      - DEBUG=False
+    command: python start.py
+    networks:
+      - specialcare-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Frontend Service (Production)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        # Use empty string for production - nginx proxies /api/ to backend
+        REACT_APP_API_URL: ""
+    container_name: specialcare-frontend-prod
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - specialcare-network
+    restart: unless-stopped
+
+volumes:
+  # Persistent volume for backend data files (binds to local directory)
+  # Data will persist in ./backend/data on the host
+  backend_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${PWD}/backend/data
+
+networks:
+  specialcare-network:
+    driver: bridge
+

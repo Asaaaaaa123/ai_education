@@ -1,0 +1,26 @@
+/* Mobile-first touch & layout helpers (MVP polish) */
+:root {
+  --touch-min: 48px;
+}
+
+@media (max-width: 768px) {
+  .App {
+    overflow-x: hidden;
+  }
+
+  button.btn,
+  .btn {
+    min-height: var(--touch-min);
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="number"],
+  select,
+  textarea {
+    font-size: 16px !important; /* prevents iOS zoom on focus */
+  }
+}

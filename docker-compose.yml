@@ -1,0 +1,48 @@
+services:
+  # Backend Service
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: specialcare-backend
+    ports:
+      - "8080:8080"
+    volumes:
+      # Persistent volume for data files (binds to local directory)
+      - ./backend/data:/app/data
+    environment:
+      - PYTHONUNBUFFERED=1
+      - DEBUG=False
+      - ALLOWED_ORIGINS=http://localhost:3456,http://127.0.0.1:3456,http://localhost:3333,http://127.0.0.1:3333
+    command: python start.py
+    networks:
+      - specialcare-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Frontend Service
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        # Use the server's public IP for API calls
+        REACT_APP_API_URL: http://142.67.189.101:8080
+    container_name: specialcare-frontend
+    ports:
+      - "3456:3333"
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - specialcare-network
+    restart: unless-stopped
+
+networks:
+  specialcare-network:
+    driver: bridge

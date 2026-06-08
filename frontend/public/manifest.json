@@ -1,0 +1,21 @@
+{
+  "short_name": "MayCare",
+  "name": "MayCare - Comprehensive Support for Special Children & Families",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#e53e3e",
+  "background_color": "#ffffff",
+  "description": "Professional support network connecting families with qualified teachers, therapists, and psychologists for special children."
+} 

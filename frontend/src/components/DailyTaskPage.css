@@ -1,0 +1,116 @@
+.daily-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-top: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+.daily-card h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.1rem;
+}
+
+.daily-condition {
+  margin: 0.75rem 0 0;
+  font-size: 0.9rem;
+  color: #2b6cb0;
+  font-weight: 600;
+}
+
+.daily-focus {
+  margin: 1rem 0 0;
+  color: #c53030;
+  font-size: 0.95rem;
+}
+
+.daily-guidance-text {
+  white-space: pre-line;
+  line-height: 1.55;
+  color: #4a5568;
+}
+
+.daily-instructions {
+  font-size: 0.9rem;
+  color: #718096;
+  margin-top: 0.35rem;
+}
+
+.daily-game-slot {
+  margin-top: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.daily-game-done {
+  color: #38a169;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.daily-test-card {
+  border: 2px solid #bee3f8;
+}
+
+.daily-test-done {
+  color: #276749;
+  font-weight: 600;
+  margin: 0.5rem 0 0;
+}
+
+.daily-progress-link {
+  margin-top: 1rem;
+}
+
+.daily-activity {
+  border-top: 1px solid #edf2f7;
+  padding-top: 1rem;
+  margin-top: 1rem;
+}
+
+.daily-activity:first-of-type {
+  border-top: none;
+  padding-top: 0;
+  margin-top: 0;
+}
+
+.daily-activity h3 {
+  margin: 0 0 0.35rem;
+  font-size: 1rem;
+}
+
+.daily-activity p {
+  margin: 0;
+  color: #4a5568;
+  line-height: 1.55;
+}
+
+.daily-steps {
+  margin: 0.5rem 0 0;
+  padding-left: 1.25rem;
+  color: #2d3748;
+}
+
+.daily-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.daily-alert {
+  background: #fffaf0;
+  border: 1px solid #fbd38d;
+  color: #c05621;
+  padding: 0.85rem 1rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+.daily-muted {
+  color: #718096;
+  text-align: center;
+  padding: 2rem 0;
+}
