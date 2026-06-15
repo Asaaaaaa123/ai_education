@@ -2,32 +2,27 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-# Set non-interactive frontend for debconf to suppress warnings
-ENV DEBIAN_FRONTEND=noninteractive
+ENV DEBIAN_FRONTEND=noninteractive \
+    PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    BACKEND_DATA_DIR=/app/data \
+    DISABLE_TORCH=1
 
-# Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Reset DEBIAN_FRONTEND to default for runtime
-ENV DEBIAN_FRONTEND=dialog
+COPY requirements-docker.txt .
+RUN pip install --no-cache-dir -r requirements-docker.txt
 
-# Copy requirements first for better caching
-COPY requirements.txt .
-
-# Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy application code
 COPY . .
 
-# Create data directory if it doesn't exist
-RUN mkdir -p /app/data
+RUN mkdir -p /app/data /app/models
 
-# Expose port
 EXPOSE 8080
 
-# Run the application
-CMD ["python", "start.py"] 
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+  CMD curl -f http://localhost:8080/health || exit 1
+
+CMD ["python3", "start.py"]

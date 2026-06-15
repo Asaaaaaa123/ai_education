@@ -1,0 +1,15 @@
+# Lean production image — no PyTorch / Jupyter (saves ~800MB–1GB RAM at runtime).
+# Rule-based assessment works without the CNN. For local ML training use requirements.txt.
+
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+pydantic>=2.5.0
+email-validator>=2.0.0
+passlib[bcrypt]>=1.7.4
+numpy>=1.24.0
+scikit-learn>=1.3.0
+requests>=2.25.0
+python-multipart>=0.0.6
+python-dotenv>=1.0.0
+clerk-backend-api>=5.0.0
+httpx>=0.25.0

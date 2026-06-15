@@ -18,9 +18,8 @@ def check_dependencies():
     required_packages = [
         'fastapi',
         'uvicorn',
-        'torch',
         'numpy',
-        'pydantic'
+        'pydantic',
     ]
     
     missing_packages = []

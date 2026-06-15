@@ -271,10 +271,14 @@ async def load_model(model_path: str = "models/education_model.pth"):
 
 @app.get("/model-status")
 async def get_model_status():
+    from ml_channel import ml_available, is_disabled
+
     return {
         "success": True,
         "data": {
             "model_loaded": education_analyzer.model is not None,
+            "ml_channel_available": ml_available(),
+            "torch_disabled": is_disabled(),
             "vocab_size": len(education_analyzer.vocab),
             "recommendation_library_keys": len(RECOMMENDATIONS_EN),
         },

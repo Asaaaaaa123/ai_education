@@ -5,11 +5,18 @@
 
 import axios from 'axios';
 
-const API_BASE_URL =
-  process.env.REACT_APP_API_URL ||
-  (typeof window !== 'undefined' && window.location.hostname !== 'localhost'
-    ? `http://${window.location.hostname}:8080`
-    : 'http://localhost:8080');
+function resolveApiBaseUrl() {
+  const envUrl = process.env.REACT_APP_API_URL;
+  // Empty string = Docker/nginx same-origin proxy (requests go to current host)
+  if (envUrl === '') return '';
+  if (envUrl) return envUrl;
+  if (typeof window !== 'undefined' && window.location.hostname !== 'localhost') {
+    return `http://${window.location.hostname}:8080`;
+  }
+  return 'http://localhost:8080';
+}
+
+const API_BASE_URL = resolveApiBaseUrl();
 
 // console.log('API Base URL:', API_BASE_URL); // cleaned during 2026 nature journal transition
 

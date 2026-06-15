@@ -1,59 +1,56 @@
-version: '3.8'
+# Alias for production — same as docker-compose.yml
+# Usage: docker compose -f docker-compose.prod.yml up -d --build
 
 services:
-  # Backend Service
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: specialcare-backend-prod
+    container_name: ai-education-backend-prod
     ports:
-      - "8080:8080"
+      - "${BACKEND_PORT:-8080}:8080"
     volumes:
-      # Persistent volume for data files
       - backend_data:/app/data
+    env_file:
+      - .env
     environment:
+      - BACKEND_DATA_DIR=/app/data
       - PYTHONUNBUFFERED=1
       - DEBUG=False
-    command: python start.py
+      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS}
+      - CLERK_SECRET_KEY=${CLERK_SECRET_KEY}
+      - CLERK_AUTHORIZED_PARTIES=${CLERK_AUTHORIZED_PARTIES}
     networks:
-      - specialcare-network
+      - ai-education-network
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
       interval: 30s
       timeout: 10s
       retries: 3
-      start_period: 40s
+      start_period: 45s
 
-  # Frontend Service (Production)
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        # Use empty string for production - nginx proxies /api/ to backend
         REACT_APP_API_URL: ""
-    container_name: specialcare-frontend-prod
+        REACT_APP_CLERK_PUBLISHABLE_KEY: ${REACT_APP_CLERK_PUBLISHABLE_KEY}
+    container_name: ai-education-frontend-prod
     ports:
-      - "80:80"
+      - "${FRONTEND_PORT:-80}:80"
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
     networks:
-      - specialcare-network
+      - ai-education-network
     restart: unless-stopped
 
 volumes:
-  # Persistent volume for backend data files (binds to local directory)
-  # Data will persist in ./backend/data on the host
   backend_data:
     driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: ${PWD}/backend/data
 
 networks:
-  specialcare-network:
+  ai-education-network:
     driver: bridge
-

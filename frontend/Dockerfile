@@ -1,38 +1,29 @@
-# Build stage
-FROM node:20-alpine as build
+# Production frontend — build React app, serve with nginx (proxies /api to backend)
+FROM node:20-alpine AS build
 
 WORKDIR /app
 
-# Copy package files
 COPY package*.json ./
-
-# Install dependencies
-# Using npm install instead of npm ci to handle lock file sync issues
-# This will automatically resolve version conflicts and update the lock file
 RUN npm install --legacy-peer-deps
 
-# Copy source code
 COPY . .
 
-# Build the app
-# Frontend calls backend via host port forwarding (localhost:8080)
-ARG REACT_APP_API_URL=http://localhost:8080
+# Empty REACT_APP_API_URL = same-origin requests via nginx proxy
+ARG REACT_APP_API_URL=
+ARG REACT_APP_CLERK_PUBLISHABLE_KEY=
 ENV REACT_APP_API_URL=$REACT_APP_API_URL
+ENV REACT_APP_CLERK_PUBLISHABLE_KEY=$REACT_APP_CLERK_PUBLISHABLE_KEY
+
 RUN npm run build
 
-# Production stage - use serve instead of nginx
-FROM node:20-alpine
+FROM nginx:1.27-alpine
 
-WORKDIR /app
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY --from=build /app/build /usr/share/nginx/html
 
-# Install serve globally
-RUN npm install -g serve
+EXPOSE 80
 
-# Copy built app from build stage
-COPY --from=build /app/build ./build
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+  CMD wget -q -O /dev/null http://127.0.0.1/ || exit 1
 
-# Expose port 3333
-EXPOSE 3333
-
-# Start serve
-CMD ["serve", "-s", "build", "-l", "3333"] 
+CMD ["nginx", "-g", "daemon off;"]

@@ -1,48 +1,65 @@
+# Production deployment — frontend (nginx :80) + backend (FastAPI :8080)
+#
+# Setup:
+#   cp .env.docker.example .env
+#   # Edit .env with Clerk keys and your public site URL
+#   docker compose up -d --build
+#
+# App:     http://localhost
+# API:     http://localhost:8080  (also proxied at http://localhost/api/…)
+
 services:
-  # Backend Service
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: specialcare-backend
+    container_name: ai-education-backend
     ports:
-      - "8080:8080"
+      - "${BACKEND_PORT:-8080}:8080"
     volumes:
-      # Persistent volume for data files (binds to local directory)
-      - ./backend/data:/app/data
+      - backend_data:/app/data
+    env_file:
+      - backend/.env
     environment:
+      - BACKEND_DATA_DIR=/app/data
       - PYTHONUNBUFFERED=1
       - DEBUG=False
-      - ALLOWED_ORIGINS=http://localhost:3456,http://127.0.0.1:3456,http://localhost:3333,http://127.0.0.1:3333
-    command: python start.py
+      - DISABLE_TORCH=1
+      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS:-http://localhost,http://127.0.0.1,http://localhost:3333,http://127.0.0.1:3333}
+      - CLERK_AUTHORIZED_PARTIES=${CLERK_AUTHORIZED_PARTIES:-http://localhost,http://127.0.0.1,http://localhost:3333,http://127.0.0.1:3333}
     networks:
-      - specialcare-network
+      - ai-education-network
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
       interval: 30s
       timeout: 10s
       retries: 3
-      start_period: 40s
+      start_period: 45s
 
-  # Frontend Service
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        # Use the server's public IP for API calls
-        REACT_APP_API_URL: http://142.67.189.101:8080
-    container_name: specialcare-frontend
+        REACT_APP_API_URL: ""
+        REACT_APP_CLERK_PUBLISHABLE_KEY: ${REACT_APP_CLERK_PUBLISHABLE_KEY}
+    env_file:
+      - frontend/.env
+    container_name: ai-education-frontend
     ports:
-      - "3456:3333"
+      - "${FRONTEND_PORT:-80}:80"
     depends_on:
       backend:
         condition: service_healthy
     networks:
-      - specialcare-network
+      - ai-education-network
     restart: unless-stopped
 
+volumes:
+  backend_data:
+    driver: local
+
 networks:
-  specialcare-network:
+  ai-education-network:
     driver: bridge

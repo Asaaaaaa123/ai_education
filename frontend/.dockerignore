@@ -1,6 +1,9 @@
 node_modules
 npm-debug.log
 build
+.env
+.env.*
+!.env.example
 .DS_Store
 .env.local
 .env.development.local

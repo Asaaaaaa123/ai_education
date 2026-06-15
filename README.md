@@ -48,6 +48,19 @@ npm run start:jupyterlab
 
 Make sure you have Clerk keys set in `frontend/.env` and `backend/.env`.
 
+## Docker deployment (production)
+
+```bash
+cp .env.docker.example .env
+# Edit .env with Clerk keys and your server URL
+docker compose up -d --build
+```
+
+- **Frontend:** http://localhost (nginx, port 80)  
+- **Backend:** http://localhost:8080  
+
+See **[README_DOCKER.md](README_DOCKER.md)** for full deployment instructions.
+
 ## Goals for the New Version
 
 - Beautiful writing experience for private nature journal entries

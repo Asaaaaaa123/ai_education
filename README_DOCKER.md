@@ -1,139 +1,109 @@
-# Docker Compose Setup
+# Docker deployment
 
-This project includes Docker Compose configurations for both development and production environments.
+Run the **frontend** (nginx + React) and **backend** (FastAPI) together for production or local development.
 
-## Files
+## Quick start (production)
 
-- `docker-compose.yml` - Main production-ready compose file (uses bind mount for data)
-- `docker-compose.dev.yml` - Development environment with hot reload
-- `docker-compose.prod.yml` - Production environment with Docker volumes
-
-## Persistent Data Volumes
-
-All configurations use persistent volumes for backend data files:
-- **docker-compose.yml**: Binds to `./backend/data` directory (data accessible on host)
-- **docker-compose.dev.yml**: Binds to `./backend/data` directory (data accessible on host)
-- **docker-compose.prod.yml**: Uses Docker named volume (data managed by Docker)
-
-## Quick Start
-
-### Production Build
 ```bash
-docker-compose up -d --build
-```
+# 1. Configure environment
+cp .env.docker.example .env
+# Edit .env — set CLERK_SECRET_KEY, REACT_APP_CLERK_PUBLISHABLE_KEY,
+# and replace YOUR_SERVER_IP with your public IP or domain in ALLOWED_ORIGINS / CLERK_AUTHORIZED_PARTIES
 
-### Development Build (with hot reload)
-```bash
-docker-compose -f docker-compose.dev.yml up -d --build
+# 2. Build and start
+docker compose up -d --build
+
+# 3. Open the app
+# Frontend: http://localhost  (port 80)
+# Backend:  http://localhost:8080/health
+# API docs: http://localhost:8080/docs
 ```
 
 ## Services
 
-### Backend
-- **Port**: 8001
-- **Health Check**: http://localhost:8001/health
-- **API Docs**: http://localhost:8001/docs
-- **Data Persistence**: `./backend/data` directory (mounted as volume)
+| Service  | Image build        | Port (default) | Description                          |
+|----------|--------------------|----------------|--------------------------------------|
+| frontend | `frontend/Dockerfile` | 80          | nginx serves React; proxies `/api/*` to backend |
+| backend  | `backend/Dockerfile`  | 8080        | FastAPI API; data in Docker volume   |
 
-### Frontend
-- **Port**: 3000 (dev) or 80 (prod)
-- **URL**: http://localhost:3000 (dev) or http://localhost (prod)
-- **API URL**: Configured via `REACT_APP_API_URL` environment variable
+## Compose files
 
-## Persistent Volumes
+| File                    | Use case                                      |
+|-------------------------|-----------------------------------------------|
+| `docker-compose.yml`    | **Production deploy** (recommended)           |
+| `docker-compose.prod.yml` | Same as above (explicit prod alias)         |
+| `docker-compose.dev.yml`  | Dev with hot reload (frontend :3333, backend :8080) |
 
-The backend data files are stored in `./backend/data` directory and are mounted as a persistent volume. This ensures:
-- User data persists across container restarts
-- Data files are accessible on the host machine
-- Easy backup and restore of data
+### Development
 
-### Data Files
-- `users.json` - User accounts
-- `sessions.json` - Active sessions
-- `user_children.json` - Children data
-- `user_plans.json` - Training plans
-- `user_test_results.json` - Test results
-
-## Environment Variables
-
-### Backend
-- `PYTHONUNBUFFERED=1` - Ensures Python output is not buffered
-- `DEBUG=False` - Set to `True` for development
-
-### Frontend
-- `REACT_APP_API_URL` - Backend API URL (default: http://localhost:8001)
-
-## Commands
-
-### Start services
 ```bash
-docker-compose up -d
+cp .env.docker.example .env
+docker compose -f docker-compose.dev.yml up --build
 ```
 
-### Stop services
+- Frontend: http://localhost:3333  
+- Backend: http://localhost:8080  
+
+## Environment variables
+
+Set these in root `.env` (see `.env.docker.example`):
+
+| Variable | Where used | Notes |
+|----------|------------|-------|
+| `CLERK_SECRET_KEY` | backend | JWT verification |
+| `REACT_APP_CLERK_PUBLISHABLE_KEY` | frontend build | Baked into React bundle at build time |
+| `ALLOWED_ORIGINS` | backend CORS | Browser origins allowed to call API |
+| `CLERK_AUTHORIZED_PARTIES` | backend Clerk | Must include your public app URL |
+| `FRONTEND_PORT` | compose | Host port for nginx (default 80) |
+| `BACKEND_PORT` | compose | Host port for API (default 8080) |
+
+**Important:** After changing `REACT_APP_CLERK_PUBLISHABLE_KEY`, rebuild the frontend:
+
 ```bash
-docker-compose down
+docker compose up -d --build frontend
 ```
 
-### View logs
+## Data persistence
+
+Backend JSON data (users, children, plans) is stored in the Docker volume `backend_data` at `/app/data` inside the container.
+
 ```bash
-docker-compose logs -f
+# Backup volume
+docker run --rm -v ai_education-main_backend_data:/data -v $(pwd):/backup alpine \
+  tar czf /backup/backend-data-backup.tar.gz -C /data .
+
+# List volumes
+docker volume ls
 ```
 
-### Rebuild services
+## Common commands
+
 ```bash
-docker-compose up -d --build
+docker compose logs -f
+docker compose logs -f backend
+docker compose restart backend
+docker compose down
+docker compose down -v   # ⚠️ deletes persisted backend data
 ```
 
-### Remove volumes (⚠️ deletes data)
-```bash
-docker-compose down -v
-```
+## Deploy on a VPS
 
-## Development
+1. Clone the repo on the server.
+2. Copy `.env.docker.example` → `.env` and set:
+   - `ALLOWED_ORIGINS=http://YOUR_IP` or `https://your.domain`
+   - `CLERK_AUTHORIZED_PARTIES` to the same URL(s)
+   - Clerk keys from [dashboard.clerk.com](https://dashboard.clerk.com)
+3. Open firewall ports **80** (and **8080** if you need direct API access).
+4. Run `docker compose up -d --build`.
 
-For development with hot reload:
-```bash
-docker-compose -f docker-compose.dev.yml up
-```
-
-This will:
-- Mount source code for live updates
-- Enable hot reload for both frontend and backend
-- Use development-friendly settings
-
-## Production
-
-For production deployment:
-```bash
-docker-compose -f docker-compose.prod.yml up -d --build
-```
-
-This will:
-- Build optimized production images
-- Use nginx for frontend serving
-- Configure proper health checks
-- Enable automatic restarts
+Users should open the app via the **frontend URL** (port 80). The nginx container proxies API calls so the browser does not need port 8080.
 
 ## Troubleshooting
 
-### Port already in use
-If ports 8001 or 3000 are already in use, modify the port mappings in docker-compose.yml:
-```yaml
-ports:
-  - "8002:8001"  # Change host port
-```
+**Frontend shows Clerk error** — Rebuild after setting `REACT_APP_CLERK_PUBLISHABLE_KEY` in `.env`.
 
-### Data not persisting
-Ensure the `./backend/data` directory exists and has proper permissions:
-```bash
-mkdir -p backend/data
-chmod 755 backend/data
-```
+**401 on API calls** — `CLERK_AUTHORIZED_PARTIES` must match the exact URL in the browser (including port).
 
-### Frontend can't connect to backend
-Check that:
-1. Both services are on the same network (`specialcare-network`)
-2. Frontend uses `http://backend:8001` for internal communication
-3. Environment variable `REACT_APP_API_URL` is set correctly
+**Backend unhealthy** — Check logs: `docker compose logs backend`. First start may take ~45s while dependencies load.
 
+**Port in use** — Change in `.env`: `FRONTEND_PORT=8081` or `BACKEND_PORT=8082`.

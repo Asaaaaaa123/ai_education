@@ -10,55 +10,11 @@ from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional, Tuple
 
 import numpy as np
-import torch
-import torch.nn as nn
-import torch.nn.functional as F
+
+import ml_channel
+from ml_channel import NUM_MODEL_CLASSES
 
 logger = logging.getLogger(__name__)
-
-# --- CNN (must match saved checkpoints) ---------------------------------
-NUM_MODEL_CLASSES = 10
-
-
-class EducationCNN(nn.Module):
-    """CNN-based educational assessment analysis model (architecture fixed for checkpoint compatibility)."""
-
-    def __init__(self, vocab_size: int = 10000, embedding_dim: int = 128, num_classes: int = NUM_MODEL_CLASSES, dropout: float = 0.3):
-        super().__init__()
-        self.vocab_size = vocab_size
-        self.embedding = nn.Embedding(vocab_size, embedding_dim)
-        self.conv1 = nn.Conv1d(embedding_dim, 64, kernel_size=3, padding=1)
-        self.conv2 = nn.Conv1d(64, 128, kernel_size=3, padding=1)
-        self.conv3 = nn.Conv1d(128, 256, kernel_size=3, padding=1)
-        self.bn1 = nn.BatchNorm1d(64)
-        self.bn2 = nn.BatchNorm1d(128)
-        self.bn3 = nn.BatchNorm1d(256)
-        self.pool = nn.AdaptiveMaxPool1d(1)
-        self.fc1 = nn.Linear(256 + 50, 512)
-        self.fc2 = nn.Linear(512, 256)
-        self.fc3 = nn.Linear(256, 128)
-        self.fc4 = nn.Linear(128, num_classes)
-        self.dropout = nn.Dropout(dropout)
-        self.numeric_fc = nn.Linear(20, 50)
-
-    def forward(self, text_input, numeric_features):
-        x = self.embedding(text_input)
-        x = x.transpose(1, 2)
-        x = F.relu(self.bn1(self.conv1(x)))
-        x = F.relu(self.bn2(self.conv2(x)))
-        x = F.relu(self.bn3(self.conv3(x)))
-        x = self.pool(x).squeeze(-1)
-        numeric_out = F.relu(self.numeric_fc(numeric_features))
-        x = torch.cat([x, numeric_out], dim=1)
-        x = F.relu(self.fc1(x))
-        x = self.dropout(x)
-        x = F.relu(self.fc2(x))
-        x = self.dropout(x)
-        x = F.relu(self.fc3(x))
-        x = self.dropout(x)
-        x = self.fc4(x)
-        return x
-
 
 # Model class index → user-facing theme (used when model influences narrative)
 MODEL_CLASS_THEMES = [
@@ -384,109 +340,27 @@ def collect_recommendations(
 
 
 class EducationAnalyzer:
-    """Loads optional CNN weights; exposes preprocess + forward for fusion."""
+    """Optional CNN via ml_channel (lazy PyTorch); rule-based path works without torch."""
 
     def __init__(self, model_path: Optional[str] = None):
-        self.model: Optional[nn.Module] = None
+        self.model: Optional[Any] = None
         self.vocab: Dict[str, int] = {}
-        self._vocab_size = 10000
         if model_path and __import__("os").path.exists(model_path):
             self.load_model(model_path)
 
-    def preprocess_data(self, assessment_data: AssessmentData) -> Tuple[torch.Tensor, torch.Tensor]:
-        text = (
-            f"{assessment_data.learning_description} {assessment_data.behavior_description} "
-            f"{assessment_data.parent_concerns} "
-            + " ".join(assessment_data.learning_habits + assessment_data.classroom_behavior + assessment_data.social_behavior)
-        )
-        words = re.findall(r"\w+|[^\w\s]", text.lower(), flags=re.UNICODE)
-        vs = self._vocab_size
-        if not self.vocab:
-            unique_words = list(dict.fromkeys(words))
-            self.vocab = {word: (i % (vs - 1)) + 1 for i, word in enumerate(unique_words)}
-        text_indices = [min(self.vocab.get(w, 0), vs - 1) for w in words[:100]]
-        text_indices += [0] * (100 - len(text_indices))
-
-        numeric_features: List[float] = []
-        numeric_features.append(min(1.0, max(0.0, assessment_data.age / 18.0)))
-        subject_vals = list(assessment_data.subjects.values()) if assessment_data.subjects else []
-        numeric_features.extend([min(1.0, max(0.0, float(s) / 100.0)) for s in subject_vals[:10]])
-        numeric_features.extend([0.0] * (10 - len(subject_vals)))
-
-        behavior_features = [0.0] * 8
-        joined_cb = " ".join(assessment_data.classroom_behavior)
-        joined_sb = " ".join(assessment_data.social_behavior)
-        blob = (joined_cb + " " + joined_sb).lower()
-        if any(x in blob for x in ["注意力", "attention", "focus", "distract"]):
-            behavior_features[0] = 1.0
-        if any(x in blob for x in ["多动", "hyper", "impulsive", "restless"]):
-            behavior_features[1] = 1.0
-        if any(x in blob for x in ["情绪", "anxious", "worry", "anxiety"]):
-            behavior_features[2] = 1.0
-        if any(x in blob for x in ["社交", "social", "peer"]):
-            behavior_features[3] = 1.0
-        numeric_features.extend(behavior_features)
-        while len(numeric_features) < 20:
-            numeric_features.append(0.0)
-        numeric_features = numeric_features[:20]
-
-        return torch.tensor([text_indices], dtype=torch.long), torch.tensor([numeric_features], dtype=torch.float32)
-
-    def forward_probs(self, assessment_data: AssessmentData) -> Optional[torch.Tensor]:
-        if self.model is None:
-            return None
-        try:
-            text_input, numeric_features = self.preprocess_data(assessment_data)
-            with torch.no_grad():
-                logits = self.model(text_input, numeric_features)
-                return F.softmax(logits, dim=1)
-        except Exception as e:
-            logger.warning("Model forward failed, ignoring model channel: %s", e)
-            return None
+    def forward_probs(self, assessment_data: AssessmentData) -> Optional[Any]:
+        return ml_channel.forward_probs(self.model, assessment_data, self.vocab)
 
     def load_model(self, model_path: str) -> None:
-        import os
-
-        try:
-            try:
-                checkpoint = torch.load(model_path, map_location="cpu", weights_only=False)
-            except TypeError:
-                checkpoint = torch.load(model_path, map_location="cpu")
-            self.model = EducationCNN()
-            self.model.load_state_dict(checkpoint["model_state_dict"])
-            self.vocab = checkpoint.get("vocab", {}) or {}
-            self.model.eval()
-            logger.info("Loaded CNN checkpoint from %s", model_path)
-        except Exception as e:
-            logger.error("Model load failed: %s", e)
-            self.model = None
+        self.model, self.vocab = ml_channel.load_checkpoint(model_path)
 
     def save_model(self, model_path: str) -> None:
-        import os
-
-        if self.model is not None:
-            os.makedirs(os.path.dirname(model_path) or ".", exist_ok=True)
-            torch.save({"model_state_dict": self.model.state_dict(), "vocab": self.vocab}, model_path)
+        ml_channel.save_checkpoint(self.model, self.vocab, model_path)
 
     def train_model(self, training_data: List[Tuple[AssessmentData, int]], epochs: int = 50, learning_rate: float = 0.001):
-        if not training_data:
-            return
-        self.model = EducationCNN()
-        optimizer = torch.optim.Adam(self.model.parameters(), lr=learning_rate)
-        criterion = nn.CrossEntropyLoss()
-        for epoch in range(epochs):
-            total_loss = 0.0
-            for assessment_data, label in training_data:
-                text_input, numeric_features = self.preprocess_data(assessment_data)
-                target = torch.tensor([label], dtype=torch.long)
-                optimizer.zero_grad()
-                output = self.model(text_input, numeric_features)
-                loss = criterion(output, target)
-                loss.backward()
-                optimizer.step()
-                total_loss += loss.item()
-            if (epoch + 1) % 10 == 0:
-                logger.info("Epoch %s/%s loss=%.4f", epoch + 1, epochs, total_loss / max(1, len(training_data)))
+        trained = ml_channel.train_model(self.model, self.vocab, training_data, epochs, learning_rate)
+        if trained is not None:
+            self.model = trained
 
 
 def analyze_development_data_enhanced(
@@ -671,11 +545,10 @@ def run_full_analysis(req: Dict[str, Any], analyzer: EducationAnalyzer) -> Dict[
     probs = analyzer.forward_probs(assessment_data)
     if probs is not None:
         p = probs[0]
-        top_idx = int(torch.argmax(p).item())
-        top2 = torch.topk(p, k=min(3, NUM_MODEL_CLASSES))
+        top_idx, top_indices, top_weights = ml_channel.top_class_indices(p)
         themes = []
-        for idx in top2.indices.tolist():
-            themes.append({"theme": MODEL_CLASS_THEMES[idx][1], "weight": round(float(p[idx].item()), 3)})
+        for idx, weight in zip(top_indices, top_weights):
+            themes.append({"theme": MODEL_CLASS_THEMES[idx][1], "weight": round(weight, 3)})
         analysis["model_insights"] = {
             "top_themes": themes,
             "note": "Model output nudges scores and adds themes; it does not diagnose medical conditions.",
@@ -692,7 +565,7 @@ def run_full_analysis(req: Dict[str, Any], analyzer: EducationAnalyzer) -> Dict[
 
         # Add two recommendations tied to strongest non-generic class
         extra = []
-        for idx in top2.indices.tolist()[:2]:
+        for idx in top_indices[:2]:
             slug, label = MODEL_CLASS_THEMES[idx]
             w = float(p[idx].item())
             if w < 0.12:
