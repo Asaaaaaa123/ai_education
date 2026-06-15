@@ -127,3 +127,17 @@ Coolify builds **only the frontend** container. The old `nginx.conf` hardcoded `
 Also deploy the **backend** as a separate Coolify service (`backend/Dockerfile`, port 8080), then point `REACT_APP_API_URL` at that public URL.
 
 On the backend service, set `ALLOWED_ORIGINS` and `CLERK_AUTHORIZED_PARTIES` to your frontend URL (e.g. `https://app.yourdomain.com`).
+
+### Coolify backend settings
+
+| Setting | Value |
+|---------|--------|
+| **Base directory** | `backend` |
+| **Dockerfile** | `Dockerfile` |
+| **Port (exposed)** | `8080` (or match what Coolify sets in `PORT`) |
+| **Health check path** | `/health` |
+| **Health check port** | Same as **Port** / `PORT` env (default `8080`, not `8001`) |
+
+The app reads `PORT` at runtime. If Coolify healthcheck hits `localhost:8001`, either set Coolify **Port** to `8080`, or set env `PORT=8001` so the app listens on the same port Coolify checks.
+
+The image includes **wget** and **curl** for Coolify healthchecks.

@@ -58,15 +58,16 @@ def create_directories():
 
 def start_server():
     """启动服务器"""
+    port = os.environ.get("PORT", "8080")
     try:
         logger.info("正在启动SpecialCare Connect API服务器...")
-        logger.info("服务器地址: http://localhost:8080")
-        logger.info("API文档: http://localhost:8080/docs")
+        logger.info("服务器地址: http://localhost:%s", port)
+        logger.info("API文档: http://localhost:%s/docs", port)
         logger.info("按 Ctrl+C 停止服务器")
         
         # 启动服务器
         subprocess.run([
-            sys.executable, "-m", "uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8080"
+            sys.executable, "-m", "uvicorn", "app:app", "--host", "0.0.0.0", "--port", port
         ], check=True)
         
     except KeyboardInterrupt:
