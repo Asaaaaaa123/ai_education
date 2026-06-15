@@ -52,6 +52,8 @@ services:
     depends_on:
       backend:
         condition: service_healthy
+    environment:
+      - BACKEND_UPSTREAM=backend:8080
     networks:
       - ai-education-network
     restart: unless-stopped

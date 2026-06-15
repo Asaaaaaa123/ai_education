@@ -107,3 +107,23 @@ Users should open the app via the **frontend URL** (port 80). The nginx containe
 **Backend unhealthy** — Check logs: `docker compose logs backend`. First start may take ~45s while dependencies load.
 
 **Port in use** — Change in `.env`: `FRONTEND_PORT=8081` or `BACKEND_PORT=8082`.
+
+## Deploy frontend on Coolify (standalone)
+
+Coolify builds **only the frontend** container. The old `nginx.conf` hardcoded `backend:8080`, which exists only inside `docker-compose` — nginx then failed to start and the healthcheck never passed.
+
+**Fix (already in repo):** the image uses `docker-entrypoint.sh`. If `BACKEND_UPSTREAM` is **not** set, nginx serves static files only (no API proxy).
+
+### Coolify settings
+
+| Setting | Value |
+|---------|--------|
+| **Base directory** | `frontend` |
+| **Dockerfile** | `Dockerfile` |
+| **Build arg** `REACT_APP_CLERK_PUBLISHABLE_KEY` | Your Clerk publishable key |
+| **Build arg** `REACT_APP_API_URL` | Your backend URL, e.g. `https://api.yourdomain.com` |
+| **Runtime env** `BACKEND_UPSTREAM` | Leave **empty** (do not set) |
+
+Also deploy the **backend** as a separate Coolify service (`backend/Dockerfile`, port 8080), then point `REACT_APP_API_URL` at that public URL.
+
+On the backend service, set `ALLOWED_ORIGINS` and `CLERK_AUTHORIZED_PARTIES` to your frontend URL (e.g. `https://app.yourdomain.com`).

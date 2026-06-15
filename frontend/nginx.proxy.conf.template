@@ -15,9 +15,8 @@ http {
     gzip_min_length 1024;
     gzip_types text/plain text/css application/json application/javascript text/xml application/xml;
 
-    # Used by local docker-compose only. Production image uses docker-entrypoint.sh + BACKEND_UPSTREAM.
     upstream api_backend {
-        server backend:8080;
+        server ${BACKEND_UPSTREAM};
     }
 
     server {
@@ -26,7 +25,6 @@ http {
         root /usr/share/nginx/html;
         index index.html;
 
-        # FastAPI + legacy routes (same-origin — REACT_APP_API_URL="" in Docker build)
         location /api/ {
             proxy_pass http://api_backend;
             proxy_http_version 1.1;
