@@ -3,8 +3,13 @@ set -e
 
 export PORT="${PORT:-80}"
 
-# When BACKEND_UPSTREAM is set (e.g. backend:8080 in docker-compose), nginx proxies /api to it.
-# When unset (Coolify / standalone frontend), serve static files only — set REACT_APP_API_URL at build time.
+# Defaults for Coolify deploy — override via container env if needed.
+export REACT_APP_CLERK_PUBLISHABLE_KEY="${REACT_APP_CLERK_PUBLISHABLE_KEY:-pk_test_aGVscGVkLWRvbmtleS0xMC5jbGVyay5hY2NvdW50cy5kZXYk}"
+export REACT_APP_API_URL="${REACT_APP_API_URL:-http://ut1emwku5ay9u42fqmtob001.46.62.247.146.sslip.io}"
+
+envsubst '${REACT_APP_CLERK_PUBLISHABLE_KEY} ${REACT_APP_API_URL}' \
+  < /etc/nginx/config.js.template > /usr/share/nginx/html/config.js
+
 if [ -n "${BACKEND_UPSTREAM}" ]; then
     envsubst '${BACKEND_UPSTREAM} ${PORT}' < /etc/nginx/nginx.proxy.conf.template > /etc/nginx/nginx.conf
 else

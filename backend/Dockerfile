@@ -22,6 +22,9 @@ COPY . .
 RUN mkdir -p /app/data /app/models
 
 ENV PORT=8080
+ENV CLERK_SECRET_KEY=sk_test_VpnWvWCD7oK4MGmIOJpUnqb8flwFLIzBX7t71dnCED
+ENV ALLOWED_ORIGINS=http://mgwvmvamha6it0shfo8g0zgb.46.62.247.146.sslip.io,http://localhost:3333,http://127.0.0.1:3333
+ENV CLERK_AUTHORIZED_PARTIES=http://mgwvmvamha6it0shfo8g0zgb.46.62.247.146.sslip.io,http://localhost:3333,http://127.0.0.1:3333
 
 EXPOSE 8080
 

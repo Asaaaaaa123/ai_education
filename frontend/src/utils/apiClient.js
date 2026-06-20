@@ -4,17 +4,7 @@
  */
 
 import axios from 'axios';
-
-function resolveApiBaseUrl() {
-  const envUrl = process.env.REACT_APP_API_URL;
-  // Empty string = Docker/nginx same-origin proxy (requests go to current host)
-  if (envUrl === '') return '';
-  if (envUrl) return envUrl;
-  if (typeof window !== 'undefined' && window.location.hostname !== 'localhost') {
-    return `http://${window.location.hostname}:8080`;
-  }
-  return 'http://localhost:8080';
-}
+import { resolveApiBaseUrl } from '../runtimeConfig';
 
 const API_BASE_URL = resolveApiBaseUrl();
 
