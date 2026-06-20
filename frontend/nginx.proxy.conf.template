@@ -25,6 +25,14 @@ http {
         root /usr/share/nginx/html;
         index index.html;
 
+        location = /index.html {
+            add_header Cache-Control "no-cache, no-store, must-revalidate";
+        }
+
+        location = /config.js {
+            add_header Cache-Control "no-cache, no-store, must-revalidate";
+        }
+
         location /api/ {
             proxy_pass http://api_backend;
             proxy_http_version 1.1;
