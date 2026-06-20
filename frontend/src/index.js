@@ -5,9 +5,8 @@ import './index.css';
 import App from './App';
 import { getClerkPublishableKey } from './runtimeConfig';
 
-const clerkPublishableKey = getClerkPublishableKey();
-
 function Root() {
+  const clerkPublishableKey = getClerkPublishableKey();
   if (!clerkPublishableKey) {
     return (
       <div style={{ padding: '2rem', fontFamily: 'system-ui, sans-serif', maxWidth: 560, margin: '0 auto' }}>

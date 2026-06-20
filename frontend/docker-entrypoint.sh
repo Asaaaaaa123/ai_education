@@ -10,6 +10,10 @@ export REACT_APP_API_URL="${REACT_APP_API_URL:-http://ut1emwku5ay9u42fqmtob001.4
 envsubst '${REACT_APP_CLERK_PUBLISHABLE_KEY} ${REACT_APP_API_URL}' \
   < /etc/nginx/config.js.template > /usr/share/nginx/html/config.js
 
+# Inline config before React bundle so the key is available even if config.js is cached late.
+INLINE_SCRIPT="<script>window.__RUNTIME_CONFIG__={REACT_APP_CLERK_PUBLISHABLE_KEY:\"${REACT_APP_CLERK_PUBLISHABLE_KEY}\",REACT_APP_API_URL:\"${REACT_APP_API_URL}\"};<\/script>"
+sed -i "s|<script src=\"/config.js\"></script>|${INLINE_SCRIPT}<script src=\"/config.js\"></script>|" /usr/share/nginx/html/index.html
+
 if [ -n "${BACKEND_UPSTREAM}" ]; then
     envsubst '${BACKEND_UPSTREAM} ${PORT}' < /etc/nginx/nginx.proxy.conf.template > /etc/nginx/nginx.conf
 else
