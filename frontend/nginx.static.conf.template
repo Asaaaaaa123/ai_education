@@ -21,6 +21,14 @@ http {
         root /usr/share/nginx/html;
         index index.html;
 
+        location = /index.html {
+            add_header Cache-Control "no-cache, no-store, must-revalidate";
+        }
+
+        location = /config.js {
+            add_header Cache-Control "no-cache, no-store, must-revalidate";
+        }
+
         location / {
             try_files $uri $uri/ /index.html;
         }
